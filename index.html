@@ -5,7 +5,6 @@
   <title>Chiesa Apostolica in Italia - Carini</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Icone per browser e scorciatoia su schermata Home -->
   <link rel="icon" href="icon.png" type="image/png">
   <link rel="apple-touch-icon" href="icon.png">
 
@@ -13,7 +12,7 @@
     :root {
       --bg: #050608;
       --card-bg: #111318;
-      --accent: #fbbf24;  /* giallo tenue */
+      --accent: #fbbf24;
       --accent-soft: #facc15;
       --accent-muted: rgba(251, 191, 36, 0.15);
       --text-main: #f9fafb;
@@ -98,29 +97,6 @@
       font-size:13px;
       color:var(--text-muted);
       margin-top:2px;
-    }
-
-    .pill {
-      margin-top:6px;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:3px 9px 4px;
-      border-radius:999px;
-      background: rgba(15, 23, 42, 0.9);
-      border:1px solid rgba(55, 65, 81, 0.8);
-      font-size:11px;
-      color:var(--text-muted);
-      text-transform:uppercase;
-      letter-spacing:0.12em;
-    }
-
-    .pill span {
-      width:7px;
-      height:7px;
-      border-radius:999px;
-      background: radial-gradient(circle, var(--accent) 0, #f97316 50%, #b45309 100%);
-      box-shadow:0 0 12px rgba(251,191,36,0.9);
     }
 
     main {
@@ -494,7 +470,7 @@
     <section id="tab-oggi" class="tab-content active">
       <article class="card">
         <div class="card-header">
-          <div class="tag">Devozionale di oggi</div>
+          <div class="tag">Devocionale di oggi</div>
           <div class="day-chip" id="oggi-label"></div>
         </div>
 
@@ -503,9 +479,7 @@
         <div class="verse" id="verso-dev"></div>
         <div class="body-text" id="testo-dev"></div>
 
-        <div class="next-event" id="prossimo-evento">
-          <!-- riempito via JS -->
-        </div>
+        <div class="next-event" id="prossimo-evento"></div>
       </article>
     </section>
 
@@ -650,30 +624,20 @@
 </div>
 
 <script>
-  // 👉 URL Apps Script per note + appuntamenti
   const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbyc5ErhYKisl11y-JGPuJrHHW6aUDxONNlfrVssTX7XxvUr4nKiqCpH7TDccp0zGoo/exec';
 
-  // =====================
-  //   TABS
-  // =====================
   const tabButtons = document.querySelectorAll('.tab');
   const tabContents = document.querySelectorAll('.tab-content');
 
   tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const tab = btn.dataset.tab;
-
       tabButtons.forEach(b => b.classList.remove('active'));
       tabContents.forEach(c => c.classList.remove('active'));
-
       btn.classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
     });
   });
-
-  // =====================
-  //   DEVOCIONALI
-  // =====================
 
   const oggiLabel = document.getElementById('oggi-label');
   const titoloDev = document.getElementById('titolo-dev');
@@ -703,10 +667,10 @@
     const giornoSettimana = giorni[d.getDay()];
     const giorno = String(d.getDate()).padStart(2,'0');
     const mese   = mesi[d.getMonth()];
-    return `${giornoSettimana} ${giorno} ${mese} ${d.getFullYear()}`;
+    return `${giornoSettimana} ${giorno} ${d.getFullYear()}`;
   }
 
-  function mostraDevozionaleOggi() {
+  function mostraDevocionaleOggi() {
     const oggi = new Date();
     const isoOggi = oggi.toISOString().slice(0,10);
     const oggiTesto = formattaDataItaliano(oggi);
@@ -730,11 +694,7 @@
     }
   }
 
-  mostraDevozionaleOggi();
-
-  // =====================
-  //   NOTE LOCALI
-  // =====================
+  mostraDevocionaleOggi();
 
   const NOTES_KEY = 'devotional_notes_v1';
 
@@ -881,10 +841,6 @@
     renderNotes();
   });
 
-  // =====================
-  //   EVENTI (statici)
-  // =====================
-
   const listaEventi = document.getElementById('lista-eventi');
 
   const eventi = [
@@ -931,10 +887,6 @@
   }
 
   renderEventi();
-
-  // =====================
-  //   APPUNTAMENTI → Apps Script
-  // =====================
 
   const nomeApp = document.getElementById('nome-app');
   const contattoApp = document.getElementById('contatto-app');
