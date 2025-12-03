@@ -494,7 +494,7 @@
     <section id="tab-oggi" class="tab-content active">
       <article class="card">
         <div class="card-header">
-          <div class="tag">Devocionale di oggi</div>
+          <div class="tag">Devozionale di oggi</div>
           <div class="day-chip" id="oggi-label"></div>
         </div>
 
@@ -706,7 +706,7 @@
     return `${giornoSettimana} ${giorno} ${mese} ${d.getFullYear()}`;
   }
 
-  function mostraDevocionaleOggi() {
+  function mostraDevozionaleOggi() {
     const oggi = new Date();
     const isoOggi = oggi.toISOString().slice(0,10);
     const oggiTesto = formattaDataItaliano(oggi);
@@ -730,7 +730,7 @@
     }
   }
 
-  mostraDevocionaleOggi();
+  mostraDevozionaleOggi();
 
   // =====================
   //   NOTE LOCALI
