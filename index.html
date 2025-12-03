@@ -2,328 +2,465 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <title>Chiesa Apostolica Carini - Via Don Luigi Sturzo 188 Carini</title>
+  <title>Chiesa Apostolica in Italia - Carini</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Icone per browser e scorciatoia su schermata Home -->
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="icon" href="icon.png" type="image/png">
   <link rel="apple-touch-icon" href="icon.png">
 
   <style>
     :root {
       --bg: #050608;
-      --card: #111319;
-      --accent: #ff8800;
-      --accent-soft: rgba(255,136,0,0.15);
-      --text: #f5f5f5;
-      --muted: #999;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --card-bg: #111318;
+      --accent: #fbbf24;  /* giallo tenue */
+      --accent-soft: #facc15;
+      --accent-muted: rgba(251, 191, 36, 0.15);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-soft: #1f2933;
+      --danger: #f97373;
+      --success: #4ade80;
     }
 
-    *{box-sizing:border-box;margin:0;padding:0;}
-
-    body{
-      font-family:var(--font-main);
-      background:radial-gradient(circle at top,#202238 0,#050608 55%);
-      color:var(--text);
-      min-height:100vh;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    .app{
-      max-width:480px;
-      margin:0 auto;
-      min-height:100vh;
+    body {
+      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
       display:flex;
       flex-direction:column;
-      background:rgba(0,0,0,0.55);
+      align-items:center;
+      justify-content:center;
+      padding:12px;
     }
 
-    header{
-      padding:12px 16px;
+    .app {
+      width:100%;
+      max-width:500px;
+      background: linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(3, 7, 18, 0.98));
+      border-radius:20px;
+      border:1px solid rgba(148, 163, 184, 0.18);
+      box-shadow:
+        0 24px 60px rgba(15, 23, 42, 0.9),
+        0 0 0 1px rgba(15, 23, 42, 0.8);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      max-height:100vh;
+    }
+
+    header {
       display:flex;
       align-items:center;
       gap:12px;
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(135deg,#191b25,#101019);
+      padding:16px 18px 10px;
+      background:radial-gradient(circle at top left, rgba(251,191,36,0.12), transparent 55%);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
     }
 
-    .logo{
-      width:34px;
-      height:34px;
-      border-radius:12px;
-      overflow:hidden;
-      background:#000;
+    .logo {
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background: radial-gradient(circle at 30% 0%, #fbbf24, transparent 50%), #020617;
       display:flex;
       align-items:center;
       justify-content:center;
-      flex-shrink:0;
+      border:1px solid rgba(148, 163, 184, 0.4);
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,0.9),
+        0 10px 25px rgba(15,23,42,1);
+      overflow:hidden;
     }
 
-    .logo img{
+    .logo img {
       width:100%;
       height:100%;
       object-fit:cover;
+      border-radius:14px;
     }
 
-    .titles h1{font-size:16px;font-weight:700;}
-    .titles p{font-size:11px;color:var(--muted);margin-top:2px;}
-    .pill{
-      display:inline-flex;align-items:center;
-      padding:2px 8px;border-radius:999px;
-      border:1px solid rgba(255,255,255,0.2);
-      font-size:9px;letter-spacing:.12em;
-      text-transform:uppercase;color:var(--muted);
-      margin-top:4px;gap:4px;
-    }
-    .pill span{width:4px;height:4px;border-radius:50%;background:var(--accent);}
-
-    main{
-      flex:1;
-      padding:12px 14px 16px;
+    .titles h1 {
+      font-size:17px;
+      font-weight:600;
+      letter-spacing:0.02em;
+      color:var(--text-main);
     }
 
-    .tabs{
-      display:flex;
+    .titles p {
+      font-size:13px;
+      color:var(--text-muted);
+      margin-top:2px;
+    }
+
+    .pill {
+      margin-top:6px;
+      display:inline-flex;
+      align-items:center;
       gap:6px;
-      margin-bottom:12px;
-      background:rgba(255,255,255,0.04);
+      padding:3px 9px 4px;
       border-radius:999px;
-      padding:4px;
-      flex-wrap:wrap;
+      background: rgba(15, 23, 42, 0.9);
+      border:1px solid rgba(55, 65, 81, 0.8);
+      font-size:11px;
+      color:var(--text-muted);
+      text-transform:uppercase;
+      letter-spacing:0.12em;
     }
-    .tab{
-      flex:1 1 0;border:none;background:transparent;
-      color:var(--muted);font-size:13px;
-      padding:6px 8px;border-radius:999px;
+
+    .pill span {
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background: radial-gradient(circle, var(--accent) 0, #f97316 50%, #b45309 100%);
+      box-shadow:0 0 12px rgba(251,191,36,0.9);
+    }
+
+    main {
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      padding:14px 16px 16px;
+      overflow-y:auto;
+      gap:10px;
+    }
+
+    .tabs {
+      display:flex;
+      background:rgba(15,23,42,0.9);
+      border-radius:999px;
+      padding:3px;
+      border:1px solid rgba(51,65,85,0.9);
+      margin-bottom:6px;
+    }
+
+    .tab {
+      flex:1;
+      border:none;
+      border-radius:999px;
+      padding:7px 0;
+      font-size:12px;
+      letter-spacing:0.05em;
+      text-transform:uppercase;
+      color:var(--text-muted);
+      background:transparent;
       cursor:pointer;
-      text-align:center;
+      transition: all 0.2s ease;
     }
-    .tab.active{
-      background:var(--accent-soft);
+
+    .tab.active {
+      background: radial-gradient(circle at top, rgba(251,191,36,0.16), rgba(15,23,42,0.9));
       color:var(--accent);
       font-weight:600;
+      box-shadow:
+        0 0 0 1px rgba(234, 179, 8, 0.6),
+        0 8px 20px rgba(0,0,0,0.9);
     }
 
-    .card{
-      background:var(--card);
+    .tab-content {
+      display:none;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .tab-content.active {
+      display:flex;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(2,6,23,1));
       border-radius:16px;
       padding:14px 14px 16px;
-      border:1px solid rgba(255,255,255,0.08);
-      margin-bottom:14px;
+      border:1px solid rgba(51,65,85,0.9);
+      box-shadow:
+        0 14px 35px rgba(15,23,42,0.95),
+        inset 0 0 0 1px rgba(15,23,42,1);
     }
 
-    /* Header devozionale con data + freccia ieri + bottone Oggi */
-    .dev-header{
+    .card-header {
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:8px;
-      margin-bottom:8px;
+      margin-bottom:6px;
     }
 
-    .nav-prev{
-      border:none;
-      background:transparent;
-      color:var(--muted);
+    .card-header .tag {
       font-size:11px;
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-      cursor:pointer;
-      padding:4px 6px;
-      border-radius:999px;
-    }
-
-    .nav-prev:hover{
-      background:rgba(255,255,255,0.06);
-    }
-
-    .nav-prev[disabled]{
-      opacity:0.3;
-      cursor:default;
-    }
-
-    .nav-prev .arrow{
-      font-size:12px;
-      line-height:1;
-    }
-
-    .chip-date{
-      display:inline-flex;align-items:center;
-      gap:6px;padding:3px 9px;border-radius:999px;
-      background:rgba(255,255,255,0.06);
-      font-size:11px;color:var(--muted);
-    }
-    .chip-date span:first-child{
-      width:6px;height:6px;border-radius:50%;background:var(--accent);
-    }
-
-    /* bottone "Oggi" */
-    .nav-today{
-      border:none;
-      background:transparent;
-      color:var(--accent);
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      cursor:pointer;
-    }
-    .nav-today:hover{
-      background:rgba(255,255,255,0.06);
-    }
-
-    .dev-title{font-size:18px;font-weight:700;margin-bottom:4px;}
-    .dev-ref{font-size:12px;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;}
-    .dev-verse{font-size:13px;color:#ccc;margin-bottom:10px;white-space:pre-line;}
-    .dev-content{font-size:14px;line-height:1.5;color:#ddd;white-space:pre-line;}
-
-    .section-title{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px;}
-
-    textarea{
-      width:100%;min-height:110px;resize:vertical;
-      border-radius:12px;border:1px solid rgba(255,255,255,0.15);
-      background:rgba(0,0,0,0.65);
-      color:var(--text);padding:10px;font-size:14px;
-      outline:none;
-    }
-    textarea::placeholder{color:#666;}
-
-    .btn-row{display:flex;justify-content:flex-end;gap:8px;margin-top:10px;}
-    .btn{
-      border:none;border-radius:999px;padding:7px 14px;
-      font-size:13px;cursor:pointer;
-    }
-    .btn-primary{background:var(--accent);color:#111;font-weight:600;}
-    .btn-ghost{background:transparent;color:var(--muted);}
-    .btn-ghost:hover{background:rgba(255,255,255,0.08);}
-    .small-note{font-size:11px;color:var(--muted);margin-top:6px;}
-
-    .diary-item{
-      padding:9px 10px;border-radius:12px;
-      border:1px solid rgba(255,255,255,0.12);
-      margin-bottom:8px;
-      background:rgba(0,0,0,0.5);
-      cursor:pointer;
-    }
-    .diary-date{font-size:12px;color:var(--accent);margin-bottom:3px;}
-    .diary-preview{font-size:13px;color:#ddd;max-height:40px;overflow:hidden;}
-
-    .empty{text-align:center;font-size:13px;color:var(--muted);padding:14px 4px;}
-
-    /* Eventi */
-    .events-list{
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:var(--text-muted);
       display:flex;
-      flex-direction:column;
-      gap:8px;
+      align-items:center;
+      gap:6px;
     }
 
-    .event-item{
-      padding:10px 11px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.12);
-      background:rgba(0,0,0,0.5);
+    .card-header .tag::before {
+      content:"";
+      width:18px;
+      height:1px;
+      background:linear-gradient(to right, rgba(148,163,184,0.3), rgba(15,23,42,0));
     }
 
-    .event-date{
-      font-size:12px;
-      color:var(--accent);
-      margin-bottom:3px;
+    .card-header .day-chip {
+      font-size:11px;
+      padding:3px 8px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.85);
+      border:1px solid rgba(75,85,99,0.7);
+      color:var(--text-muted);
     }
 
-    .event-title{
-      font-size:14px;
+    .devotional-title {
+      font-size:17px;
       font-weight:600;
-      margin-bottom:2px;
-    }
-
-    .event-location{
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:3px;
-    }
-
-    .event-desc{
-      font-size:13px;
-      color:#ddd;
       margin-bottom:4px;
+      color:var(--text-main);
     }
 
-    .event-booking{
-      font-size:12px;
-      color:#ccc;
+    .reference {
+      font-size:11px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--accent-soft);
+      margin-bottom:6px;
     }
 
-    /* Appuntamenti */
-    .field-group{
+    .verse {
+      font-size:11.5px;
+      color:rgba(248,250,252,0.82);
+      font-style:italic;
+      border-left:2px solid rgba(251,191,36,0.6);
+      padding-left:10px;
+      margin-bottom:8px;
+    }
+
+    .body-text {
+      font-size:13px;
+      line-height:1.55;
+      color:var(--text-main);
       margin-bottom:10px;
     }
-    .field-label{
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:4px;
-    }
-    .input-text{
-      width:100%;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.15);
-      background:rgba(0,0,0,0.65);
-      color:var(--text);
-      padding:8px 10px;
-      font-size:14px;
-      outline:none;
-    }
-    .input-text::placeholder{
-      color:#666;
+
+    .body-text strong {
+      color:var(--accent-soft);
+      font-weight:600;
     }
 
-    .days-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
+    .next-event {
+      font-size:11.5px;
+      color:var(--text-muted);
+      border-top:1px dashed rgba(55,65,81,0.75);
+      padding-top:8px;
       margin-top:4px;
     }
-    .day-chip{
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-      font-size:12px;
-      color:var(--muted);
-      background:rgba(255,255,255,0.05);
-      border-radius:999px;
-      padding:4px 8px;
-      cursor:pointer;
-    }
-    .day-chip input{
-      accent-color:var(--accent);
+
+    .next-event span.label {
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      font-size:10px;
+      color:rgba(148,163,184,0.9);
+      margin-bottom:4px;
     }
 
-    footer{
-      padding:6px 12px 10px;
-      font-size:10px;color:var(--muted);
-      text-align:center;
-      border-top:1px solid rgba(255,255,255,0.06);
-      background:rgba(0,0,0,0.7);
-    }
-
-    /* Home – blocco Prossimo evento */
-    .home-next-event{
-      margin-top:14px;
-      padding-top:10px;
-      border-top:1px solid rgba(255,255,255,0.06);
-    }
-    .home-next-event-date{
-      font-size:11px;
-      color:var(--accent);
+    .next-event .when {
+      color:var(--accent-soft);
+      font-weight:500;
       margin-bottom:2px;
     }
-    .home-next-event-title{
-      font-size:13px;
+
+    .next-event .where {
+      color:var(--text-muted);
+      font-size:11.5px;
+    }
+
+    .note-card {
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .note-card h2 {
+      font-size:15px;
       font-weight:600;
       margin-bottom:2px;
     }
-    .home-next-event-loc{
-      font-size:12px;
-      color:var(--muted);
+
+    .note-card p {
+      font-size:13px;
+      color:var(--text-muted);
+      margin-bottom:4px;
+    }
+
+    .field-group {
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      margin-bottom:4px;
+    }
+
+    .field-group label {
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:var(--text-muted);
+    }
+
+    .field-group input,
+    .field-group textarea,
+    .field-group select {
+      background:rgba(15,23,42,0.9);
+      border-radius:10px;
+      border:1px solid rgba(55,65,81,0.9);
+      padding:8px 10px;
+      color:var(--text-main);
+      font-size:13px;
+      outline:none;
+      transition:border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .field-group input:focus,
+    .field-group textarea:focus,
+    .field-group select:focus {
+      border-color:rgba(251,191,36,0.8);
+      box-shadow:0 0 0 1px rgba(251,191,36,0.4);
+      background:rgba(15,23,42,0.96);
+    }
+
+    .field-group textarea {
+      resize:vertical;
+      min-height:90px;
+      max-height:220px;
+    }
+
+    .radio-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .radio-pill {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 9px;
+      border-radius:999px;
+      border:1px solid rgba(55,65,81,0.9);
+      background:rgba(15,23,42,0.9);
+      font-size:11.5px;
+      cursor:pointer;
+      color:var(--text-muted);
+    }
+
+    .radio-pill input {
+      display:none;
+    }
+
+    .radio-pill.active {
+      border-color:rgba(251,191,36,0.9);
+      color:var(--accent-soft);
+      background:rgba(23,23,23,0.98);
+      box-shadow:0 0 0 1px rgba(251,191,36,0.25);
+    }
+
+    .radio-dot {
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:rgba(55,65,81,0.9);
+    }
+
+    .radio-pill.active .radio-dot {
+      background:radial-gradient(circle, var(--accent) 0, #f97316 50%, #b45309 100%);
+      box-shadow:0 0 8px rgba(251,191,36,0.9);
+    }
+
+    .btn-row {
+      display:flex;
+      gap:8px;
+      margin-top:4px;
+    }
+
+    .btn {
+      flex:1;
+      border:none;
+      border-radius:999px;
+      padding:9px 0;
+      font-size:13px;
+      font-weight:500;
+      cursor:pointer;
+      text-align:center;
+      transition:all 0.2s ease;
+    }
+
+    .btn-primary {
+      background:radial-gradient(circle at top, #fbbf24, #f97316);
+      color:#111827;
+      box-shadow:
+        0 12px 30px rgba(251,191,36,0.6),
+        0 0 0 1px rgba(161,98,7,0.6);
+    }
+
+    .btn-primary:hover {
+      filter:brightness(1.05);
+      box-shadow:
+        0 14px 34px rgba(251,191,36,0.75),
+        0 0 0 1px rgba(161,98,7,0.8);
+      transform:translateY(-0.5px);
+    }
+
+    .btn-secondary {
+      background:rgba(15,23,42,0.95);
+      color:var(--text-muted);
+      border:1px solid rgba(55,65,81,0.9);
+    }
+
+    .btn-secondary:hover {
+      background:rgba(15,23,42,1);
+      border-color:rgba(148,163,184,0.9);
+    }
+
+    .small-note {
+      font-size:11px;
+      color:var(--text-muted);
+      margin-top:6px;
+      line-height:1.4;
+    }
+
+    .error {
+      color:var(--danger);
+      font-size:11.5px;
+      margin-top:4px;
+    }
+
+    .success {
+      color:var(--success);
+      font-size:11.5px;
+      margin-top:4px;
+    }
+
+    footer {
+      padding:8px 16px 10px;
+      font-size:11px;
+      color:rgba(148,163,184,0.9);
+      border-top:1px solid rgba(30,41,59,0.9);
+      background:radial-gradient(circle at bottom, rgba(15,23,42,0.95), rgba(2,6,23,0.98));
+      text-align:center;
+    }
+
+    footer span {
+      color:var(--accent-soft);
+    }
+
+    .no-scroll {
+      overflow:hidden;
     }
 
     @media (max-width:480px){
@@ -339,9 +476,8 @@
       <img src="icon.png" alt="Logo Chiesa Apostolica Carini">
     </div>
     <div class="titles">
-      <h1>Chiesa Apostolica Carini</h1>
-      <p>Ristoro giornaliero</p>
-      <div class="pill"><span></span> Identità · Dicembre 2025</div>
+      <h1>Chiesa Apostolica in Italia - Carini</h1>
+      <p>Via Don Luigi Sturzo 188 - Carini</p>
     </div>
   </header>
 
@@ -354,122 +490,157 @@
       <button class="tab" data-tab="appuntamenti">Appuntamenti</button>
     </div>
 
-    <!-- OGGI -->
-    <section class="card" id="tab-oggi">
-      <div class="dev-header">
-        <button class="nav-prev" id="prevDevoBtn" type="button">
-          <span class="arrow">←</span><span>Ieri</span>
-        </button>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <div class="chip-date">
-            <span></span>
-            <span id="todayLabel">Oggi</span>
+    <!-- TAB OGGI -->
+    <section id="tab-oggi" class="tab-content active">
+      <article class="card">
+        <div class="card-header">
+          <div class="tag">Devocionale di oggi</div>
+          <div class="day-chip" id="oggi-label"></div>
+        </div>
+
+        <h2 class="devotional-title" id="titolo-dev"></h2>
+        <div class="reference" id="riferimento-dev"></div>
+        <div class="verse" id="verso-dev"></div>
+        <div class="body-text" id="testo-dev"></div>
+
+        <div class="next-event" id="prossimo-evento">
+          <!-- riempito via JS -->
+        </div>
+      </article>
+    </section>
+
+    <!-- TAB SCRIVI -->
+    <section id="tab-scrivi" class="tab-content">
+      <article class="card note-card">
+        <h2>Scrivi cosa Dio ti sta parlando</h2>
+        <p>
+          Prenditi un momento di silenzio. Puoi usare questi spazi per annotare
+          una parola, un versetto, qualcosa che senti nel cuore.
+        </p>
+
+        <div class="field-group">
+          <label for="nome">Nome o nickname</label>
+          <input id="nome" type="text" placeholder="Es: Marco, Anna, Ospite..." />
+        </div>
+
+        <div class="field-group">
+          <label>In che contesto stai leggendo?</label>
+          <div class="radio-row">
+            <label class="radio-pill">
+              <input type="radio" name="contesto" value="casa">
+              <span class="radio-dot"></span> A casa
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="contesto" value="chiesa">
+              <span class="radio-dot"></span> In chiesa
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="contesto" value="cellula">
+              <span class="radio-dot"></span> In cellula / gruppo
+            </label>
+            <label class="radio-pill">
+              <input type="radio" name="contesto" value="altro">
+              <span class="radio-dot"></span> Altro
+            </label>
           </div>
-          <button class="nav-today" id="todayDevoBtn" type="button">Oggi</button>
         </div>
-      </div>
-      <div class="dev-title" id="devTitle">Titolo</div>
-      <div class="dev-ref" id="devRef">Riferimento</div>
-      <div class="dev-verse" id="devVerse"></div>
-      <div class="dev-content" id="devContent">Testo...</div>
 
-      <!-- NUOVO: Prossimo evento in home -->
-      <div class="home-next-event" id="homeNextEventCard">
-        <div class="section-title" style="margin-bottom:4px;">Prossimo evento</div>
-        <div id="homeNextEventInner" class="small-note">
-          Caricamento evento...
+        <div class="field-group">
+          <label for="nota-dev">Cosa ti ha colpito oggi?</label>
+          <textarea id="nota-dev" placeholder="Scrivi qui il pensiero, la preghiera o la riflessione..."></textarea>
         </div>
-      </div>
-    </section>
 
-    <!-- SCRIVI -->
-    <section class="card" id="tab-scrivi" style="display:none;">
-      <div class="section-title">La mia nota di oggi</div>
-      <p style="font-size:13px;color:#ccc;margin-bottom:8px;">
-        Prenditi un momento per scrivere cosa ti ha parlato oggi attraverso questo devozionale.
-      </p>
-      <textarea id="noteInput" placeholder="Cosa hai capito? Cosa senti che Dio ti stia dicendo?"></textarea>
-      <div class="btn-row">
-        <button class="btn btn-ghost" id="clearNote">Cancella</button>
-        <button class="btn btn-primary" id="saveNote">Salva nota</button>
-      </div>
-      <div class="small-note">
-        Le note vengono salvate solo su questo dispositivo (nessun altro le vede).
-      </div>
-    </section>
-
-    <!-- DIARIO -->
-    <section class="card" id="tab-diario" style="display:none;">
-      <div class="section-title">Il mio diario</div>
-      <div id="diaryList"></div>
-      <div class="small-note">
-        Tocca una nota per rileggerla e modificarla. Le note sono salvate solo su questo telefono.
-      </div>
-    </section>
-
-    <!-- EVENTI -->
-    <section class="card" id="tab-eventi" style="display:none;">
-      <div class="section-title">Eventi in programma</div>
-      <div id="eventsList" class="events-list"></div>
-      <div class="small-note">
-        Gli eventi sono sincronizzati con il foglio "eventi" del Google Sheet.
-      </div>
-    </section>
-
-    <!-- APPUNTAMENTI -->
-    <section class="card" id="tab-appuntamenti" style="display:none;">
-      <div class="section-title">Richiedi un appuntamento</div>
-      <p style="font-size:13px;color:#ccc;margin-bottom:8px;">
-        Compila i dati qui sotto per richiedere un appuntamento. Verrai ricontattato il prima possibile.
-      </p>
-
-      <div class="field-group">
-        <div class="field-label">Nome e cognome</div>
-        <input type="text" id="appFullName" class="input-text" placeholder="Es. Mario Rossi">
-      </div>
-
-      <div class="field-group">
-        <div class="field-label">Numero di telefono</div>
-        <input type="tel" id="appPhone" class="input-text" placeholder="Es. 3331234567">
-      </div>
-
-      <div class="field-group">
-        <div class="field-label">Giorno preferito (lun–ven)</div>
-        <div class="days-row">
-          <!-- value: 1=lun ... 5=ven -->
-          <label class="day-chip">
-            <input type="radio" name="appDay" value="1" data-label="Lunedì" class="day-radio"> Lun
-          </label>
-          <label class="day-chip">
-            <input type="radio" name="appDay" value="2" data-label="Martedì" class="day-radio"> Mar
-          </label>
-          <label class="day-chip">
-            <input type="radio" name="appDay" value="3" data-label="Mercoledì" class="day-radio"> Mer
-          </label>
-          <label class="day-chip">
-            <input type="radio" name="appDay" value="4" data-label="Giovedì" class="day-radio"> Gio
-          </label>
-          <label class="day-chip">
-            <input type="radio" name="appDay" value="5" data-label="Venerdì" class="day-radio"> Ven
-          </label>
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-clear-nota">Pulisci</button>
+          <button class="btn btn-primary" id="btn-salva-nota">Salva</button>
         </div>
+
+        <div id="nota-feedback" class="small-note"></div>
+      </article>
+    </section>
+
+    <!-- TAB DIARIO -->
+    <section id="tab-diario" class="tab-content">
+      <article class="card note-card">
+        <h2>Il tuo diario con Dio</h2>
+        <p>
+          Qui troverai le note che hai scritto nei giorni precedenti
+          (salvate in questo dispositivo).
+        </p>
+
+        <div id="lista-note" class="small-note">
+          Caricamento note...
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-esporta-json">Esporta</button>
+          <button class="btn btn-primary" id="btn-cancella-tutto">Cancella tutto</button>
+        </div>
+
         <div class="small-note">
-          Data proposta: <span id="appDatePreview">Seleziona un giorno…</span>
+          Le note sono salvate solo su questo telefono / PC.
+          Se cancelli la cronologia o cambi dispositivo, i dati non saranno più disponibili.
         </div>
-      </div>
+      </article>
+    </section>
 
-      <div class="field-group">
-        <div class="field-label">Motivazione</div>
-        <textarea id="appReason" placeholder="Scrivi brevemente il motivo dell'appuntamento"></textarea>
-      </div>
+    <!-- TAB EVENTI -->
+    <section id="tab-eventi" class="tab-content">
+      <article class="card note-card">
+        <h2>Eventi in chiesa</h2>
+        <p>
+          Qui trovi gli appuntamenti principali della comunità:
+          culti, studi biblici, riunioni di preghiera e attività speciali.
+        </p>
 
-      <div class="btn-row">
-        <button class="btn btn-primary" id="appSubmit">Invia richiesta</button>
-      </div>
+        <div id="lista-eventi" class="small-note">
+          Caricamento eventi...
+        </div>
+      </article>
+    </section>
 
-      <div class="small-note">
-        I dati vengono inviati alla chiesa nel foglio "Appuntamenti" e utilizzati solo per ricontattarti.
-      </div>
+    <!-- TAB APPUNTAMENTI -->
+    <section id="tab-appuntamenti" class="tab-content">
+      <article class="card note-card">
+        <h2>Richiedi un appuntamento</h2>
+        <p>
+          Se desideri parlare con un pastore, un responsabile o chiedere preghiera
+          personale, puoi inviare una richiesta.
+        </p>
+
+        <div class="field-group">
+          <label for="nome-app">Nome e cognome</label>
+          <input id="nome-app" type="text" placeholder="Il tuo nome" />
+        </div>
+
+        <div class="field-group">
+          <label for="contatto-app">Contatto (telefono o email)</label>
+          <input id="contatto-app" type="text" placeholder="Dove possiamo ricontattarti?" />
+        </div>
+
+        <div class="field-group">
+          <label for="motivo-app">Motivo dell'appuntamento</label>
+          <textarea id="motivo-app" placeholder="Es. colloquio, preghiera, consiglio, altro..."></textarea>
+        </div>
+
+        <div class="field-group">
+          <label for="tipo-app">Con chi vorresti parlare?</label>
+          <select id="tipo-app">
+            <option value="">Seleziona...</option>
+            <option value="pastore">Pastore</option>
+            <option value="responsabile">Responsabile di area</option>
+            <option value="consulenza">Consulenza / supporto</option>
+            <option value="altro">Altro / non specificato</option>
+          </select>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-clear-app">Pulisci</button>
+          <button class="btn btn-primary" id="btn-invia-app">Invia richiesta</button>
+        </div>
+
+        <div id="app-feedback" class="small-note"></div>
+      </article>
     </section>
   </main>
 
@@ -480,625 +651,354 @@
 
 <script>
   // 👉 URL Apps Script per note + appuntamenti
-  const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbycboxlETWxHJ08dpr4vixz5U1ht_mKguOdekKf7OEoon6lCeWYN1fxf_bkkbWc_StU/exec';
+  const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbyc5ErhYKisl11y-JGPuJrHHW6aUDxONNlfrVssTX7XxvUr4nKiqCpH7TDccp0zGoo/exec';
 
-  // 👉 URL CSV del foglio "eventi"
-  const EVENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS6Xgp-3pVR9RdoCX0QKT0FYWQulkdKmCqr3Ou4x-JRmv2QwL7nsm9RlDXe-i08IxuFp2ZwCqP2X0Ow/pub?gid=1100957392&single=true&output=csv';
+  // =====================
+  //   TABS
+  // =====================
+  const tabButtons = document.querySelectorAll('.tab');
+  const tabContents = document.querySelectorAll('.tab-content');
 
-  // 👉 URL CSV del foglio devozionali
-  const DEVOS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQHDbrymUnAs2GZoExowjFpbxzWUAi2PWL5z44qLFXly8ZF6MA929WC_c-V9mtG9i2U3fWQIH3MZME0/pub?gid=790463685&single=true&output=csv';
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
 
-  const STORAGE_KEY = 'riseup_generazione_diario';
-  const NAME_KEY    = 'riseup_user_name';
-  const CLIENT_KEY  = 'riseup_client_id';
+      tabButtons.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
 
-  let eventsLoaded = false;
-  let eventsData = null;
-  let currentDevoDate = null;
-
-  const defaultDevotionals = []; // fallback se il CSV non va
-  let devotionals = defaultDevotionals.slice();
-
-  function getTodayKey(){
-    const d=new Date();
-    const y=d.getFullYear();
-    const m=String(d.getMonth()+1).padStart(2,'0');
-    const day=String(d.getDate()).padStart(2,'0');
-    return `${y}-${m}-${day}`;
-  }
-
-  function formatItalianDate(dateStr){
-    const d=new Date(dateStr);
-    if(isNaN(d.getTime())) return dateStr || '';
-    return d.toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-  }
-
-  function getCurrentDevo(){
-    if(!devotionals || !devotionals.length) return null;
-
-    if(currentDevoDate){
-      const found = devotionals.find(d=>d.date===currentDevoDate);
-      if(found) return found;
-    }
-
-    const todayKey = getTodayKey();
-    const list = devotionals.slice().sort((a,b)=>a.date.localeCompare(b.date));
-
-    let devo = list.find(d=>d.date===todayKey);
-    if(devo){
-      currentDevoDate = devo.date;
-      return devo;
-    }
-
-    let lastPast = null;
-    list.forEach(d=>{
-      if(d.date <= todayKey) lastPast = d;
+      btn.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
     });
-    if(lastPast){
-      currentDevoDate = lastPast.date;
-      return lastPast;
-    }
+  });
 
-    currentDevoDate = list[0].date;
-    return list[0];
-  }
+  // =====================
+  //   DEVOCIONALI
+  // =====================
 
-  function getClientId(){
-    let cid = localStorage.getItem(CLIENT_KEY);
-    if(!cid){
-      cid = 'cid-' + Date.now() + '-' + Math.random().toString(16).slice(2);
-      localStorage.setItem(CLIENT_KEY, cid);
-    }
-    return cid;
-  }
+  const oggiLabel = document.getElementById('oggi-label');
+  const titoloDev = document.getElementById('titolo-dev');
+  const refDev    = document.getElementById('riferimento-dev');
+  const versoDev  = document.getElementById('verso-dev');
+  const testoDev  = document.getElementById('testo-dev');
+  const prossimoEventoBox = document.getElementById('prossimo-evento');
 
-  // 👉 Chiede SEMPRE il nome (non lo salva)
-  function getUserName(){
-    const name = prompt('Inserisci il tuo nome o nickname (per la chiesa):') || 'Anonimo';
-    return name;
-  }
-
-  function loadNotes(){
-    try{
-      const raw=localStorage.getItem(STORAGE_KEY);
-      return raw?JSON.parse(raw):[];
-    }catch(e){
-      console.error(e);return[];
-    }
-  }
-
-  function saveNotes(notes){
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(notes));
-  }
-
-  function preloadTodayNote(dateStr){
-    const notes=loadNotes();
-    const existing=notes.find(n=>n.date===dateStr);
-    document.getElementById('noteInput').value= existing ? existing.text : '';
-  }
-
-  function sendToSheet(payload){
-    if(!ENDPOINT_URL){
-      console.warn('ENDPOINT_URL non configurato');
-      return;
-    }
-    const url = ENDPOINT_URL + '?payload=' + encodeURIComponent(JSON.stringify(payload));
-    fetch(url, { method: 'GET', mode: 'no-cors' })
-      .catch(err => console.error('Errore invio payload:', err));
-  }
-
-  function renderToday(){
-    const devo=getCurrentDevo();
-    if(!devo) return;
-
-    const todayKey = getTodayKey();
-    const labelEl = document.getElementById('todayLabel');
-    const prevBtn = document.getElementById('prevDevoBtn');
-
-    if(devo.date === todayKey){
-      const today=new Date();
-      labelEl.textContent =
-        today.toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-    }else{
-      labelEl.textContent = formatItalianDate(devo.date);
-    }
-
-    const listPastOrToday = devotionals
-      .slice()
-      .filter(d=>d.date <= todayKey)
-      .sort((a,b)=>a.date.localeCompare(b.date));
-    const idx = listPastOrToday.findIndex(d=>d.date===devo.date);
-    prevBtn.disabled = (idx <= 0);
-
-    document.getElementById('devTitle').textContent=devo.title;
-    document.getElementById('devRef').textContent=devo.ref;
-    document.getElementById('devVerse').textContent=devo.verse || '';
-    document.getElementById('devContent').textContent=devo.content;
-    preloadTodayNote(devo.date);
-
-    // aggiorna anche il prossimo evento in home
-    renderHomeNextEvent();
-  }
-
-  function goPrevDevo(){
-    const devo = getCurrentDevo();
-    if(!devo) return;
-
-    const todayKey = getTodayKey();
-
-    const allowed = devotionals
-      .slice()
-      .filter(d=>d.date <= todayKey)
-      .sort((a,b)=>a.date.localeCompare(b.date));
-
-    const idx = allowed.findIndex(d=>d.date===devo.date);
-    if(idx <= 0) return;
-
-    currentDevoDate = allowed[idx-1].date;
-    renderToday();
-  }
-
-  function goToday(){
-    currentDevoDate = null;
-    renderToday();
-  }
-
-  function handleSaveNote(){
-    const devo=getCurrentDevo();
-    if(!devo) return;
-
-    const text=document.getElementById('noteInput').value.trim();
-    if(!text){
-      alert('Scrivi qualcosa prima di salvare 🙂');
-      return;
-    }
-
-    const notes=loadNotes();
-    const idx=notes.findIndex(n=>n.date===devo.date);
-    const now=new Date().toISOString();
-    if(idx>=0){
-      notes[idx].text=text;
-      notes[idx].updatedAt=now;
-    }else{
-      notes.push({date:devo.date,title:devo.title,text,createdAt:now,updatedAt:now});
-    }
-    saveNotes(notes);
-
-    const payload = {
-      userName: getUserName(),
-      clientId: getClientId(),
-      devotionalDate: devo.date,
-      devotionalTitle: devo.title,
-      verseRef: devo.ref,
-      noteText: text,
-      createdAt: now
-    };
-    sendToSheet(payload);
-
-    renderDiary();
-    alert('Nota salvata su questo dispositivo ✅\nE inviata alla chiesa.');
-  }
-
-  function handleClearNote(){
-    if(!confirm('Vuoi davvero cancellare il testo?')) return;
-    document.getElementById('noteInput').value='';
-  }
-
-  function renderDiary(){
-    const notes=loadNotes().sort((a,b)=>a.date.localeCompare(b.date));
-    const box=document.getElementById('diaryList');
-    box.innerHTML='';
-    if(!notes.length){
-      box.innerHTML='<div class="empty">Non hai ancora scritto nessuna nota. Inizia oggi dalla scheda “Scrivi”.</div>';
-      return;
-    }
-    notes.forEach(n=>{
-      const div=document.createElement('div');
-      div.className='diary-item';
-      const d=document.createElement('div');
-      d.className='diary-date';
-      d.textContent=`${new Date(n.date).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'})} · ${n.title||''}`;
-      const p=document.createElement('div');
-      p.className='diary-preview';
-      p.textContent=n.text;
-      div.appendChild(d);div.appendChild(p);
-      div.addEventListener('click',()=>{
-        currentDevoDate = n.date;
-        renderToday();
-        document.getElementById('noteInput').value=n.text;
-        setActiveTab('scrivi');
-      });
-      box.appendChild(div);
-    });
-  }
-
-  function parseCSV(text){
-    const rows=[];
-    let row=[];
-    let cur='';
-    let inQuotes=false;
-
-    for(let i=0;i<text.length;i++){
-      const c=text[i];
-
-      if(c === '"'){
-        if(inQuotes && text[i+1] === '"'){
-          cur+='"';
-          i++;
-        }else{
-          inQuotes = !inQuotes;
-        }
-      }else if(c === ',' && !inQuotes){
-        row.push(cur);
-        cur='';
-      }else if((c === '\n' || c === '\r') && !inQuotes){
-        if(cur !== '' || row.length){
-          row.push(cur);
-          rows.push(row);
-          row=[];
-          cur='';
-        }
-        if(c === '\r' && text[i+1] === '\n') i++;
-      }else{
-        cur+=c;
+  const devoData = [
+    {
+      data: '2025-12-03',
+      titolo: 'Svegliati nello Spirito (Efesini 5:14)',
+      riferimento: '“Per questo è detto: «Risvegliati, o tu che dormi, e risorgi dai morti, e Cristo ti inonderà di luce».”',
+      verso: 'Lo Spirito Santo oggi ti sta chiamando con urgenza: è il momento che il tuo spirito si risvegli davvero. Non puoi continuare a vivere con quella pesantezza che ti accompagna: non è naturale, non è tua, non viene da Dio. È il segnale che il tuo spirito sta chiedendo aria, presenza, luce. Il cielo sta soffiando su di te: accoglilo con sensibilità spirituale, visione, passione, vigilanza. Il Signore ti dice: “Alzati ora, torna nella Mia luce, guarda di nuovo con i Miei occhi”. Spezza oggi l’indifferenza, rimuovi ciò che ha spento la tua fame, ricomincia dalle cose semplici ma decisive. In quale area della tua vita stai continuando a dormire spiritualmente, pur sapendo che Dio ti sta chiamando a svegliarti?',
+      evento: {
+        quando: '03/12/2025 · 21:00',
+        cosa: 'Studi',
+        dove: 'Carini'
       }
     }
-    if(cur !== '' || row.length){
-      row.push(cur);
-      rows.push(row);
-    }
-    return rows;
+  ];
+
+  function formattaDataItaliano(date) {
+    const giorni = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+    const mesi   = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+    const d = new Date(date);
+    const giornoSettimana = giorni[d.getDay()];
+    const giorno = String(d.getDate()).padStart(2,'0');
+    const mese   = mesi[d.getMonth()];
+    return `${giornoSettimana} ${giorno} ${mese} ${d.getFullYear()}`;
   }
 
-  function parseDevoDate(str){
-    if(!str) return null;
-    str = String(str).trim();
-    if(/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
-    const parts = str.split('/');
-    if(parts.length === 3){
-      let d = parts[0].padStart(2,'0');
-      let m = parts[1].padStart(2,'0');
-      let y = parts[2];
-      if(y.length === 2) y = '20' + y;
-      if(y.length === 4){
-        return `${y}-${m}-${d}`;
-      }
-    }
-    return null;
-  }
+  function mostraDevocionaleOggi() {
+    const oggi = new Date();
+    const isoOggi = oggi.toISOString().slice(0,10);
+    const oggiTesto = formattaDataItaliano(oggi);
+    oggiLabel.textContent = 'Oggi · ' + oggiTesto;
 
-  function fetchDevotionals(){
-    if(!DEVOS_CSV_URL) return Promise.resolve(defaultDevotionals);
+    const dev = devoData.find(d => d.data === isoOggi) || devoData[0];
 
-    return fetch(DEVOS_CSV_URL)
-      .then(r=>r.text())
-      .then(text=>{
-        const rows = parseCSV(text);
-        if(!rows.length) return defaultDevotionals;
+    titoloDev.textContent = dev.titolo;
+    refDev.textContent = dev.riferimento;
+    versoDev.textContent = dev.verso;
+    testoDev.textContent = '';
 
-        const headers = rows[0].map(h=>h.trim().toLowerCase());
-        const idx = {};
-        headers.forEach((h,i)=>{ idx[h]=i; });
-
-        function col(){
-          for(let i=0;i<arguments.length;i++){
-            const key = arguments[i];
-            if(idx[key] !== undefined) return idx[key];
-          }
-          return -1;
-        }
-
-        const iDate    = col('data','date','giorno');
-        const iTitle   = col('titolo','title');
-        const iRef     = col('riferimento','riferimento biblico','rif bibiclo','rif biblico','rif.');
-        const iVerse   = col('verso','versetto','testo versetto');
-        const iContent = col('contenuto','commento','testo','devocionale');
-
-        if(iDate<0 || iTitle<0 || iRef<0 || iContent<0){
-          console.warn('Colonne devozionali non trovate nel CSV, uso il fallback interno.');
-          return defaultDevotionals;
-        }
-
-        const list = rows.slice(1).map(r=>{
-          const d = parseDevoDate(r[iDate] || '');
-          return {
-            date: d || '',
-            title: r[iTitle] || '',
-            ref: r[iRef] || '',
-            verse: iVerse>=0 ? (r[iVerse] || '') : '',
-            content: r[iContent] || ''
-          };
-        }).filter(d => d.date && d.title && d.content);
-
-        if(!list.length){
-          console.warn('CSV devozionali vuoto o non valido, uso fallback.');
-          return defaultDevotionals;
-        }
-
-        return list;
-      })
-      .catch(err=>{
-        console.error('Errore caricamento devozionali da CSV:', err);
-        return defaultDevotionals;
-      });
-  }
-
-  function parseEventDate(ev){
-    if(!ev.data) return null;
-    const parts = ev.data.split('/');
-    if(parts.length < 3) return null;
-    const d = Number(parts[0]);
-    const m = Number(parts[1]);
-    const y = Number(parts[2]);
-    if(!y || !m || !d) return null;
-    let hh = 0, mm = 0;
-    if(ev.ora){
-      const t = ev.ora.split(':');
-      hh = Number(t[0]) || 0;
-      mm = Number(t[1]) || 0;
-    }
-    return new Date(y, m-1, d, hh, mm);
-  }
-
-  function fetchEvents(){
-    if(eventsLoaded) return Promise.resolve(eventsData || []);
-    return fetch(EVENTS_CSV_URL)
-      .then(r=>r.text())
-      .then(text=>{
-        const rows = parseCSV(text);
-        if(!rows.length) return [];
-        const headers = rows[0].map(h=>h.trim().toLowerCase());
-        const idx = {};
-        headers.forEach((h,i)=>{ idx[h]=i; });
-
-        const list = rows.slice(1).map(r=>({
-          giorno: r[idx['giorno']] || '',
-          data: r[idx['data']] || '',
-          ora: r[idx['ora']] || '',
-          evento: r[idx['evento']] || '',
-          luogo: r[idx['luogo']] || '',
-          descrizione: r[idx['descrizione']] || '',
-          prenotazione: r[idx['prenotazione']] || ''
-        })).filter(e=>e.evento);
-
-        list.forEach(ev=>{
-          ev._dateObj = parseEventDate(ev);
-        });
-
-        eventsData = list;
-        eventsLoaded = true;
-        return list;
-      })
-      .catch(err=>{
-        console.error('Errore caricamento eventi:', err);
-        return [];
-      });
-  }
-
-  function renderEvents(){
-    const container = document.getElementById('eventsList');
-    if(!container) return;
-    container.innerHTML = '<div class="small-note">Caricamento eventi...</div>';
-
-    fetchEvents().then(list=>{
-      if(!list.length){
-        container.innerHTML = '<div class="empty">Nessun evento disponibile al momento.</div>';
-        return;
-      }
-
-      const now = new Date();
-      const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-      list.sort((a,b)=>{
-        if(a._dateObj && b._dateObj) return a._dateObj - b._dateObj;
-        if(a._dateObj) return -1;
-        if(b._dateObj) return 1;
-        return 0;
-      });
-
-      const upcoming = list.filter(ev => !ev._dateObj || ev._dateObj >= todayMidnight);
-      const toShow = upcoming.length ? upcoming : list;
-
-      container.innerHTML = '';
-      toShow.forEach(ev=>{
-        const wrap = document.createElement('div');
-        wrap.className = 'event-item';
-
-        const dateDiv = document.createElement('div');
-        dateDiv.className = 'event-date';
-        dateDiv.textContent = ev.data + (ev.ora ? ' · ' + ev.ora : '');
-
-        const titleDiv = document.createElement('div');
-        titleDiv.className = 'event-title';
-        titleDiv.textContent = ev.evento;
-
-        const locDiv = document.createElement('div');
-        locDiv.className = 'event-location';
-        if(ev.luogo) locDiv.textContent = ev.luogo;
-
-        const descDiv = document.createElement('div');
-        descDiv.className = 'event-desc';
-        if(ev.descrizione) descDiv.textContent = ev.descrizione;
-
-        const bookDiv = document.createElement('div');
-        bookDiv.className = 'event-booking';
-        if(ev.prenotazione) bookDiv.textContent = ev.prenotazione;
-
-        wrap.appendChild(dateDiv);
-        wrap.appendChild(titleDiv);
-        if(ev.luogo) wrap.appendChild(locDiv);
-        if(ev.descrizione) wrap.appendChild(descDiv);
-        if(ev.prenotazione) wrap.appendChild(bookDiv);
-
-        container.appendChild(wrap);
-      });
-    });
-  }
-
-  // 👉 NUOVO: prossimo evento in home
-  function renderHomeNextEvent(){
-    const box = document.getElementById('homeNextEventInner');
-    if(!box) return;
-
-    fetchEvents().then(list=>{
-      if(!list.length){
-        box.textContent = 'Nessun evento in programma.';
-        return;
-      }
-
-      const now = new Date();
-      const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-      list.sort((a,b)=>{
-        if(a._dateObj && b._dateObj) return a._dateObj - b._dateObj;
-        if(a._dateObj) return -1;
-        if(b._dateObj) return 1;
-        return 0;
-      });
-
-      const upcoming = list.filter(ev => ev._dateObj && ev._dateObj >= todayMidnight);
-      const ev = upcoming[0] || list[0];
-
-      const line1 = (ev.data || '') + (ev.ora ? ' · ' + ev.ora : '');
-      const line2 = ev.evento || '';
-      const line3 = ev.luogo || '';
-
-      box.innerHTML = `
-        <div class="home-next-event-date">${line1 || 'Data da definire'}</div>
-        <div class="home-next-event-title">${line2}</div>
-        ${line3 ? `<div class="home-next-event-loc">${line3}</div>` : ''}
+    if (dev.evento) {
+      prossimoEventoBox.innerHTML = `
+        <span class="label">Prossimo evento</span>
+        <div class="when">${dev.evento.quando}</div>
+        <div class="where">${dev.evento.cosa}<br>${dev.evento.dove}</div>
       `;
-    }).catch(err=>{
-      console.error('Errore prossimo evento home:', err);
-      box.textContent = 'Non è stato possibile caricare gli eventi.';
-    });
-  }
-
-  function setActiveTab(name){
-    document.querySelectorAll('.tab').forEach(btn=>{
-      btn.classList.toggle('active',btn.dataset.tab===name);
-    });
-    document.getElementById('tab-oggi').style.display          = (name==='oggi') ? '' : 'none';
-    document.getElementById('tab-scrivi').style.display        = (name==='scrivi') ? '' : 'none';
-    document.getElementById('tab-diario').style.display        = (name==='diario') ? '' : 'none';
-    document.getElementById('tab-eventi').style.display        = (name==='eventi') ? '' : 'none';
-    document.getElementById('tab-appuntamenti').style.display  = (name==='appuntamenti') ? '' : 'none';
-
-    if(name === 'eventi'){
-      renderEvents();
-    }
-    if(name === 'diario'){
-      renderDiary();
-    }
-    if(name === 'oggi'){
-      renderHomeNextEvent();
+    } else {
+      prossimoEventoBox.innerHTML = '';
     }
   }
 
-  // APPUNTAMENTI – calcolo data proposta
-  function getNextDateForWeekday(weekdayNumber){
-    // weekdayNumber: 1=lun ... 5=ven (come getDay lun=1)
-    const now = new Date();
-    const todayDow = now.getDay(); // 0=dom,1=lun,...6=sab
-    let targetDow = weekdayNumber; // 1..5
+  mostraDevocionaleOggi();
 
-    let diff = targetDow - todayDow;
-    if(diff < 0) diff += 7; // prossimo giro
-    const result = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff);
-    return result;
+  // =====================
+  //   NOTE LOCALI
+  // =====================
+
+  const NOTES_KEY = 'devotional_notes_v1';
+
+  const nomeInput = document.getElementById('nome');
+  const contestoRadios = document.querySelectorAll('input[name="contesto"]');
+  const radioPillLabels = document.querySelectorAll('.radio-pill');
+  const notaText = document.getElementById('nota-dev');
+  const btnSaveNota = document.getElementById('btn-salva-nota');
+  const btnClearNota = document.getElementById('btn-clear-nota');
+  const notaFeedback = document.getElementById('nota-feedback');
+  const listaNote = document.getElementById('lista-note');
+  const btnExport = document.getElementById('btn-esporta-json');
+  const btnDeleteAll = document.getElementById('btn-cancella-tutto');
+
+  radioPillLabels.forEach(label => {
+    const input = label.querySelector('input');
+    label.addEventListener('click', () => {
+      radioPillLabels.forEach(l => l.classList.remove('active'));
+      label.classList.add('active');
+      input.checked = true;
+    });
+  });
+
+  function getNotes() {
+    try {
+      const raw = localStorage.getItem(NOTES_KEY);
+      if (!raw) return [];
+      return JSON.parse(raw);
+    } catch(e) {
+      console.error('Errore parsing note', e);
+      return [];
+    }
   }
 
-  function updateAppointmentPreview(){
-    const radios = document.querySelectorAll('.day-radio');
-    const preview = document.getElementById('appDatePreview');
-    let selected = null;
-    radios.forEach(r=>{
-      if(r.checked) selected = r;
-    });
-    if(!selected){
-      preview.textContent = 'Seleziona un giorno…';
+  function saveNotes(notes) {
+    localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  }
+
+  function renderNotes() {
+    const notes = getNotes();
+    if (!notes.length) {
+      listaNote.textContent = 'Non hai ancora salvato nessuna nota. Scrivi qualcosa nella sezione "Scrivi" e salvala.';
       return;
     }
-    const weekdayNum = parseInt(selected.value,10); // 1..5
-    const label = selected.dataset.label || '';
-    const dateObj = getNextDateForWeekday(weekdayNum);
-    const dd = String(dateObj.getDate()).padStart(2,'0');
-    const mm = String(dateObj.getMonth()+1).padStart(2,'0');
-    const yyyy = dateObj.getFullYear();
-    preview.textContent = `${label} ${dd}/${mm}/${yyyy}`;
+    listaNote.innerHTML = notes
+      .sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))
+      .map(n => {
+        const d = new Date(n.timestamp);
+        const dataFormattata = d.toLocaleString('it-IT', {
+          day:'2-digit', month:'2-digit', year:'numeric',
+          hour:'2-digit', minute:'2-digit'
+        });
+        return `
+          <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px dashed rgba(55,65,81,0.75);">
+            <div style="font-size:11px; color:rgba(148,163,184,0.9); margin-bottom:4px;">
+              ${dataFormattata} · ${n.nome || 'Anonimo'}${n.contesto ? ' · ' + n.contesto : ''}
+            </div>
+            <div style="font-size:13px; color:#e5e7eb; white-space:pre-wrap;">
+              ${n.testo}
+            </div>
+          </div>
+        `;
+      })
+      .join('');
   }
 
-  function handleAppointmentSubmit(){
-    const fullName = document.getElementById('appFullName').value.trim();
-    const phone    = document.getElementById('appPhone').value.trim();
-    const reason   = document.getElementById('appReason').value.trim();
-    const radios   = Array.from(document.querySelectorAll('.day-radio'));
-    const selected = radios.find(r=>r.checked);
+  renderNotes();
 
-    if(!fullName || !phone || !reason){
-      alert('Compila nome, numero e motivazione prima di inviare.');
+  btnSaveNota.addEventListener('click', () => {
+    notaFeedback.textContent = '';
+    notaFeedback.classList.remove('error','success');
+
+    const nome = nomeInput.value.trim() || 'Anonimo';
+    const contestoInput = Array.from(contestoRadios).find(r => r.checked);
+    const contesto = contestoInput ? contestoInput.value : '';
+    const testo = notaText.value.trim();
+
+    if (!testo) {
+      notaFeedback.textContent = 'Scrivi qualcosa prima di salvare.';
+      notaFeedback.classList.add('error');
       return;
     }
-    if(!selected){
-      alert('Seleziona un giorno preferito (lun–ven).');
-      return;
-    }
 
-    const weekdayNum = parseInt(selected.value,10);
-    const label = selected.dataset.label || '';
-    const dateObj = getNextDateForWeekday(weekdayNum);
-    const dd = String(dateObj.getDate()).padStart(2,'0');
-    const mm = String(dateObj.getMonth()+1).padStart(2,'0');
-    const yyyy = dateObj.getFullYear();
-    const iso = `${yyyy}-${mm}-${dd}`;
-    const displayShort = `${label.slice(0,3).toLowerCase()} ${dd}/${mm}`;
+    const notes = getNotes();
+    const nuovaNota = {
+      id: Date.now(),
+      nome,
+      contesto,
+      testo,
+      timestamp: new Date().toISOString(),
+      origine: 'dev_app'
+    };
+    notes.push(nuovaNota);
+    saveNotes(notes);
+    renderNotes();
 
-    const now = new Date().toISOString();
+    notaFeedback.textContent = 'Nota salvata sul dispositivo.';
+    notaFeedback.classList.add('success');
+
+    notaText.value = '';
 
     const payload = {
-      type: 'appointment',
-      fullName: fullName,
-      phone: phone,
-      appointmentDateDisplay: displayShort, // per colonna D
-      appointmentDateISO: iso,              // per colonna E
-      reason: reason,
-      clientId: getClientId(),
-      createdAt: now
+      tipo: 'nota',
+      nome,
+      contesto,
+      testo,
+      timestamp: nuovaNota.timestamp
     };
 
-    sendToSheet(payload);
+    fetch(ENDPOINT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(e => console.error('Errore invio a Apps Script', e));
+  });
 
-    document.getElementById('appFullName').value = '';
-    document.getElementById('appPhone').value = '';
-    document.getElementById('appReason').value = '';
-    radios.forEach(r=>r.checked = false);
-    updateAppointmentPreview();
+  btnClearNota.addEventListener('click', () => {
+    notaText.value = '';
+    notaFeedback.textContent = '';
+    notaFeedback.classList.remove('error','success');
+  });
 
-    alert('Richiesta inviata ✅\nVerrai ricontattato quanto prima.');
+  btnExport.addEventListener('click', () => {
+    const notes = getNotes();
+    if (!notes.length) {
+      alert('Non ci sono note da esportare.');
+      return;
+    }
+    const blob = new Blob([JSON.stringify(notes, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'devotional_notes.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  btnDeleteAll.addEventListener('click', () => {
+    if (!confirm('Sei sicuro di voler cancellare tutte le note salvate su questo dispositivo?')) return;
+    localStorage.removeItem(NOTES_KEY);
+    renderNotes();
+  });
+
+  // =====================
+  //   EVENTI (statici)
+  // =====================
+
+  const listaEventi = document.getElementById('lista-eventi');
+
+  const eventi = [
+    {
+      titolo: 'Culto domenicale',
+      descrizione: 'Adorazione, predicazione e comunione fraterna.',
+      quando: 'Ogni domenica · Ore 11:00',
+      dove: 'Chiesa Apostolica Carini'
+    },
+    {
+      titolo: 'Studio biblico',
+      descrizione: 'Approfondimento della Parola con domande e confronto.',
+      quando: 'Ogni martedì · Ore 21:00',
+      dove: 'Chiesa Apostolica Carini'
+    },
+    {
+      titolo: 'Riunione di preghiera',
+      descrizione: 'Tempo dedicato alla preghiera e intercessione.',
+      quando: 'Ogni giovedì · Ore 21:00',
+      dove: 'Chiesa Apostolica Carini'
+    }
+  ];
+
+  function renderEventi() {
+    if (!eventi.length) {
+      listaEventi.textContent = 'Al momento non ci sono eventi programmati.';
+      return;
+    }
+    listaEventi.innerHTML = eventi
+      .map(ev => `
+        <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px dashed rgba(55,65,81,0.75);">
+          <div style="font-size:13px; font-weight:600; color:#e5e7eb; margin-bottom:2px;">
+            ${ev.titolo}
+          </div>
+          <div style="font-size:12px; color:rgba(148,163,184,0.9); margin-bottom:3px;">
+            ${ev.quando} · ${ev.dove}
+          </div>
+          <div style="font-size:12.5px; color:#e5e7eb;">
+            ${ev.descrizione}
+          </div>
+        </div>
+      `)
+      .join('');
   }
 
-  // Event listeners
-  document.querySelectorAll('.tab').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      setActiveTab(btn.dataset.tab);
-    });
+  renderEventi();
+
+  // =====================
+  //   APPUNTAMENTI → Apps Script
+  // =====================
+
+  const nomeApp = document.getElementById('nome-app');
+  const contattoApp = document.getElementById('contatto-app');
+  const motivoApp = document.getElementById('motivo-app');
+  const tipoApp = document.getElementById('tipo-app');
+  const btnClearApp = document.getElementById('btn-clear-app');
+  const btnInviaApp = document.getElementById('btn-invia-app');
+  const appFeedback = document.getElementById('app-feedback');
+
+  btnClearApp.addEventListener('click', () => {
+    nomeApp.value = '';
+    contattoApp.value = '';
+    motivoApp.value = '';
+    tipoApp.value = '';
+    appFeedback.textContent = '';
+    appFeedback.classList.remove('error','success');
   });
 
-  document.getElementById('saveNote').addEventListener('click',handleSaveNote);
-  document.getElementById('clearNote').addEventListener('click',handleClearNote);
-  document.getElementById('prevDevoBtn').addEventListener('click', goPrevDevo);
-  document.getElementById('todayDevoBtn').addEventListener('click', goToday);
-  document.getElementById('appSubmit').addEventListener('click', handleAppointmentSubmit);
-  document.querySelectorAll('.day-radio').forEach(r=>{
-    r.addEventListener('change', updateAppointmentPreview);
-  });
+  btnInviaApp.addEventListener('click', () => {
+    appFeedback.textContent = '';
+    appFeedback.classList.remove('error','success');
 
-  // Init
-  fetchDevotionals().then(list=>{
-    devotionals = list.slice().sort((a,b)=>a.date.localeCompare(b.date));
-    currentDevoDate = null;
-    renderToday();
-    renderDiary();
+    const nome = nomeApp.value.trim();
+    const contatto = contattoApp.value.trim();
+    const motivo = motivoApp.value.trim();
+    const tipo = tipoApp.value;
+
+    if (!nome || !contatto || !motivo) {
+      appFeedback.textContent = 'Compila tutti i campi prima di inviare.';
+      appFeedback.classList.add('error');
+      return;
+    }
+
+    const payload = {
+      tipo: 'appuntamento',
+      nome,
+      contatto,
+      motivo,
+      categoria: tipo,
+      timestamp: new Date().toISOString()
+    };
+
+    appFeedback.textContent = 'Invio in corso...';
+    appFeedback.classList.remove('error','success');
+
+    fetch(ENDPOINT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(() => {
+        appFeedback.textContent = 'Richiesta inviata. Verrai ricontattato al più presto.';
+        appFeedback.classList.add('success');
+        nomeApp.value = '';
+        contattoApp.value = '';
+        motivoApp.value = '';
+        tipoApp.value = '';
+      })
+      .catch(err => {
+        console.error(err);
+        appFeedback.textContent = 'Si è verificato un problema durante l\'invio. Riprova più tardi.';
+        appFeedback.classList.add('error');
+      });
   });
 </script>
 </body>
