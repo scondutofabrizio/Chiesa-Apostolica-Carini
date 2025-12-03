@@ -373,6 +373,13 @@
       <div class="dev-verse" id="devVerse"></div>
       <div class="dev-content" id="devContent">Testo...</div>
 
+      <!-- Pulsante attivazione notifiche -->
+      <div class="btn-row" style="justify-content:flex-start;margin-top:12px;">
+        <button class="btn btn-primary" type="button" onclick="initNotifications()">
+          Attiva notifiche giornaliere
+        </button>
+      </div>
+
       <!-- NUOVO: Prossimo evento in home -->
       <div class="home-next-event" id="homeNextEventCard">
         <div class="section-title" style="margin-bottom:4px;">Prossimo evento</div>
@@ -1101,5 +1108,7 @@
     renderDiary();
   });
 </script>
+
+<script type="module" src="notifications.js"></script>
 </body>
 </html>
