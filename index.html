@@ -439,9 +439,24 @@
       overflow:hidden;
     }
 
+    /* Mobile: app a tutto schermo */
     @media (max-width:480px){
-      main{padding:10px 10px 12px;}
-      .card{padding:12px 12px 14px;}
+      body{
+        padding:0;
+        justify-content:flex-start;
+        align-items:stretch;
+      }
+      .app{
+        max-width:none;
+        max-height:none;
+        border-radius:0;
+      }
+      main{
+        padding:10px 10px 12px;
+      }
+      .card{
+        padding:12px 12px 14px;
+      }
     }
   </style>
 </head>
@@ -470,7 +485,7 @@
     <section id="tab-oggi" class="tab-content active">
       <article class="card">
         <div class="card-header">
-          <div class="tag">Devocionale di oggi</div>
+          <div class="tag">Devozionale</div>
           <div class="day-chip" id="oggi-label"></div>
         </div>
 
@@ -626,6 +641,7 @@
 <script>
   const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbyc5ErhYKisl11y-JGPuJrHHW6aUDxONNlfrVssTX7XxvUr4nKiqCpH7TDccp0zGoo/exec';
 
+  // TABS
   const tabButtons = document.querySelectorAll('.tab');
   const tabContents = document.querySelectorAll('.tab-content');
 
@@ -639,6 +655,7 @@
     });
   });
 
+  // DEVOZIONALI
   const oggiLabel = document.getElementById('oggi-label');
   const titoloDev = document.getElementById('titolo-dev');
   const refDev    = document.getElementById('riferimento-dev');
@@ -670,7 +687,7 @@
     return `${giornoSettimana} ${giorno} ${d.getFullYear()}`;
   }
 
-  function mostraDevocionaleOggi() {
+  function mostraDevozionaleOggi() {
     const oggi = new Date();
     const isoOggi = oggi.toISOString().slice(0,10);
     const oggiTesto = formattaDataItaliano(oggi);
@@ -694,8 +711,9 @@
     }
   }
 
-  mostraDevocionaleOggi();
+  mostraDevozionaleOggi();
 
+  // NOTE LOCALI
   const NOTES_KEY = 'devotional_notes_v1';
 
   const nomeInput = document.getElementById('nome');
@@ -841,6 +859,7 @@
     renderNotes();
   });
 
+  // EVENTI
   const listaEventi = document.getElementById('lista-eventi');
 
   const eventi = [
@@ -888,6 +907,7 @@
 
   renderEventi();
 
+  // APPUNTAMENTI
   const nomeApp = document.getElementById('nome-app');
   const contattoApp = document.getElementById('contatto-app');
   const motivoApp = document.getElementById('motivo-app');
