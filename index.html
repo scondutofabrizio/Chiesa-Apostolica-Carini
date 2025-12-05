@@ -14,143 +14,175 @@
       --card-bg: #111318;
       --accent: #fbbf24;
       --accent-soft: #facc15;
-      --accent-muted: rgba(251, 191, 36, 0.15);
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --border-soft: #1f2933;
-      --danger: #f97373;
-      --success: #4ade80;
+      --accent-strong: #eab308;
+      --accent-glow: rgba(250, 204, 21, 0.25);
+      --text-main: #e5e7eb;
+      --text-dim: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.45);
+      --pill-bg: rgba(15, 23, 42, 0.9);
+      --pill-active-bg: rgba(15, 23, 42, 0.98);
     }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     body {
-      background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
-      color: var(--text-main);
+      margin: 0;
       min-height: 100vh;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      padding:12px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 28%, #020617 60%, #030712 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 12px;
     }
 
-    .app {
-      width:100%;
-      max-width:500px;
-      background: linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(3, 7, 18, 0.98));
-      border-radius:20px;
-      border:1px solid rgba(148, 163, 184, 0.18);
+    .app-shell {
+      width: 100%;
+      max-width: 420px;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(3,7,18,0.98));
+      border-radius: 24px;
+      border: 1px solid rgba(148,163,184,0.35);
       box-shadow:
-        0 24px 60px rgba(15, 23, 42, 0.9),
-        0 0 0 1px rgba(15, 23, 42, 0.8);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      max-height:100vh;
+        0 32px 120px rgba(15,23,42,0.95),
+        0 0 0 1px rgba(15,23,42,0.9);
+      padding: 14px 12px 16px;
+      position: relative;
+      overflow: hidden;
     }
 
-    header {
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:16px 18px 10px;
-      background:radial-gradient(circle at top left, rgba(251,191,36,0.12), transparent 55%);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+    .app-shell::before {
+      content: "";
+      position: absolute;
+      inset: -80px;
+      background:
+        radial-gradient(circle at -10% -20%, rgba(250,204,21,0.10), transparent 55%),
+        radial-gradient(circle at 110% -20%, rgba(96,165,250,0.12), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .logo {
-      width:44px;
-      height:44px;
-      border-radius:14px;
-      background: radial-gradient(circle at 30% 0%, #fbbf24, transparent 50%), #020617;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border:1px solid rgba(148, 163, 184, 0.4);
+    .app-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px 3px 3px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.5);
+      margin-bottom: 10px;
+      box-shadow: 0 0 0 1px rgba(15,23,42,0.9);
+    }
+
+    .status-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 10%, #fefce8, #facc15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1f2937;
+      font-size: 12px;
       box-shadow:
-        0 0 0 1px rgba(15,23,42,0.9),
-        0 10px 25px rgba(15,23,42,1);
-      overflow:hidden;
+        0 0 0 1px rgba(161,98,7,0.6),
+        0 0 0 4px rgba(250,204,21,0.14),
+        0 8px 18px rgba(250,204,21,0.35);
     }
 
-    .logo img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      border-radius:14px;
+    .status-text {
+      font-size: 11px;
+      color: rgba(209,213,219,0.95);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 600;
     }
 
-    .titles h1 {
-      font-size:17px;
-      font-weight:600;
-      letter-spacing:0.02em;
-      color:var(--text-main);
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
     }
 
-    .titles p {
-      font-size:13px;
-      color:var(--text-muted);
-      margin-top:2px;
+    .brand-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    main {
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      padding:14px 16px 16px;
-      overflow-y:auto;
-      gap:10px;
-    }
-
-    .tabs {
-      display:flex;
-      background:rgba(15,23,42,0.9);
-      border-radius:999px;
-      padding:3px;
-      border:1px solid rgba(51,65,85,0.9);
-      margin-bottom:6px;
-    }
-
-    .tab {
-      flex:1;
-      border:none;
-      border-radius:999px;
-      padding:7px 0;
-      font-size:12px;
-      letter-spacing:0.05em;
-      text-transform:uppercase;
-      color:var(--text-muted);
-      background:transparent;
-      cursor:pointer;
-      transition: all 0.2s ease;
-    }
-
-    .tab.active {
-      background: radial-gradient(circle at top, rgba(251,191,36,0.16), rgba(15,23,42,0.9));
-      color:var(--accent);
-      font-weight:600;
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 30% 10%, #fef9c3, #facc15),
+        radial-gradient(circle at 80% 120%, #4b5563, #020617);
+      border: 1px solid rgba(251,191,36,0.7);
       box-shadow:
-        0 0 0 1px rgba(234, 179, 8, 0.6),
-        0 8px 20px rgba(0,0,0,0.9);
+        0 0 0 1px rgba(15,23,42,0.95),
+        0 18px 45px rgba(15,23,42,0.95),
+        0 0 40px rgba(250,204,21,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #020617;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.04em;
     }
 
-    .tab-content {
-      display:none;
-      flex-direction:column;
-      gap:10px;
+    .brand-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .tab-content.active {
-      display:flex;
+    .brand-title {
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #f9fafb;
     }
 
-    .card {
+    .brand-subtitle {
+      font-size: 12px;
+      color: rgba(148,163,184,0.95);
+    }
+
+    .theme-badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.85));
+      font-size: 11px;
+      color: rgba(209,213,219,0.95);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .theme-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 10%, #f97316, #ea580c);
+      box-shadow: 0 0 0 4px rgba(248,113,113,0.18);
+    }
+
+    .devo-card {
+      margin-top: 10px;
       background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(2,6,23,1));
       border-radius:16px;
       padding:14px 14px 16px;
@@ -167,478 +199,799 @@
       margin-bottom:6px;
     }
 
-    .card-header .tag {
+    .card-header-title {
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .devo-label {
       font-size:11px;
       text-transform:uppercase;
-      letter-spacing:0.16em;
-      color:var(--text-muted);
+      letter-spacing:0.12em;
+      color:rgba(156,163,175,0.95);
       display:flex;
       align-items:center;
       gap:6px;
     }
 
-    .card-header .tag::before {
-      content:"";
-      width:18px;
-      height:1px;
-      background:linear-gradient(to right, rgba(148,163,184,0.3), rgba(15,23,42,0));
+    .devo-label-dot {
+      width:4px;
+      height:4px;
+      border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 0 3px var(--accent-glow);
     }
 
-    .card-header .day-chip {
+    .devo-title {
+      font-size:15px;
+      font-weight:600;
+      color:#e5e7eb;
+    }
+
+    .today-pill {
       font-size:11px;
       padding:3px 8px;
       border-radius:999px;
-      background:rgba(15,23,42,0.85);
-      border:1px solid rgba(75,85,99,0.7);
-      color:var(--text-muted);
-    }
-
-    .devotional-title {
-      font-size:17px;
-      font-weight:600;
-      margin-bottom:4px;
-      color:var(--text-main);
-    }
-
-    .reference {
-      font-size:11px;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      color:var(--accent-soft);
-      margin-bottom:6px;
-    }
-
-    .verse {
-      font-size:11.5px;
-      color:rgba(248,250,252,0.82);
-      font-style:italic;
-      border-left:2px solid rgba(251,191,36,0.6);
-      padding-left:10px;
-      margin-bottom:8px;
-    }
-
-    .body-text {
-      font-size:13px;
-      line-height:1.55;
-      color:var(--text-main);
-      margin-bottom:10px;
-    }
-
-    .body-text strong {
-      color:var(--accent-soft);
-      font-weight:600;
-    }
-
-    .next-event {
-      font-size:11.5px;
-      color:var(--text-muted);
-      border-top:1px dashed rgba(55,65,81,0.75);
-      padding-top:8px;
-      margin-top:4px;
-    }
-
-    .next-event span.label {
-      display:block;
-      text-transform:uppercase;
-      letter-spacing:0.18em;
-      font-size:10px;
-      color:rgba(148,163,184,0.9);
-      margin-bottom:4px;
-    }
-
-    .next-event .when {
-      color:var(--accent-soft);
-      font-weight:500;
-      margin-bottom:2px;
-    }
-
-    .next-event .where {
-      color:var(--text-muted);
-      font-size:11.5px;
-    }
-
-    .note-card {
+      background:rgba(15,23,42,0.95);
+      border:1px solid rgba(55,65,81,0.9);
+      color:rgba(209,213,219,0.96);
       display:flex;
-      flex-direction:column;
+      align-items:center;
+      gap:5px;
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,1),
+        0 6px 18px rgba(15,23,42,0.95);
+    }
+
+    .today-pill-dot {
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      background: radial-gradient(circle at 30% 10%, #bbf7d0, #22c55e);
+      box-shadow:0 0 0 4px rgba(34,197,94,0.22);
+    }
+
+    .verse-block {
+      margin-top:8px;
+      padding:10px 10px 10px;
+      border-radius:12px;
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.95));
+      border:1px solid rgba(55,65,81,0.95);
+      box-shadow:
+        inset 0 0 0 1px rgba(15,23,42,1),
+        0 10px 28px rgba(15,23,42,0.9);
+    }
+
+    .verse-ref {
+      font-size:12px;
+      color:rgba(209,213,219,0.95);
+      margin-bottom:4px;
+    }
+
+    .verse-text {
+      font-size:13px;
+      line-height:1.5;
+      color:#f9fafb;
+    }
+
+    .verse-note {
+      margin-top:6px;
+      font-size:11px;
+      color:rgba(148,163,184,0.95);
+    }
+
+    .event-card {
+      margin-top:10px;
+      padding:10px 10px 11px;
+      border-radius:12px;
+      border:1px solid rgba(55,65,81,0.9);
+      background: radial-gradient(circle at 80% 0%, rgba(37,99,235,0.16), rgba(15,23,42,0.98));
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,1),
+        0 12px 26px rgba(15,23,42,0.95);
+    }
+
+    .event-label {
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      color:rgba(148,163,184,0.95);
+      margin-bottom:4px;
+    }
+
+    .event-main {
+      display:flex;
+      justify-content:space-between;
       gap:10px;
     }
 
-    .note-card h2 {
-      font-size:15px;
-      font-weight:600;
-      margin-bottom:2px;
-    }
-
-    .note-card p {
+    .event-title {
       font-size:13px;
-      color:var(--text-muted);
-      margin-bottom:4px;
+      font-weight:500;
+      color:#e5e7eb;
     }
 
-    .field-group {
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      margin-bottom:4px;
-    }
-
-    .field-group label {
+    .event-meta {
+      margin-top:4px;
       font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.16em;
-      color:var(--text-muted);
+      color:rgba(148,163,184,0.95);
     }
 
-    .field-group input,
-    .field-group textarea,
-    .field-group select {
-      background:rgba(15,23,42,0.9);
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.9);
-      padding:8px 10px;
-      color:var(--text-main);
-      font-size:13px;
-      outline:none;
-      transition:border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    .event-badge {
+      align-self:flex-start;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      background:rgba(22,163,74,0.14);
+      color:rgba(187,247,208,0.96);
+      border:1px solid rgba(34,197,94,0.75);
+      box-shadow:
+        0 0 0 1px rgba(22,101,52,0.9),
+        0 8px 18px rgba(22,163,74,0.4);
     }
 
-    .field-group input:focus,
-    .field-group textarea:focus,
-    .field-group select:focus {
-      border-color:rgba(251,191,36,0.8);
-      box-shadow:0 0 0 1px rgba(251,191,36,0.4);
-      background:rgba(15,23,42,0.96);
-    }
-
-    .field-group textarea {
-      resize:vertical;
-      min-height:90px;
-      max-height:220px;
-    }
-
-    .radio-row {
+    .tabs-row {
       display:flex;
-      flex-wrap:wrap;
-      gap:8px;
+      margin-top:12px;
+      margin-bottom:10px;
+      padding:3px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.95);
+      border:1px solid rgba(31,41,55,0.95);
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,1),
+        0 10px 26px rgba(15,23,42,0.95);
+      gap:2px;
     }
 
-    .radio-pill {
+    .tab {
+      flex:1;
+      text-align:center;
+      padding:6px 0;
+      border-radius:999px;
+      border:none;
+      background:transparent;
+      color:rgba(148,163,184,0.95);
+      font-size:11px;
+      font-weight:500;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+    }
+
+    .tab-icon {
+      font-size:13px;
+    }
+
+    .tab.active {
+      background: radial-gradient(circle at top, rgba(251,191,36,0.12), rgba(15,23,42,1));
+      color:#f9fafb;
+      box-shadow:
+        0 0 0 1px rgba(251,191,36,0.45),
+        0 8px 22px rgba(251,191,36,0.35);
+    }
+
+    .tab-indicator {
       display:inline-flex;
       align-items:center;
-      gap:6px;
-      padding:5px 9px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,0.9);
-      background:rgba(15,23,42,0.9);
-      font-size:11.5px;
-      cursor:pointer;
-      color:var(--text-muted);
+      gap:4px;
     }
 
-    .radio-pill input {
+    .tab-indicator-dot {
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:radial-gradient(circle at 30% 10%, #fef9c3, #facc15);
+      box-shadow:0 0 0 4px rgba(250,204,21,0.18);
+    }
+
+    .tab-sub {
+      font-size:8px;
+      text-transform:none;
+      color:rgba(209,213,219,0.9);
+    }
+
+    .tab-content {
       display:none;
     }
 
-    .radio-pill.active {
-      border-color:rgba(251,191,36,0.9);
-      color:var(--accent-soft);
-      background:rgba(23,23,23,0.98);
-      box-shadow:0 0 0 1px rgba(251,191,36,0.25);
+    .tab-content.active {
+      display:block;
     }
 
-    .radio-dot {
-      width:7px;
-      height:7px;
+    .section {
+      margin-top:2px;
+    }
+
+    .section-title-row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:6px;
+    }
+
+    .section-title {
+      font-size:13px;
+      font-weight:500;
+      color:#e5e7eb;
+    }
+
+    .section-sub {
+      font-size:11px;
+      color:rgba(148,163,184,0.95);
+    }
+
+    .field-group {
+      margin-bottom:8px;
+    }
+
+    label {
+      display:block;
+      font-size:11px;
+      color:rgba(156,163,175,0.95);
+      margin-bottom:3px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width:100%;
+      border-radius:10px;
+      border:1px solid rgba(55,65,81,0.95);
+      background:rgba(15,23,42,0.98);
+      color:#e5e7eb;
+      font-size:13px;
+      padding:8px 9px;
+      outline:none;
+      transition:border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+      box-shadow: inset 0 0 0 1px rgba(15,23,42,1);
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color:rgba(251,191,36,0.95);
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,1),
+        0 0 0 1px rgba(251,191,36,0.5),
+        0 10px 24px rgba(251,191,36,0.22);
+      background:rgba(15,23,42,1);
+    }
+
+    textarea {
+      resize:vertical;
+      min-height:90px;
+      max-height:180px;
+      line-height:1.5;
+    }
+
+    .radio-pills {
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+    }
+
+    .radio-pill {
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 8px;
       border-radius:999px;
-      background:rgba(55,65,81,0.9);
+      border:1px solid rgba(55,65,81,0.95);
+      background:var(--pill-bg);
+      color:rgba(209,213,219,0.96);
+      font-size:11px;
+      cursor:pointer;
+      user-select:none;
+      transition:all 0.16s ease;
     }
 
-    .radio-pill.active .radio-dot {
-      background:radial-gradient(circle, var(--accent) 0, #f97316 50%, #b45309 100%);
-      box-shadow:0 0 8px rgba(251,191,36,0.9);
+    .radio-pill[data-value="altro"] {
+      border-style:dashed;
+      border-color:rgba(148,163,184,0.85);
+    }
+
+    .radio-pill-dot {
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.8);
+      background:rgba(15,23,42,0.9);
+      box-shadow:inset 0 0 0 1px rgba(15,23,42,1);
+    }
+
+    .radio-pill input[type="radio"] {
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .radio-pill.active {
+      background:var(--pill-active-bg);
+      border-color:rgba(251,191,36,0.9);
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,1),
+        0 6px 18px rgba(15,23,42,0.9),
+        0 0 0 1px rgba(251,191,36,0.65);
+      color:#fefce8;
+    }
+
+    .radio-pill.active .radio-pill-dot {
+      background: radial-gradient(circle at 30% 10%, #fef9c3, #facc15);
+      border-color:rgba(251,191,36,1);
+      box-shadow:0 0 0 4px rgba(250,204,21,0.22);
+    }
+
+    .hint {
+      font-size:11px;
+      color:rgba(148,163,184,0.92);
+      margin-bottom:4px;
     }
 
     .btn-row {
       display:flex;
+      justify-content:space-between;
       gap:8px;
       margin-top:4px;
+      margin-bottom:6px;
     }
 
     .btn {
       flex:1;
-      border:none;
       border-radius:999px;
-      padding:9px 0;
-      font-size:13px;
+      border:none;
+      font-size:12px;
       font-weight:500;
+      padding:9px 0;
       cursor:pointer;
-      text-align:center;
-      transition:all 0.2s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      letter-spacing:0.03em;
+      text-transform:uppercase;
+      transition:all 0.14s ease;
+      white-space:nowrap;
     }
 
     .btn-primary {
-      background:radial-gradient(circle at top, #fbbf24, #f97316);
-      color:#111827;
+      background: radial-gradient(circle at 30% 0%, #fef9c3, #facc15);
+      color:#1f2937;
       box-shadow:
-        0 12px 30px rgba(251,191,36,0.6),
-        0 0 0 1px rgba(161,98,7,0.6);
+        0 0 0 1px rgba(251,191,36,0.7),
+        0 14px 35px rgba(251,191,36,0.35);
     }
 
-    .btn-primary:hover {
-      filter:brightness(1.05);
+    .btn-primary:active {
+      transform:translateY(1px);
       box-shadow:
-        0 14px 34px rgba(251,191,36,0.75),
-        0 0 0 1px rgba(161,98,7,0.8);
-      transform:translateY(-0.5px);
+        0 0 0 1px rgba(251,191,36,0.7),
+        0 6px 18px rgba(251,191,36,0.28);
     }
 
     .btn-secondary {
-      background:rgba(15,23,42,0.95);
-      color:var(--text-muted);
-      border:1px solid rgba(55,65,81,0.9);
+      background:rgba(15,23,42,0.98);
+      color:rgba(209,213,219,0.96);
+      border:1px solid rgba(55,65,81,0.98);
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,1),
+        0 10px 22px rgba(15,23,42,0.95);
     }
 
-    .btn-secondary:hover {
-      background:rgba(15,23,42,1);
-      border-color:rgba(148,163,184,0.9);
+    .btn-secondary:active {
+      transform:translateY(1px);
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,1),
+        0 4px 12px rgba(15,23,42,0.9);
     }
 
-    .small-note {
+    .btn-icon {
+      font-size:14px;
+    }
+
+    .feedback {
       font-size:11px;
-      color:var(--text-muted);
-      margin-top:6px;
+      margin-top:3px;
+      min-height:15px;
+    }
+
+    .feedback.success {
+      color:#bbf7d0;
+    }
+
+    .feedback.error {
+      color:#fecaca;
+    }
+
+    .notes-list {
+      margin-top:8px;
+      max-height:170px;
+      overflow:auto;
+      padding-right:4px;
+    }
+
+    .note-item {
+      padding:7px 9px;
+      border-radius:10px;
+      border:1px solid rgba(55,65,81,0.95);
+      background:rgba(15,23,42,0.98);
+      font-size:12px;
+      color:#e5e7eb;
+      margin-bottom:5px;
+    }
+
+    .note-item:last-child {
+      margin-bottom:0;
+    }
+
+    .note-meta {
+      font-size:10px;
+      color:rgba(148,163,184,0.95);
+      margin-bottom:3px;
+    }
+
+    .note-text {
+      white-space:pre-wrap;
       line-height:1.4;
     }
 
-    .error {
-      color:var(--danger);
-      font-size:11.5px;
-      margin-top:4px;
+    .event-list {
+      margin-top:6px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      max-height:220px;
+      overflow:auto;
+      padding-right:4px;
     }
 
-    .success {
-      color:var(--success);
-      font-size:11.5px;
-      margin-top:4px;
+    .event-item {
+      padding:7px 9px;
+      border-radius:10px;
+      border:1px solid rgba(55,65,81,0.95);
+      background:rgba(15,23,42,0.98);
+      font-size:12px;
     }
 
-    footer {
-      padding:8px 16px 10px;
+    .event-item-title {
+      font-size:12px;
+      font-weight:500;
+      color:#e5e7eb;
+      margin-bottom:2px;
+    }
+
+    .event-item-desc {
       font-size:11px;
-      color:rgba(148,163,184,0.9);
-      border-top:1px solid rgba(30,41,59,0.9);
-      background:radial-gradient(circle at bottom, rgba(15,23,42,0.95), rgba(2,6,23,0.98));
-      text-align:center;
+      color:rgba(156,163,175,0.95);
+      margin-bottom:4px;
     }
 
-    footer span {
-      color:var(--accent-soft);
+    .event-item-meta {
+      font-size:11px;
+      color:rgba(148,163,184,0.95);
     }
 
-    .no-scroll {
-      overflow:hidden;
+    .footer {
+      margin-top:10px;
+      padding-top:8px;
+      border-top:1px dashed rgba(31,41,55,0.95);
+      font-size:10px;
+      color:rgba(148,163,184,0.95);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
     }
 
-    /* Mobile: app a tutto schermo */
-    @media (max-width:480px){
-      body{
-        padding:0;
-        justify-content:flex-start;
-        align-items:stretch;
+    .footer-left {
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .footer-title {
+      font-size:11px;
+      color:rgba(209,213,219,0.95);
+    }
+
+    .footer-sub {
+      font-size:10px;
+      color:rgba(148,163,184,0.95);
+    }
+
+    .footer-right {
+      text-align:right;
+      font-size:10px;
+      color:rgba(148,163,184,0.95);
+    }
+
+    .chip {
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(55,65,81,0.98);
+      background:rgba(15,23,42,0.98);
+      font-size:10px;
+      color:rgba(156,163,175,0.95);
+    }
+
+    .chip-dot {
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      background:radial-gradient(circle at 30% 10%, #bfdbfe, #60a5fa);
+      box-shadow:0 0 0 3px rgba(37,99,235,0.18);
+    }
+
+    @media (max-width: 380px) {
+      .app-shell {
+        padding:12px 10px 14px;
       }
-      .app{
-        max-width:none;
-        max-height:none;
-        border-radius:0;
+      .brand-title {
+        font-size:14px;
       }
-      main{
-        padding:10px 10px 12px;
+      .devo-title {
+        font-size:14px;
       }
-      .card{
-        padding:12px 12px 14px;
+      .verse-text {
+        font-size:12px;
       }
     }
   </style>
 </head>
 <body>
-<div class="app">
-  <header>
-    <div class="logo">
-      <img src="icon.png" alt="Logo Chiesa Apostolica Carini">
-    </div>
-    <div class="titles">
-      <h1>Chiesa Apostolica in Italia - Carini</h1>
-      <p>Via Don Luigi Sturzo 188 - Carini</p>
-    </div>
-  </header>
+  <div class="app-shell">
+    <div class="app-inner">
+      <div class="status-pill">
+        <div class="status-icon">✶</div>
+        <div class="status-text">Ristoro giornaliero</div>
+      </div>
 
-  <main>
-    <div class="tabs">
-      <button class="tab active" data-tab="oggi">Oggi</button>
-      <button class="tab" data-tab="scrivi">Scrivi</button>
-      <button class="tab" data-tab="diario">Diario</button>
-      <button class="tab" data-tab="eventi">Eventi</button>
-      <button class="tab" data-tab="appuntamenti">Appuntamenti</button>
-    </div>
+      <div class="brand-row">
+        <div class="brand-main">
+          <div class="brand-logo">
+            <span>CA</span>
+          </div>
+          <div class="brand-texts">
+            <div class="brand-title">Chiesa Apostolica in Italia - Carini</div>
+            <div class="brand-subtitle">OSA · Rhema 2025</div>
+          </div>
+        </div>
+        <div class="theme-badge">
+          <div class="theme-dot"></div>
+          <div>Identità · Dicembre 2025</div>
+        </div>
+      </div>
 
-    <!-- TAB OGGI -->
-    <section id="tab-oggi" class="tab-content active">
-      <article class="card">
+      <div class="devo-card">
         <div class="card-header">
-          <div class="tag">Devozionale</div>
-          <div class="day-chip" id="oggi-label"></div>
-        </div>
-
-        <h2 class="devotional-title" id="titolo-dev"></h2>
-        <div class="reference" id="riferimento-dev"></div>
-        <div class="verse" id="verso-dev"></div>
-        <div class="body-text" id="testo-dev"></div>
-
-        <div class="next-event" id="prossimo-evento"></div>
-      </article>
-    </section>
-
-    <!-- TAB SCRIVI -->
-    <section id="tab-scrivi" class="tab-content">
-      <article class="card note-card">
-        <h2>Scrivi cosa Dio ti sta parlando</h2>
-        <p>
-          Prenditi un momento di silenzio. Puoi usare questi spazi per annotare
-          una parola, un versetto, qualcosa che senti nel cuore.
-        </p>
-
-        <div class="field-group">
-          <label for="nome">Nome o nickname</label>
-          <input id="nome" type="text" placeholder="Es: Marco, Anna, Ospite..." />
-        </div>
-
-        <div class="field-group">
-          <label>In che contesto stai leggendo?</label>
-          <div class="radio-row">
-            <label class="radio-pill">
-              <input type="radio" name="contesto" value="casa">
-              <span class="radio-dot"></span> A casa
-            </label>
-            <label class="radio-pill">
-              <input type="radio" name="contesto" value="chiesa">
-              <span class="radio-dot"></span> In chiesa
-            </label>
-            <label class="radio-pill">
-              <input type="radio" name="contesto" value="cellula">
-              <span class="radio-dot"></span> In cellula / gruppo
-            </label>
-            <label class="radio-pill">
-              <input type="radio" name="contesto" value="altro">
-              <span class="radio-dot"></span> Altro
-            </label>
+          <div class="card-header-title">
+            <div class="devo-label">
+              <div class="devo-label-dot"></div>
+              Devozionale
+            </div>
+            <div class="devo-title" id="devo-titolo">Titolo devozionale</div>
+          </div>
+          <div class="today-pill">
+            <div class="today-pill-dot"></div>
+            <span id="oggi-label">Oggi</span>
           </div>
         </div>
 
-        <div class="field-group">
-          <label for="nota-dev">Cosa ti ha colpito oggi?</label>
-          <textarea id="nota-dev" placeholder="Scrivi qui il pensiero, la preghiera o la riflessione..."></textarea>
+        <div class="verse-block">
+          <div class="verse-ref" id="devo-rif">Riferimento biblico</div>
+          <div class="verse-text" id="devo-verso">
+            Testo del verso del giorno.
+          </div>
+          <div class="verse-note" id="devo-testo"></div>
         </div>
 
-        <div class="btn-row">
-          <button class="btn btn-secondary" id="btn-clear-nota">Pulisci</button>
-          <button class="btn btn-primary" id="btn-salva-nota">Salva</button>
+        <div class="event-card" id="prossimo-evento" style="display:none;">
+          <div class="event-label">Prossimo evento</div>
+          <div class="event-main">
+            <div>
+              <div class="event-title" id="evento-titolo">Titolo evento</div>
+              <div class="event-meta">
+                <span id="evento-quando">Data e ora</span> ·
+                <span id="evento-dove">Luogo</span>
+              </div>
+            </div>
+            <div class="event-badge">Partecipa</div>
+          </div>
         </div>
+      </div>
 
-        <div id="nota-feedback" class="small-note"></div>
-      </article>
-    </section>
+      <div class="tabs-row">
+        <button class="tab active" data-tab="scrivi">
+          <span class="tab-icon">✍️</span>
+          <span class="tab-indicator">
+            <span>Scrivi</span>
+          </span>
+        </button>
+        <button class="tab" data-tab="parla">
+          <span class="tab-icon">🤝</span>
+          <span class="tab-indicator">
+            <span>Parla con qualcuno</span>
+          </span>
+        </button>
+        <button class="tab" data-tab="eventi">
+          <span class="tab-icon">📅</span>
+          <span class="tab-indicator">
+            <span>Eventi</span>
+          </span>
+        </button>
+      </div>
 
-    <!-- TAB DIARIO -->
-    <section id="tab-diario" class="tab-content">
-      <article class="card note-card">
-        <h2>Il tuo diario con Dio</h2>
-        <p>
-          Qui troverai le note che hai scritto nei giorni precedenti
-          (salvate in questo dispositivo).
-        </p>
+      <div class="tab-content active" id="tab-scrivi">
+        <div class="section">
+          <div class="section-title-row">
+            <div>
+              <div class="section-title">Scrivi il tuo devozionale</div>
+              <div class="section-sub">Solo tra te e Dio. Se vuoi, puoi condividerlo con noi.</div>
+            </div>
+          </div>
 
-        <div id="lista-note" class="small-note">
-          Caricamento note...
+          <div class="field-group">
+            <label for="nome">Nome o nickname (opzionale)</label>
+            <input type="text" id="nome" placeholder="Come ti chiami?" />
+          </div>
+
+          <div class="field-group">
+            <div class="hint">In che contesto ti trovi oggi?</div>
+            <div class="radio-pills">
+              <label class="radio-pill" data-value="casa">
+                <span class="radio-pill-dot"></span>
+                <span>Casa</span>
+                <input type="radio" name="contesto" value="casa" />
+              </label>
+              <label class="radio-pill" data-value="scuola">
+                <span class="radio-pill-dot"></span>
+                <span>Scuola/Università</span>
+                <input type="radio" name="contesto" value="scuola" />
+              </label>
+              <label class="radio-pill" data-value="lavoro">
+                <span class="radio-pill-dot"></span>
+                <span>Lavoro</span>
+                <input type="radio" name="contesto" value="lavoro" />
+              </label>
+              <label class="radio-pill" data-value="chiesa">
+                <span class="radio-pill-dot"></span>
+                <span>Chiesa/Servizio</span>
+                <input type="radio" name="contesto" value="chiesa" />
+              </label>
+              <label class="radio-pill" data-value="altro">
+                <span class="radio-pill-dot"></span>
+                <span>Altro</span>
+                <input type="radio" name="contesto" value="altro" />
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="nota">Cosa ti sta dicendo Dio attraverso questo verso?</label>
+            <textarea id="nota" placeholder="Scrivi qui la tua riflessione personale..."></textarea>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-secondary" id="btn-clear-nota">
+              <span class="btn-icon">🧹</span>
+              <span>Pulisci</span>
+            </button>
+            <button class="btn btn-primary" id="btn-save-nota">
+              <span class="btn-icon">💾</span>
+              <span>Salva</span>
+            </button>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-secondary" id="btn-export-notes">
+              <span class="btn-icon">⬇️</span>
+              <span>Esporta note</span>
+            </button>
+            <button class="btn btn-secondary" id="btn-delete-all-notes">
+              <span class="btn-icon">🗑️</span>
+              <span>Cancella tutto</span>
+            </button>
+          </div>
+
+          <div class="feedback" id="nota-feedback"></div>
+
+          <div class="section" style="margin-top:6px;">
+            <div class="section-title-row">
+              <div class="section-title">Note salvate su questo dispositivo</div>
+            </div>
+            <div class="notes-list" id="notes-list"></div>
+          </div>
         </div>
+      </div>
 
-        <div class="btn-row">
-          <button class="btn btn-secondary" id="btn-esporta-json">Esporta</button>
-          <button class="btn btn-primary" id="btn-cancella-tutto">Cancella tutto</button>
+      <div class="tab-content" id="tab-parla">
+        <div class="section">
+          <div class="section-title-row">
+            <div>
+              <div class="section-title">Parla con qualcuno</div>
+              <div class="section-sub">Se vuoi essere contattato, lasciaci i tuoi dati e ti richiameremo.</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="nome-app">Nome e cognome</label>
+            <input type="text" id="nome-app" placeholder="Nome e cognome" />
+          </div>
+
+          <div class="field-group">
+            <label for="contatto-app">Contatto (telefono o social)</label>
+            <input type="text" id="contatto-app" placeholder="Es. 333 1234567 o Instagram" />
+          </div>
+
+          <div class="field-group">
+            <label for="motivo-app">Motivo (breve descrizione)</label>
+            <textarea id="motivo-app" placeholder="Di cosa vorresti parlare?"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="tipo-app">Preferisci parlare con...</label>
+            <select id="tipo-app">
+              <option value="">Seleziona</option>
+              <option value="pastore">Pastore</option>
+              <option value="responsabile">Responsabile giovani</option>
+              <option value="leader">Leader del gruppo</option>
+              <option value="altro">Indifferente / Altro</option>
+            </select>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-secondary" id="btn-clear-app">
+              <span class="btn-icon">🧹</span>
+              <span>Pulisci</span>
+            </button>
+            <button class="btn btn-primary" id="btn-invia-app">
+              <span class="btn-icon">📨</span>
+              <span>Invia richiesta</span>
+            </button>
+          </div>
+
+          <div class="feedback" id="app-feedback"></div>
         </div>
+      </div>
 
-        <div class="small-note">
-          Le note sono salvate solo su questo telefono / PC.
-          Se cancelli la cronologia o cambi dispositivo, i dati non saranno più disponibili.
+      <div class="tab-content" id="tab-eventi">
+        <div class="section">
+          <div class="section-title-row">
+            <div>
+              <div class="section-title">Eventi e appuntamenti</div>
+              <div class="section-sub">Cosa sta succedendo in Chiesa Apostolica Carini.</div>
+            </div>
+          </div>
+
+          <div class="event-list" id="lista-eventi"></div>
         </div>
-      </article>
-    </section>
+      </div>
 
-    <!-- TAB EVENTI -->
-    <section id="tab-eventi" class="tab-content">
-      <article class="card note-card">
-        <h2>Eventi in chiesa</h2>
-        <p>
-          Qui trovi gli appuntamenti principali della comunità:
-          culti, studi biblici, riunioni di preghiera e attività speciali.
-        </p>
-
-        <div id="lista-eventi" class="small-note">
-          Caricamento eventi...
+      <div class="footer">
+        <div class="footer-left">
+          <div class="footer-title">Chiesa Apostolica in Italia - Carini</div>
+          <div class="footer-sub">Via Don Luigi Sturzo 188 - Carini</div>
         </div>
-      </article>
-    </section>
-
-    <!-- TAB APPUNTAMENTI -->
-    <section id="tab-appuntamenti" class="tab-content">
-      <article class="card note-card">
-        <h2>Richiedi un appuntamento</h2>
-        <p>
-          Se desideri parlare con un pastore, un responsabile o chiedere preghiera
-          personale, puoi inviare una richiesta.
-        </p>
-
-        <div class="field-group">
-          <label for="nome-app">Nome e cognome</label>
-          <input id="nome-app" type="text" placeholder="Il tuo nome" />
+        <div class="footer-right">
+          <div class="chip">
+            <div class="chip-dot"></div>
+            <span>Ristoro giornaliero · Rhema 2025</span>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="field-group">
-          <label for="contatto-app">Contatto (telefono o email)</label>
-          <input id="contatto-app" type="text" placeholder="Dove possiamo ricontattarti?" />
-        </div>
-
-        <div class="field-group">
-          <label for="motivo-app">Motivo dell'appuntamento</label>
-          <textarea id="motivo-app" placeholder="Es. colloquio, preghiera, consiglio, altro..."></textarea>
-        </div>
-
-        <div class="field-group">
-          <label for="tipo-app">Con chi vorresti parlare?</label>
-          <select id="tipo-app">
-            <option value="">Seleziona...</option>
-            <option value="pastore">Pastore</option>
-            <option value="responsabile">Responsabile di area</option>
-            <option value="consulenza">Consulenza / supporto</option>
-            <option value="altro">Altro / non specificato</option>
-          </select>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn btn-secondary" id="btn-clear-app">Pulisci</button>
-          <button class="btn btn-primary" id="btn-invia-app">Invia richiesta</button>
-        </div>
-
-        <div id="app-feedback" class="small-note"></div>
-      </article>
-    </section>
-  </main>
-
-  <footer>
-    Chiesa Apostolica Carini - OSA - Rhema 2025
-  </footer>
-</div>
-
-<script>
+  <script>
   const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbycboxlETWxHJ08dpr4vixz5U1ht_mKguOdekKf7OEoon6lCeWYN1fxf_bkkbWc_StU/exec';
 
   // TABS
@@ -655,20 +1008,12 @@
     });
   });
 
-  // DEVOZIONALI
-  const oggiLabel = document.getElementById('oggi-label');
-  const titoloDev = document.getElementById('titolo-dev');
-  const refDev    = document.getElementById('riferimento-dev');
-  const versoDev  = document.getElementById('verso-dev');
-  const testoDev  = document.getElementById('testo-dev');
-  const prossimoEventoBox = document.getElementById('prossimo-evento');
-
   const devoData = [
     {
       data: '2025-12-03',
       titolo: 'Svegliati nello Spirito (Efesini 5:14)',
       riferimento: '“Per questo è detto: «Risvegliati, o tu che dormi, e risorgi dai morti, e Cristo ti inonderà di luce».”',
-      verso: 'Lo Spirito Santo oggi ti sta chiamando con urgenza: è il momento che il tuo spirito si risvegli davvero. Non puoi continuare a vivere con quella pesantezza che ti accompagna: non è naturale, non è tua, non viene da Dio. È il segnale che il tuo spirito sta chiedendo aria, presenza, luce. Il cielo sta soffiando su di te: accoglilo con sensibilità spirituale, visione, passione, vigilanza. Il Signore ti dice: “Alzati ora, torna nella Mia luce, guarda di nuovo con i Miei occhi”. Spezza oggi l’indifferenza, rimuovi ciò che ha spento la tua fame, ricomincia dalle cose semplici ma decisive. In quale area della tua vita stai continuando a dormire spiritualmente, pur sapendo che Dio ti sta chiamando a svegliarti?',
+      verso: 'Lo Spirito Santo oggi ti sta chiamando con urgenza...itualmente, pur sapendo che Dio ti sta chiamando a svegliarti?',
       evento: {
         quando: '03/12/2025 · 21:00',
         cosa: 'Studi',
@@ -677,15 +1022,27 @@
     }
   ];
 
+  let devoCorrente = null;
+
   function formattaDataItaliano(date) {
     const giorni = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
-    const mesi   = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-    const d = new Date(date);
-    const giornoSettimana = giorni[d.getDay()];
-    const giorno = String(d.getDate()).padStart(2,'0');
-    const mese   = mesi[d.getMonth()];
-    return `${giornoSettimana} ${giorno} ${d.getFullYear()}`;
+    const mesi = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
+    const g = giorni[date.getDay()];
+    const d = String(date.getDate()).padStart(2,'0');
+    const m = mesi[date.getMonth()];
+    return `${g} ${d} ${m}`;
   }
+
+  const titoloDev = document.getElementById('devo-titolo');
+  const refDev = document.getElementById('devo-rif');
+  const versoDev = document.getElementById('devo-verso');
+  const testoDev = document.getElementById('devo-testo');
+  const oggiLabel = document.getElementById('oggi-label');
+
+  const prossimoEventoBox = document.getElementById('prossimo-evento');
+  const eventoTitoloEl = document.getElementById('evento-titolo');
+  const eventoQuandoEl = document.getElementById('evento-quando');
+  const eventoDoveEl = document.getElementById('evento-dove');
 
   function mostraDevozionaleOggi() {
     const oggi = new Date();
@@ -695,19 +1052,20 @@
 
     const dev = devoData.find(d => d.data === isoOggi) || devoData[0];
 
+    devoCorrente = dev;
+
     titoloDev.textContent = dev.titolo;
     refDev.textContent = dev.riferimento;
     versoDev.textContent = dev.verso;
     testoDev.textContent = '';
 
     if (dev.evento) {
-      prossimoEventoBox.innerHTML = `
-        <span class="label">Prossimo evento</span>
-        <div class="when">${dev.evento.quando}</div>
-        <div class="where">${dev.evento.cosa}<br>${dev.evento.dove}</div>
-      `;
+      prossimoEventoBox.style.display = 'block';
+      eventoTitoloEl.textContent = dev.evento.cosa;
+      eventoQuandoEl.textContent = dev.evento.quando;
+      eventoDoveEl.textContent = dev.evento.dove;
     } else {
-      prossimoEventoBox.innerHTML = '';
+      prossimoEventoBox.style.display = 'none';
     }
   }
 
@@ -719,19 +1077,19 @@
   const nomeInput = document.getElementById('nome');
   const contestoRadios = document.querySelectorAll('input[name="contesto"]');
   const radioPillLabels = document.querySelectorAll('.radio-pill');
-  const notaText = document.getElementById('nota-dev');
-  const btnSaveNota = document.getElementById('btn-salva-nota');
+  const notaText = document.getElementById('nota');
+  const btnSaveNota = document.getElementById('btn-save-nota');
   const btnClearNota = document.getElementById('btn-clear-nota');
+  const btnExport = document.getElementById('btn-export-notes');
+  const btnDeleteAll = document.getElementById('btn-delete-all-notes');
   const notaFeedback = document.getElementById('nota-feedback');
-  const listaNote = document.getElementById('lista-note');
-  const btnExport = document.getElementById('btn-esporta-json');
-  const btnDeleteAll = document.getElementById('btn-cancella-tutto');
+  const notesList = document.getElementById('notes-list');
 
   radioPillLabels.forEach(label => {
-    const input = label.querySelector('input');
     label.addEventListener('click', () => {
       radioPillLabels.forEach(l => l.classList.remove('active'));
       label.classList.add('active');
+      const input = label.querySelector('input[type="radio"]');
       input.checked = true;
     });
   });
@@ -740,9 +1098,9 @@
     try {
       const raw = localStorage.getItem(NOTES_KEY);
       if (!raw) return [];
-      return JSON.parse(raw);
-    } catch(e) {
-      console.error('Errore parsing note', e);
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
       return [];
     }
   }
@@ -754,23 +1112,22 @@
   function renderNotes() {
     const notes = getNotes();
     if (!notes.length) {
-      listaNote.textContent = 'Non hai ancora salvato nessuna nota. Scrivi qualcosa nella sezione "Scrivi" e salvala.';
+      notesList.innerHTML = '<div style="font-size:11px; color:rgba(148,163,184,0.95);">Nessuna nota salvata su questo dispositivo.</div>';
       return;
     }
-    listaNote.innerHTML = notes
-      .sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))
+    notes.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    notesList.innerHTML = notes
       .map(n => {
         const d = new Date(n.timestamp);
-        const dataFormattata = d.toLocaleString('it-IT', {
-          day:'2-digit', month:'2-digit', year:'numeric',
-          hour:'2-digit', minute:'2-digit'
-        });
+        const dataFormattata = isNaN(d.getTime())
+          ? n.timestamp
+          : d.toLocaleString('it-IT', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
         return `
-          <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px dashed rgba(55,65,81,0.75);">
-            <div style="font-size:11px; color:rgba(148,163,184,0.9); margin-bottom:4px;">
+          <div class="note-item">
+            <div class="note-meta">
               ${dataFormattata} · ${n.nome || 'Anonimo'}${n.contesto ? ' · ' + n.contesto : ''}
             </div>
-            <div style="font-size:13px; color:#e5e7eb; white-space:pre-wrap;">
+            <div class="note-text">
               ${n.testo}
             </div>
           </div>
@@ -819,7 +1176,11 @@
       nome,
       contesto,
       testo,
-      timestamp: nuovaNota.timestamp
+      timestamp: nuovaNota.timestamp,
+      clientId: '',
+      giornoDevozionale: devoCorrente ? devoCorrente.data : '',
+      titoloDevozionale: devoCorrente ? devoCorrente.titolo : '',
+      rifBiblico: devoCorrente ? devoCorrente.riferimento : ''
     };
 
     fetch(ENDPOINT_URL, {
@@ -839,7 +1200,8 @@
   btnExport.addEventListener('click', () => {
     const notes = getNotes();
     if (!notes.length) {
-      alert('Non ci sono note da esportare.');
+      notaFeedback.textContent = 'Non ci sono note da esportare.';
+      notaFeedback.classList.add('error');
       return;
     }
     const blob = new Blob([JSON.stringify(notes, null, 2)], { type: 'application/json' });
@@ -858,54 +1220,6 @@
     localStorage.removeItem(NOTES_KEY);
     renderNotes();
   });
-
-  // EVENTI
-  const listaEventi = document.getElementById('lista-eventi');
-
-  const eventi = [
-    {
-      titolo: 'Culto domenicale',
-      descrizione: 'Adorazione, predicazione e comunione fraterna.',
-      quando: 'Ogni domenica · Ore 11:00',
-      dove: 'Chiesa Apostolica Carini'
-    },
-    {
-      titolo: 'Studio biblico',
-      descrizione: 'Approfondimento della Parola con domande e confronto.',
-      quando: 'Ogni martedì · Ore 21:00',
-      dove: 'Chiesa Apostolica Carini'
-    },
-    {
-      titolo: 'Riunione di preghiera',
-      descrizione: 'Tempo dedicato alla preghiera e intercessione.',
-      quando: 'Ogni giovedì · Ore 21:00',
-      dove: 'Chiesa Apostolica Carini'
-    }
-  ];
-
-  function renderEventi() {
-    if (!eventi.length) {
-      listaEventi.textContent = 'Al momento non ci sono eventi programmati.';
-      return;
-    }
-    listaEventi.innerHTML = eventi
-      .map(ev => `
-        <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px dashed rgba(55,65,81,0.75);">
-          <div style="font-size:13px; font-weight:600; color:#e5e7eb; margin-bottom:2px;">
-            ${ev.titolo}
-          </div>
-          <div style="font-size:12px; color:rgba(148,163,184,0.9); margin-bottom:3px;">
-            ${ev.quando} · ${ev.dove}
-          </div>
-          <div style="font-size:12.5px; color:#e5e7eb;">
-            ${ev.descrizione}
-          </div>
-        </div>
-      `)
-      .join('');
-  }
-
-  renderEventi();
 
   // APPUNTAMENTI
   const nomeApp = document.getElementById('nome-app');
@@ -959,19 +1273,66 @@
       body: JSON.stringify(payload)
     })
       .then(() => {
-        appFeedback.textContent = 'Richiesta inviata. Verrai ricontattato al più presto.';
+        appFeedback.textContent = 'Richiesta inviata. Verrai contattato al più presto.';
         appFeedback.classList.add('success');
         nomeApp.value = '';
         contattoApp.value = '';
         motivoApp.value = '';
         tipoApp.value = '';
       })
-      .catch(err => {
-        console.error(err);
-        appFeedback.textContent = 'Si è verificato un problema durante l\'invio. Riprova più tardi.';
+      .catch(() => {
+        appFeedback.textContent = 'Si è verificato un errore durante l\'invio. Riprova più tardi.';
         appFeedback.classList.add('error');
       });
   });
-</script>
+
+  // EVENTI
+  const listaEventi = document.getElementById('lista-eventi');
+
+  const eventi = [
+    {
+      titolo: 'Culto domenicale',
+      descrizione: 'Adorazione, predicazione e comunione fraterna.',
+      quando: 'Ogni domenica · Ore 11:00',
+      dove: 'Chiesa Apostolica Carini'
+    },
+    {
+      titolo: 'Studio biblico',
+      descrizione: 'Approfondimento della Parola e domande/risposte.',
+      quando: 'Ogni mercoledì · Ore 21:00',
+      dove: 'Chiesa Apostolica Carini'
+    },
+    {
+      titolo: 'Incontro giovani',
+      descrizione: 'Tempo speciale per ragazzi e giovani adulti.',
+      quando: 'Una volta al mese · Ore 21:00',
+      dove: 'Chiesa Apostolica Carini'
+    }
+  ];
+
+  function renderEventi() {
+    if (!eventi.length) {
+      listaEventi.innerHTML = '<div style="font-size:11px; color:rgba(148,163,184,0.95);">Al momento non ci sono eventi programmati.</div>';
+      return;
+    }
+
+    listaEventi.innerHTML = eventi
+      .map(ev => {
+        return `
+          <div class="event-item">
+            <div class="event-item-title">${ev.titolo}</div>
+            <div class="event-item-desc">${ev.descrizione}</div>
+            <div class="event-item-meta">
+              <div>${ev.quando}</div>
+              <div>${ev.dove}</div>
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+  }
+
+  renderEventi();
+  </script>
 </body>
 </html>
