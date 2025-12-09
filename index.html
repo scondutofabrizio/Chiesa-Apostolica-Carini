@@ -1,1338 +1,588 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <title>Chiesa Apostolica in Italia - Carini</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" href="icon.png" type="image/png">
-  <link rel="apple-touch-icon" href="icon.png">
-
-  <style>
-    :root {
-      --bg: #050608;
-      --card-bg: #111318;
-      --accent: #fbbf24;
-      --accent-soft: #facc15;
-      --accent-strong: #eab308;
-      --accent-glow: rgba(250, 204, 21, 0.25);
-      --text-main: #e5e7eb;
-      --text-dim: #9ca3af;
-      --border-subtle: rgba(148, 163, 184, 0.45);
-      --pill-bg: rgba(15, 23, 42, 0.9);
-      --pill-active-bg: rgba(15, 23, 42, 0.98);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #020617 0, #020617 28%, #020617 60%, #030712 100%);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 12px;
-    }
-
-    .app-shell {
-      width: 100%;
-      max-width: 420px;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(3,7,18,0.98));
-      border-radius: 24px;
-      border: 1px solid rgba(148,163,184,0.35);
-      box-shadow:
-        0 32px 120px rgba(15,23,42,0.95),
-        0 0 0 1px rgba(15,23,42,0.9);
-      padding: 14px 12px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .app-shell::before {
-      content: "";
-      position: absolute;
-      inset: -80px;
-      background:
-        radial-gradient(circle at -10% -20%, rgba(250,204,21,0.10), transparent 55%),
-        radial-gradient(circle at 110% -20%, rgba(96,165,250,0.12), transparent 55%);
-      opacity: 0.9;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .app-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 9px 3px 3px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.5);
-      margin-bottom: 10px;
-      box-shadow: 0 0 0 1px rgba(15,23,42,0.9);
-    }
-
-    .status-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, #fefce8, #facc15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1f2937;
-      font-size: 12px;
-      box-shadow:
-        0 0 0 1px rgba(161,98,7,0.6),
-        0 0 0 4px rgba(250,204,21,0.14),
-        0 8px 18px rgba(250,204,21,0.35);
-    }
-
-    .status-text {
-      font-size: 11px;
-      color: rgba(209,213,219,0.95);
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .brand-main {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 16px;
-      background:
-        radial-gradient(circle at 30% 10%, #fef9c3, #facc15),
-        radial-gradient(circle at 80% 120%, #4b5563, #020617);
-      border: 1px solid rgba(251,191,36,0.7);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,0.95),
-        0 18px 45px rgba(15,23,42,0.95),
-        0 0 40px rgba(250,204,21,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #020617;
-      font-weight: 800;
-      font-size: 14px;
-      letter-spacing: 0.04em;
-    }
-
-    .brand-texts {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .brand-title {
-      font-size: 15px;
-      font-weight: 650;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      color: #f9fafb;
-    }
-
-    .brand-subtitle {
-      font-size: 12px;
-      color: rgba(148,163,184,0.95);
-    }
-
-    .theme-badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.5);
-      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.85));
-      font-size: 11px;
-      color: rgba(209,213,219,0.95);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .theme-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, #f97316, #ea580c);
-      box-shadow: 0 0 0 4px rgba(248,113,113,0.18);
-    }
-
-    .devo-card {
-      margin-top: 10px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(2,6,23,1));
-      border-radius:16px;
-      padding:14px 14px 16px;
-      border:1px solid rgba(51,65,85,0.9);
-      box-shadow:
-        0 14px 35px rgba(15,23,42,0.95),
-        inset 0 0 0 1px rgba(15,23,42,1);
-    }
-
-    .card-header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:6px;
-    }
-
-    .card-header-title {
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-
-    .devo-label {
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.12em;
-      color:rgba(156,163,175,0.95);
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    .devo-label-dot {
-      width:4px;
-      height:4px;
-      border-radius:999px;
-      background:var(--accent);
-      box-shadow:0 0 0 3px var(--accent-glow);
-    }
-
-    .devo-title {
-      font-size:15px;
-      font-weight:600;
-      color:#e5e7eb;
-    }
-
-    .today-pill {
-      font-size:11px;
-      padding:3px 8px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.95);
-      border:1px solid rgba(55,65,81,0.9);
-      color:rgba(209,213,219,0.96);
-      display:flex;
-      align-items:center;
-      gap:5px;
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 6px 18px rgba(15,23,42,0.95);
-    }
-
-    .today-pill-dot {
-      width:6px;
-      height:6px;
-      border-radius:999px;
-      background: radial-gradient(circle at 30% 10%, #bbf7d0, #22c55e);
-      box-shadow:0 0 0 4px rgba(34,197,94,0.22);
-    }
-
-    .verse-block {
-      margin-top:8px;
-      padding:10px 10px 10px;
-      border-radius:12px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.95));
-      border:1px solid rgba(55,65,81,0.95);
-      box-shadow:
-        inset 0 0 0 1px rgba(15,23,42,1),
-        0 10px 28px rgba(15,23,42,0.9);
-    }
-
-    .verse-ref {
-      font-size:12px;
-      color:rgba(209,213,219,0.95);
-      margin-bottom:4px;
-    }
-
-    .verse-text {
-      font-size:13px;
-      line-height:1.5;
-      color:#f9fafb;
-    }
-
-    .verse-note {
-      margin-top:6px;
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .event-card {
-      margin-top:10px;
-      padding:10px 10px 11px;
-      border-radius:12px;
-      border:1px solid rgba(55,65,81,0.9);
-      background: radial-gradient(circle at 80% 0%, rgba(37,99,235,0.16), rgba(15,23,42,0.98));
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 12px 26px rgba(15,23,42,0.95);
-    }
-
-    .event-label {
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.14em;
-      color:rgba(148,163,184,0.95);
-      margin-bottom:4px;
-    }
-
-    .event-main {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .event-title {
-      font-size:13px;
-      font-weight:500;
-      color:#e5e7eb;
-    }
-
-    .event-meta {
-      margin-top:4px;
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .event-badge {
-      align-self:flex-start;
-      padding:4px 8px;
-      border-radius:999px;
-      font-size:11px;
-      background:rgba(22,163,74,0.14);
-      color:rgba(187,247,208,0.96);
-      border:1px solid rgba(34,197,94,0.75);
-      box-shadow:
-        0 0 0 1px rgba(22,101,52,0.9),
-        0 8px 18px rgba(22,163,74,0.4);
-    }
-
-    .tabs-row {
-      display:flex;
-      margin-top:12px;
-      margin-bottom:10px;
-      padding:3px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.95);
-      border:1px solid rgba(31,41,55,0.95);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 10px 26px rgba(15,23,42,0.95);
-      gap:2px;
-    }
-
-    .tab {
-      flex:1;
-      text-align:center;
-      padding:6px 0;
-      border-radius:999px;
-      border:none;
-      background:transparent;
-      color:rgba(148,163,184,0.95);
-      font-size:11px;
-      font-weight:500;
-      letter-spacing:0.04em;
-      text-transform:uppercase;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-    }
-
-    .tab-icon {
-      font-size:13px;
-    }
-
-    .tab.active {
-      background: radial-gradient(circle at top, rgba(251,191,36,0.12), rgba(15,23,42,1));
-      color:#f9fafb;
-      box-shadow:
-        0 0 0 1px rgba(251,191,36,0.45),
-        0 8px 22px rgba(251,191,36,0.35);
-    }
-
-    .tab-indicator {
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-    }
-
-    .tab-indicator-dot {
-      width:8px;
-      height:8px;
-      border-radius:999px;
-      background:radial-gradient(circle at 30% 10%, #fef9c3, #facc15);
-      box-shadow:0 0 0 4px rgba(250,204,21,0.18);
-    }
-
-    .tab-sub {
-      font-size:8px;
-      text-transform:none;
-      color:rgba(209,213,219,0.9);
-    }
-
-    .tab-content {
-      display:none;
-    }
-
-    .tab-content.active {
-      display:block;
-    }
-
-    .section {
-      margin-top:2px;
-    }
-
-    .section-title-row {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:6px;
-    }
-
-    .section-title {
-      font-size:13px;
-      font-weight:500;
-      color:#e5e7eb;
-    }
-
-    .section-sub {
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .field-group {
-      margin-bottom:8px;
-    }
-
-    label {
-      display:block;
-      font-size:11px;
-      color:rgba(156,163,175,0.95);
-      margin-bottom:3px;
-    }
-
-    input[type="text"],
-    textarea,
-    select {
-      width:100%;
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      color:#e5e7eb;
-      font-size:13px;
-      padding:8px 9px;
-      outline:none;
-      transition:border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
-      box-shadow: inset 0 0 0 1px rgba(15,23,42,1);
-    }
-
-    input[type="text"]:focus,
-    textarea:focus,
-    select:focus {
-      border-color:rgba(251,191,36,0.95);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 0 0 1px rgba(251,191,36,0.5),
-        0 10px 24px rgba(251,191,36,0.22);
-      background:rgba(15,23,42,1);
-    }
-
-    textarea {
-      resize:vertical;
-      min-height:90px;
-      max-height:180px;
-      line-height:1.5;
-    }
-
-    .radio-pills {
-      display:flex;
-      flex-wrap:wrap;
-      gap:5px;
-    }
-
-    .radio-pill {
-      position:relative;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:5px 8px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:var(--pill-bg);
-      color:rgba(209,213,219,0.96);
-      font-size:11px;
-      cursor:pointer;
-      user-select:none;
-      transition:all 0.16s ease;
-    }
-
-    .radio-pill[data-value="altro"] {
-      border-style:dashed;
-      border-color:rgba(148,163,184,0.85);
-    }
-
-    .radio-pill-dot {
-      width:8px;
-      height:8px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,0.8);
-      background:rgba(15,23,42,0.9);
-      box-shadow:inset 0 0 0 1px rgba(15,23,42,1);
-    }
-
-    .radio-pill input[type="radio"] {
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
-    }
-
-    .radio-pill.active {
-      background:var(--pill-active-bg);
-      border-color:rgba(251,191,36,0.9);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 6px 18px rgba(15,23,42,0.9),
-        0 0 0 1px rgba(251,191,36,0.65);
-      color:#fefce8;
-    }
-
-    .radio-pill.active .radio-pill-dot {
-      background: radial-gradient(circle at 30% 10%, #fef9c3, #facc15);
-      border-color:rgba(251,191,36,1);
-      box-shadow:0 0 0 4px rgba(250,204,21,0.22);
-    }
-
-    .hint {
-      font-size:11px;
-      color:rgba(148,163,184,0.92);
-      margin-bottom:4px;
-    }
-
-    .btn-row {
-      display:flex;
-      justify-content:space-between;
-      gap:8px;
-      margin-top:4px;
-      margin-bottom:6px;
-    }
-
-    .btn {
-      flex:1;
-      border-radius:999px;
-      border:none;
-      font-size:12px;
-      font-weight:500;
-      padding:9px 0;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      letter-spacing:0.03em;
-      text-transform:uppercase;
-      transition:all 0.14s ease;
-      white-space:nowrap;
-    }
-
-    .btn-primary {
-      background: radial-gradient(circle at 30% 0%, #fef9c3, #facc15);
-      color:#1f2937;
-      box-shadow:
-        0 0 0 1px rgba(251,191,36,0.7),
-        0 14px 35px rgba(251,191,36,0.35);
-    }
-
-    .btn-primary:active {
-      transform:translateY(1px);
-      box-shadow:
-        0 0 0 1px rgba(251,191,36,0.7),
-        0 6px 18px rgba(251,191,36,0.28);
-    }
-
-    .btn-secondary {
-      background:rgba(15,23,42,0.98);
-      color:rgba(209,213,219,0.96);
-      border:1px solid rgba(55,65,81,0.98);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 10px 22px rgba(15,23,42,0.95);
-    }
-
-    .btn-secondary:active {
-      transform:translateY(1px);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 4px 12px rgba(15,23,42,0.9);
-    }
-
-    .btn-icon {
-      font-size:14px;
-    }
-
-    .feedback {
-      font-size:11px;
-      margin-top:3px;
-      min-height:15px;
-    }
-
-    .feedback.success {
-      color:#bbf7d0;
-    }
-
-    .feedback.error {
-      color:#fecaca;
-    }
-
-    .notes-list {
-      margin-top:8px;
-      max-height:170px;
-      overflow:auto;
-      padding-right:4px;
-    }
-
-    .note-item {
-      padding:7px 9px;
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      font-size:12px;
-      color:#e5e7eb;
-      margin-bottom:5px;
-    }
-
-    .note-item:last-child {
-      margin-bottom:0;
-    }
-
-    .note-meta {
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-      margin-bottom:3px;
-    }
-
-    .note-text {
-      white-space:pre-wrap;
-      line-height:1.4;
-    }
-
-    .event-list {
-      margin-top:6px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      max-height:220px;
-      overflow:auto;
-      padding-right:4px;
-    }
-
-    .event-item {
-      padding:7px 9px;
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      font-size:12px;
-    }
-
-    .event-item-title {
-      font-size:12px;
-      font-weight:500;
-      color:#e5e7eb;
-      margin-bottom:2px;
-    }
-
-    .event-item-desc {
-      font-size:11px;
-      color:rgba(156,163,175,0.95);
-      margin-bottom:4px;
-    }
-
-    .event-item-meta {
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .footer {
-      margin-top:10px;
-      padding-top:8px;
-      border-top:1px dashed rgba(31,41,55,0.95);
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:8px;
-    }
-
-    .footer-left {
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-
-    .footer-title {
-      font-size:11px;
-      color:rgba(209,213,219,0.95);
-    }
-
-    .footer-sub {
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .footer-right {
-      text-align:right;
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .chip {
-      display:inline-flex;
-      align-items:center;
-      gap:5px;
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,0.98);
-      background:rgba(15,23,42,0.98);
-      font-size:10px;
-      color:rgba(156,163,175,0.95);
-    }
-
-    .chip-dot {
-      width:6px;
-      height:6px;
-      border-radius:999px;
-      background:radial-gradient(circle at 30% 10%, #bfdbfe, #60a5fa);
-      box-shadow:0 0 0 3px rgba(37,99,235,0.18);
-    }
-
-    @media (max-width: 380px) {
-      .app-shell {
-        padding:12px 10px 14px;
-      }
-      .brand-title {
-        font-size:14px;
-      }
-      .devo-title {
-        font-size:14px;
-      }
-      .verse-text {
-        font-size:12px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Chiesa Apostolica in Italia - Carini</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ---------------------------------------
+   PALETTE ORIGINALE (BLU NOTTE + ORO)
+----------------------------------------*/
+:root {
+  --bg: #050608;
+  --surface: #0d0f13;
+  --card: #111318;
+  --border: rgba(148,163,184,0.25);
+  --text: #e5e7eb;
+  --text-dim: #9ca3af;
+  --accent: #fbbf24;
+  --accent-soft: #facc15;
+  --accent-strong: #eab308;
+  --accent-glow: rgba(250,204,21,0.22);
+}
+
+/* ---------------------------------------
+   RESET
+----------------------------------------*/
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #050608;
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ---------------------------------------
+   CONTAINER FULL SCREEN
+----------------------------------------*/
+.screen {
+  padding: 20px 16px 90px;
+  display: none;
+}
+.screen.active {
+  display: block;
+}
+
+/* ---------------------------------------
+   HEADER SOLO NELLA HOME
+----------------------------------------*/
+.header {
+  margin-bottom: 18px;
+}
+.header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: uppercase;
+}
+.header-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* ---------------------------------------
+   DEVOZIONALE CARD
+----------------------------------------*/
+.devo-card {
+  background: #0f1218;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+  box-shadow:
+    0 0 0 1px #0f1218,
+    0 12px 26px rgba(0,0,0,0.45);
+}
+.devo-label {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.devo-label-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+.devo-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.devo-date {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+.devo-ref {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: var(--accent-soft);
+}
+.devo-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+/* NAVIGAZIONE DATE */
+.date-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.date-btn {
+  background: var(--surface);
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* PROSSIMO EVENTO */
+.event-box {
+  background: #111318;
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 14px;
+}
+.event-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.event-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ---------------------------------------
+   NAVBAR GLASS SCURA
+----------------------------------------*/
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 68px;
+  backdrop-filter: blur(14px);
+  background: rgba(15,17,22,0.65);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999;
+}
+.nav-item {
+  flex: 1;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 11px;
+  cursor: pointer;
+}
+.nav-item.active {
+  color: var(--accent-soft);
+}
+.nav-icon {
+  font-size: 20px;
+  display: block;
+  margin-bottom: 3px;
+}
+
+/* ---------------------------------------
+   SCRIVI
+----------------------------------------*/
+.input-group {
+  margin-bottom: 16px;
+}
+label {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 6px;
+}
+input, textarea {
+  width: 100%;
+  background: #0f1218;
+  color: var(--text);
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+}
+textarea { min-height: 120px; resize: vertical; }
+
+.btn {
+  background: var(--accent-soft);
+  color: #1e1e1e;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+.feedback {
+  margin-top: 8px;
+  font-size: 12px;
+}
+.feedback.success { color: #22c55e; }
+.feedback.error { color: #ef4444; }
+
+/* ---------------------------------------
+   CALENDARIO
+----------------------------------------*/
+.event-item {
+  background: #111318;
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.event-item-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.event-item-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ---------------------------------------
+   APPUNTAMENTI
+----------------------------------------*/
+.small-note {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+/* FOOTER SOLO NELLA HOME */
+.footer {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+</style>
 </head>
+
 <body>
-  <div class="app-shell">
-    <div class="app-inner">
-      <div class="status-pill">
-        <div class="status-icon">✶</div>
-        <div class="status-text">Ristoro giornaliero</div>
-      </div>
 
-      <div class="brand-row">
-        <div class="brand-main">
-          <div class="brand-logo">
-            <span>CA</span>
-          </div>
-          <div class="brand-texts">
-            <div class="brand-title">Chiesa Apostolica in Italia - Carini</div>
-            <div class="brand-subtitle">OSA · Rhema 2025</div>
-          </div>
-        </div>
-        <div class="theme-badge">
-          <div class="theme-dot"></div>
-          <div>Identità · Dicembre 2025</div>
-        </div>
-      </div>
+<!-- ---------------------------------------
+     SCHERMATA 1 — DEVOZIONALE
+------------------------------------------>
+<div class="screen active" id="screen-devo">
 
-      <div class="devo-card">
-        <div class="card-header">
-          <div class="card-header-title">
-            <div class="devo-label">
-              <div class="devo-label-dot"></div>
-              Devozionale
-            </div>
-            <div class="devo-title" id="devo-titolo">Titolo devozionale</div>
-          </div>
-          <div class="today-pill">
-            <div class="today-pill-dot"></div>
-            <span id="oggi-label">Oggi</span>
-          </div>
-        </div>
+  <div class="header">
+    <div class="header-title">Chiesa Apostolica in Italia - Carini</div>
+    <div class="header-sub">Via Don Luigi Sturzo 188 - Carini</div>
+  </div>
 
-        <div class="verse-block">
-          <div class="verse-ref" id="devo-rif">Riferimento biblico</div>
-          <div class="verse-text" id="devo-verso">
-            Testo del verso del giorno.
-          </div>
-          <div class="verse-note" id="devo-testo"></div>
-        </div>
+  <div class="devo-card">
+    <div class="devo-label"><div class="devo-label-dot"></div> Devozionale</div>
+    <div class="devo-title" id="devoTitolo"></div>
+    <div class="devo-date" id="devoDataEstesa"></div>
+    <div class="devo-ref" id="devoRif"></div>
+    <div class="devo-text" id="devoTesto"></div>
 
-        <div class="event-card" id="prossimo-evento" style="display:none;">
-          <div class="event-label">Prossimo evento</div>
-          <div class="event-main">
-            <div>
-              <div class="event-title" id="evento-titolo">Titolo evento</div>
-              <div class="event-meta">
-                <span id="evento-quando">Data e ora</span> ·
-                <span id="evento-dove">Luogo</span>
-              </div>
-            </div>
-            <div class="event-badge">Partecipa</div>
-          </div>
-        </div>
-      </div>
+    <div class="date-nav">
+      <button class="date-btn" id="btnPrev">Giorno precedente</button>
+      <button class="date-btn" id="btnToday">Oggi</button>
+    </div>
 
-      <div class="tabs-row">
-        <button class="tab active" data-tab="scrivi">
-          <span class="tab-icon">✍️</span>
-          <span class="tab-indicator">
-            <span>Scrivi</span>
-          </span>
-        </button>
-        <button class="tab" data-tab="parla">
-          <span class="tab-icon">🤝</span>
-          <span class="tab-indicator">
-            <span>Parla con qualcuno</span>
-          </span>
-        </button>
-        <button class="tab" data-tab="eventi">
-          <span class="tab-icon">📅</span>
-          <span class="tab-indicator">
-            <span>Eventi</span>
-          </span>
-        </button>
-      </div>
-
-      <div class="tab-content active" id="tab-scrivi">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Scrivi il tuo devozionale</div>
-              <div class="section-sub">Solo tra te e Dio. Se vuoi, puoi condividerlo con noi.</div>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="nome">Nome o nickname (opzionale)</label>
-            <input type="text" id="nome" placeholder="Come ti chiami?" />
-          </div>
-
-          <div class="field-group">
-            <div class="hint">In che contesto ti trovi oggi?</div>
-            <div class="radio-pills">
-              <label class="radio-pill" data-value="casa">
-                <span class="radio-pill-dot"></span>
-                <span>Casa</span>
-                <input type="radio" name="contesto" value="casa" />
-              </label>
-              <label class="radio-pill" data-value="scuola">
-                <span class="radio-pill-dot"></span>
-                <span>Scuola/Università</span>
-                <input type="radio" name="contesto" value="scuola" />
-              </label>
-              <label class="radio-pill" data-value="lavoro">
-                <span class="radio-pill-dot"></span>
-                <span>Lavoro</span>
-                <input type="radio" name="contesto" value="lavoro" />
-              </label>
-              <label class="radio-pill" data-value="chiesa">
-                <span class="radio-pill-dot"></span>
-                <span>Chiesa/Servizio</span>
-                <input type="radio" name="contesto" value="chiesa" />
-              </label>
-              <label class="radio-pill" data-value="altro">
-                <span class="radio-pill-dot"></span>
-                <span>Altro</span>
-                <input type="radio" name="contesto" value="altro" />
-              </label>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="nota">Cosa ti sta dicendo Dio attraverso questo verso?</label>
-            <textarea id="nota" placeholder="Scrivi qui la tua riflessione personale..."></textarea>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-secondary" id="btn-clear-nota">
-              <span class="btn-icon">🧹</span>
-              <span>Pulisci</span>
-            </button>
-            <button class="btn btn-primary" id="btn-save-nota">
-              <span class="btn-icon">💾</span>
-              <span>Salva</span>
-            </button>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-secondary" id="btn-export-notes">
-              <span class="btn-icon">⬇️</span>
-              <span>Esporta note</span>
-            </button>
-            <button class="btn btn-secondary" id="btn-delete-all-notes">
-              <span class="btn-icon">🗑️</span>
-              <span>Cancella tutto</span>
-            </button>
-          </div>
-
-          <div class="feedback" id="nota-feedback"></div>
-
-          <div class="section" style="margin-top:6px;">
-            <div class="section-title-row">
-              <div class="section-title">Note salvate su questo dispositivo</div>
-            </div>
-            <div class="notes-list" id="notes-list"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-content" id="tab-parla">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Parla con qualcuno</div>
-              <div class="section-sub">Se vuoi essere contattato, lasciaci i tuoi dati e ti richiameremo.</div>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="nome-app">Nome e cognome</label>
-            <input type="text" id="nome-app" placeholder="Nome e cognome" />
-          </div>
-
-          <div class="field-group">
-            <label for="contatto-app">Contatto (telefono o social)</label>
-            <input type="text" id="contatto-app" placeholder="Es. 333 1234567 o Instagram" />
-          </div>
-
-          <div class="field-group">
-            <label for="motivo-app">Motivo (breve descrizione)</label>
-            <textarea id="motivo-app" placeholder="Di cosa vorresti parlare?"></textarea>
-          </div>
-
-          <div class="field-group">
-            <label for="tipo-app">Preferisci parlare con...</label>
-            <select id="tipo-app">
-              <option value="">Seleziona</option>
-              <option value="pastore">Pastore</option>
-              <option value="responsabile">Responsabile giovani</option>
-              <option value="leader">Leader del gruppo</option>
-              <option value="altro">Indifferente / Altro</option>
-            </select>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-secondary" id="btn-clear-app">
-              <span class="btn-icon">🧹</span>
-              <span>Pulisci</span>
-            </button>
-            <button class="btn btn-primary" id="btn-invia-app">
-              <span class="btn-icon">📨</span>
-              <span>Invia richiesta</span>
-            </button>
-          </div>
-
-          <div class="feedback" id="app-feedback"></div>
-        </div>
-      </div>
-
-      <div class="tab-content" id="tab-eventi">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Eventi e appuntamenti</div>
-              <div class="section-sub">Cosa sta succedendo in Chiesa Apostolica Carini.</div>
-            </div>
-          </div>
-
-          <div class="event-list" id="lista-eventi"></div>
-        </div>
-      </div>
-
-      <div class="footer">
-        <div class="footer-left">
-          <div class="footer-title">Chiesa Apostolica in Italia - Carini</div>
-          <div class="footer-sub">Via Don Luigi Sturzo 188 - Carini</div>
-        </div>
-        <div class="footer-right">
-          <div class="chip">
-            <div class="chip-dot"></div>
-            <span>Ristoro giornaliero · Rhema 2025</span>
-          </div>
+    <div id="nextEventBox" style="display:none;">
+      <div class="event-box">
+        <div class="event-title" id="eventTitle"></div>
+        <div class="event-meta">
+          <span id="eventWhen"></span> · <span id="eventWhere"></span>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-  const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbycboxlETWxHJ08dpr4vixz5U1ht_mKguOdekKf7OEoon6lCeWYN1fxf_bkkbWc_StU/exec';
+  <div class="footer">OSA – Rhema 2025</div>
+</div>
 
-  // TABS
-  const tabButtons = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
+<!-- ---------------------------------------
+     SCHERMATA 2 — SCRIVI
+------------------------------------------>
+<div class="screen" id="screen-scrivi">
 
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      tabButtons.forEach(b => b.classList.remove('active'));
-      tabContents.forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
-    });
+  <h2 style="margin-bottom:14px;">Scrivi cosa ti ha trasmesso il devozionale</h2>
+
+  <div class="input-group">
+    <label>Nome (opzionale)</label>
+    <input id="scriviNome" type="text" placeholder="Il tuo nome">
+  </div>
+
+  <div class="input-group">
+    <label>La tua risposta</label>
+    <textarea id="scriviTesto" placeholder="Scrivi qui la tua riflessione..."></textarea>
+  </div>
+
+  <button class="btn" id="btnInviaScrivi">Invia</button>
+  <div id="scriviFeedback" class="feedback"></div>
+
+</div>
+
+<!-- ---------------------------------------
+     SCHERMATA 3 — CALENDARIO SETTIMANALE
+------------------------------------------>
+<div class="screen" id="screen-cal">
+
+  <h2 style="margin-bottom:14px;">Eventi della settimana</h2>
+  <div id="calList"></div>
+
+</div>
+
+<!-- ---------------------------------------
+     SCHERMATA 4 — APPUNTAMENTI
+------------------------------------------>
+<div class="screen" id="screen-app">
+
+  <h2 style="margin-bottom:14px;">Prenota un appuntamento</h2>
+
+  <p class="small-note">Disponibile solo da lunedì a venerdì.</p>
+
+  <div class="input-group">
+    <label>Nome</label>
+    <input id="appNome" type="text">
+  </div>
+
+  <div class="input-group">
+    <label>Telefono</label>
+    <input id="appTel" type="text">
+  </div>
+
+  <div class="input-group">
+    <label>Data (gg/mm/aaaa)</label>
+    <input id="appData" type="text">
+  </div>
+
+  <div class="input-group">
+    <label>Ora (HH:MM)</label>
+    <input id="appOra" type="text">
+  </div>
+
+  <div class="input-group">
+    <label>Motivo</label>
+    <textarea id="appMotivo"></textarea>
+  </div>
+
+  <button class="btn" id="btnInviaApp">Invia richiesta</button>
+  <div id="appFeedback" class="feedback"></div>
+
+</div>
+
+<!-- ---------------------------------------
+     NAVBAR GLASS SCURA
+------------------------------------------>
+<div class="navbar">
+  <div class="nav-item active" data-target="devo">
+    <span class="nav-icon">📖</span>Devo
+  </div>
+  <div class="nav-item" data-target="scrivi">
+    <span class="nav-icon">✍️</span>Scrivi
+  </div>
+  <div class="nav-item" data-target="cal">
+    <span class="nav-icon">📅</span>Calendario
+  </div>
+  <div class="nav-item" data-target="app">
+    <span class="nav-icon">🤝</span>Appuntamenti
+  </div>
+</div>
+
+<!-- ---------------------------------------
+     SCRIPT
+------------------------------------------>
+<script>
+const API = "https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec";
+
+/* ------------------------------
+   NAVBAR SWITCH
+------------------------------*/
+const screens = document.querySelectorAll(".screen");
+const navItems = document.querySelectorAll(".nav-item");
+
+navItems.forEach(n => {
+  n.addEventListener("click", () => {
+    navItems.forEach(i => i.classList.remove("active"));
+    n.classList.add("active");
+
+    screens.forEach(s => s.classList.remove("active"));
+    document.getElementById("screen-" + n.dataset.target).classList.add("active");
   });
+});
 
-  const devoData = [
-    {
-      data: '2025-12-03',
-      titolo: 'Svegliati nello Spirito (Efesini 5:14)',
-      riferimento: '“Per questo è detto: «Risvegliati, o tu che dormi, e risorgi dai morti, e Cristo ti inonderà di luce».”',
-      verso: 'Lo Spirito Santo oggi ti sta chiamando con urgenza...itualmente, pur sapendo che Dio ti sta chiamando a svegliarti?',
-      evento: {
-        quando: '03/12/2025 · 21:00',
-        cosa: 'Studi',
-        dove: 'Carini'
-      }
-    }
-  ];
+/* ------------------------------
+   DATE HELPERS
+------------------------------*/
+function parseDMY(str){
+  const [d,m,y]=str.split("/");
+  return new Date(y,m-1,d);
+}
+function formatDMY(date){
+  const d=String(date.getDate()).padStart(2,"0");
+  const m=String(date.getMonth()+1).padStart(2,"0");
+  const y=date.getFullYear();
+  return `${d}/${m}/${y}`;
+}
+function formatItalian(date){
+  const giorni=["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"];
+  const mesi=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+  return `${giorni[date.getDay()]} ${date.getDate()} ${mesi[date.getMonth()]} ${date.getFullYear()}`;
+}
 
-  let devoCorrente = null;
+let currentDate = new Date();
 
-  function formattaDataItaliano(date) {
-    const giorni = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
-    const mesi = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-    const g = giorni[date.getDay()];
-    const d = String(date.getDate()).padStart(2,'0');
-    const m = mesi[date.getMonth()];
-    return `${g} ${d} ${m}`;
+/* ------------------------------
+   LOAD DEVOZIONALE
+------------------------------*/
+async function loadDevo(){
+  const y=currentDate.getFullYear();
+  const m=String(currentDate.getMonth()+1).padStart(2,"0");
+  const d=String(currentDate.getDate()).padStart(2,"0");
+
+  const url = `${API}?date=${y}-${m}-${d}`;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const devo = data.devotional;
+
+  document.getElementById("devoTitolo").textContent = devo ? devo.titolo : "Nessun devozionale trovato";
+  document.getElementById("devoRif").textContent = devo ? devo.riferimento : "";
+  document.getElementById("devoTesto").textContent = devo ? devo.testo : "";
+
+  document.getElementById("devoDataEstesa").textContent = formatItalian(currentDate);
+
+  if(data.nextEvent){
+    nextEventBox.style.display="block";
+    eventTitle.textContent=data.nextEvent.titolo;
+    eventWhen.textContent=data.nextEvent.data+" · "+data.nextEvent.ora;
+    eventWhere.textContent=data.nextEvent.luogo;
+  } else {
+    nextEventBox.style.display="none";
+  }
+}
+
+btnPrev.onclick = () => {
+  currentDate.setDate(currentDate.getDate()-1);
+  loadDevo();
+};
+btnToday.onclick = () => {
+  currentDate = new Date();
+  loadDevo();
+};
+
+loadDevo();
+
+/* ------------------------------
+   SCRIVI
+------------------------------*/
+document.getElementById("btnInviaScrivi").onclick = async () => {
+  const nome = document.getElementById("scriviNome").value.trim();
+  const testo = document.getElementById("scriviTesto").value.trim();
+  const fb = document.getElementById("scriviFeedback");
+  fb.textContent="";
+
+  if(!testo){
+    fb.textContent="Scrivi qualcosa prima di inviare.";
+    fb.className="feedback error";
+    return;
   }
 
-  const titoloDev = document.getElementById('devo-titolo');
-  const refDev = document.getElementById('devo-rif');
-  const versoDev = document.getElementById('devo-verso');
-  const testoDev = document.getElementById('devo-testo');
-  const oggiLabel = document.getElementById('oggi-label');
+  const payload = {
+    type:"response",
+    data_devozionale: formatDMY(currentDate),
+    nome:nome,
+    testo_risposta:testo
+  };
 
-  const prossimoEventoBox = document.getElementById('prossimo-evento');
-  const eventoTitoloEl = document.getElementById('evento-titolo');
-  const eventoQuandoEl = document.getElementById('evento-quando');
-  const eventoDoveEl = document.getElementById('evento-dove');
+  await fetch(API,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload)
+  });
 
-  function mostraDevozionaleOggi() {
-    const oggi = new Date();
-    const isoOggi = oggi.toISOString().slice(0,10);
-    const oggiTesto = formattaDataItaliano(oggi);
-    oggiLabel.textContent = 'Oggi · ' + oggiTesto;
+  fb.textContent="Risposta inviata.";
+  fb.className="feedback success";
 
-    const dev = devoData.find(d => d.data === isoOggi) || devoData[0];
+  document.getElementById("scriviTesto").value="";
+};
 
-    devoCorrente = dev;
+/* ------------------------------
+   CARICA CALENDARIO
+------------------------------*/
+async function loadCalendar(){
+  const res = await fetch(API);
+  const data = await res.json();
+  const list = document.getElementById("calList");
+  list.innerHTML="";
 
-    titoloDev.textContent = dev.titolo;
-    refDev.textContent = dev.riferimento;
-    versoDev.textContent = dev.verso;
-    testoDev.textContent = '';
-
-    if (dev.evento) {
-      prossimoEventoBox.style.display = 'block';
-      eventoTitoloEl.textContent = dev.evento.cosa;
-      eventoQuandoEl.textContent = dev.evento.quando;
-      eventoDoveEl.textContent = dev.evento.dove;
-    } else {
-      prossimoEventoBox.style.display = 'none';
-    }
+  if(!data.weekEvents.length){
+    list.innerHTML="<div style='color:var(--text-dim);font-size:13px;'>Nessun evento questa settimana.</div>";
+    return;
   }
 
-  mostraDevozionaleOggi();
-
-  // NOTE LOCALI
-  const NOTES_KEY = 'devotional_notes_v1';
-
-  const nomeInput = document.getElementById('nome');
-  const contestoRadios = document.querySelectorAll('input[name="contesto"]');
-  const radioPillLabels = document.querySelectorAll('.radio-pill');
-  const notaText = document.getElementById('nota');
-  const btnSaveNota = document.getElementById('btn-save-nota');
-  const btnClearNota = document.getElementById('btn-clear-nota');
-  const btnExport = document.getElementById('btn-export-notes');
-  const btnDeleteAll = document.getElementById('btn-delete-all-notes');
-  const notaFeedback = document.getElementById('nota-feedback');
-  const notesList = document.getElementById('notes-list');
-
-  radioPillLabels.forEach(label => {
-    label.addEventListener('click', () => {
-      radioPillLabels.forEach(l => l.classList.remove('active'));
-      label.classList.add('active');
-      const input = label.querySelector('input[type="radio"]');
-      input.checked = true;
-    });
+  data.weekEvents.forEach(ev=>{
+    const div=document.createElement("div");
+    div.className="event-item";
+    div.innerHTML=`
+      <div class="event-item-title">${ev.titolo}</div>
+      <div class="event-item-meta">${ev.data} · ${ev.ora}<br>${ev.luogo}</div>
+      <div style="margin-top:6px;">${ev.descrizione}</div>
+    `;
+    list.appendChild(div);
   });
+}
+loadCalendar();
 
-  function getNotes() {
-    try {
-      const raw = localStorage.getItem(NOTES_KEY);
-      if (!raw) return [];
-      const arr = JSON.parse(raw);
-      return Array.isArray(arr) ? arr : [];
-    } catch (e) {
-      return [];
-    }
+/* ------------------------------
+   APPUNTAMENTI
+------------------------------*/
+document.getElementById("btnInviaApp").onclick = async () => {
+  const nome = appNome.value.trim();
+  const tel  = appTel.value.trim();
+  const data = appData.value.trim();
+  const ora  = appOra.value.trim();
+  const motivo = appMotivo.value.trim();
+  const fb = document.getElementById("appFeedback");
+  fb.textContent="";
+  
+  if(!nome || !tel || !data || !ora || !motivo){
+    fb.textContent="Compila tutti i campi.";
+    fb.className="feedback error";
+    return;
   }
 
-  function saveNotes(notes) {
-    localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  const giorno = parseDMY(data).getDay();
+  if(giorno===0 || giorno===6){
+    fb.textContent="Gli appuntamenti sono solo da lunedì a venerdì.";
+    fb.className="feedback error";
+    return;
   }
 
-  function renderNotes() {
-    const notes = getNotes();
-    if (!notes.length) {
-      notesList.innerHTML = '<div style="font-size:11px; color:rgba(148,163,184,0.95);">Nessuna nota salvata su questo dispositivo.</div>';
-      return;
-    }
-    notes.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-    notesList.innerHTML = notes
-      .map(n => {
-        const d = new Date(n.timestamp);
-        const dataFormattata = isNaN(d.getTime())
-          ? n.timestamp
-          : d.toLocaleString('it-IT', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
-        return `
-          <div class="note-item">
-            <div class="note-meta">
-              ${dataFormattata} · ${n.nome || 'Anonimo'}${n.contesto ? ' · ' + n.contesto : ''}
-            </div>
-            <div class="note-text">
-              ${n.testo}
-            </div>
-          </div>
-        `;
-      })
-      .join('');
-  }
+  const payload={
+    type:"appointment",
+    nome:nome,
+    telefono:tel,
+    data:data,
+    ora:ora,
+    motivo:motivo
+  };
 
-  renderNotes();
-
-  btnSaveNota.addEventListener('click', () => {
-    notaFeedback.textContent = '';
-    notaFeedback.classList.remove('error','success');
-
-    const nome = nomeInput.value.trim() || 'Anonimo';
-    const contestoInput = Array.from(contestoRadios).find(r => r.checked);
-    const contesto = contestoInput ? contestoInput.value : '';
-    const testo = notaText.value.trim();
-
-    if (!testo) {
-      notaFeedback.textContent = 'Scrivi qualcosa prima di salvare.';
-      notaFeedback.classList.add('error');
-      return;
-    }
-
-    const notes = getNotes();
-    const nuovaNota = {
-      id: Date.now(),
-      nome,
-      contesto,
-      testo,
-      timestamp: new Date().toISOString(),
-      origine: 'dev_app'
-    };
-    notes.push(nuovaNota);
-    saveNotes(notes);
-    renderNotes();
-
-    notaFeedback.textContent = 'Nota salvata sul dispositivo.';
-    notaFeedback.classList.add('success');
-
-    notaText.value = '';
-
-    const payload = {
-      tipo: 'nota',
-      nome,
-      contesto,
-      testo,
-      timestamp: nuovaNota.timestamp,
-      clientId: '',
-      giornoDevozionale: devoCorrente ? devoCorrente.data : '',
-      titoloDevozionale: devoCorrente ? devoCorrente.titolo : '',
-      rifBiblico: devoCorrente ? devoCorrente.riferimento : ''
-    };
-
-    fetch(ENDPOINT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).catch(e => console.error('Errore invio a Apps Script', e));
+  await fetch(API,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload)
   });
 
-  btnClearNota.addEventListener('click', () => {
-    notaText.value = '';
-    notaFeedback.textContent = '';
-    notaFeedback.classList.remove('error','success');
-  });
+  fb.textContent="Richiesta inviata.";
+  fb.className="feedback success";
 
-  btnExport.addEventListener('click', () => {
-    const notes = getNotes();
-    if (!notes.length) {
-      notaFeedback.textContent = 'Non ci sono note da esportare.';
-      notaFeedback.classList.add('error');
-      return;
-    }
-    const blob = new Blob([JSON.stringify(notes, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'devotional_notes.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
+  appNome.value="";
+  appTel.value="";
+  appData.value="";
+  appOra.value="";
+  appMotivo.value="";
+};
+</script>
 
-  btnDeleteAll.addEventListener('click', () => {
-    if (!confirm('Sei sicuro di voler cancellare tutte le note salvate su questo dispositivo?')) return;
-    localStorage.removeItem(NOTES_KEY);
-    renderNotes();
-  });
-
-  // APPUNTAMENTI
-  const nomeApp = document.getElementById('nome-app');
-  const contattoApp = document.getElementById('contatto-app');
-  const motivoApp = document.getElementById('motivo-app');
-  const tipoApp = document.getElementById('tipo-app');
-  const btnClearApp = document.getElementById('btn-clear-app');
-  const btnInviaApp = document.getElementById('btn-invia-app');
-  const appFeedback = document.getElementById('app-feedback');
-
-  btnClearApp.addEventListener('click', () => {
-    nomeApp.value = '';
-    contattoApp.value = '';
-    motivoApp.value = '';
-    tipoApp.value = '';
-    appFeedback.textContent = '';
-    appFeedback.classList.remove('error','success');
-  });
-
-  btnInviaApp.addEventListener('click', () => {
-    appFeedback.textContent = '';
-    appFeedback.classList.remove('error','success');
-
-    const nome = nomeApp.value.trim();
-    const contatto = contattoApp.value.trim();
-    const motivo = motivoApp.value.trim();
-    const tipo = tipoApp.value;
-
-    if (!nome || !contatto || !motivo) {
-      appFeedback.textContent = 'Compila tutti i campi prima di inviare.';
-      appFeedback.classList.add('error');
-      return;
-    }
-
-    const payload = {
-      tipo: 'appuntamento',
-      nome,
-      contatto,
-      motivo,
-      categoria: tipo,
-      timestamp: new Date().toISOString()
-    };
-
-    appFeedback.textContent = 'Invio in corso...';
-    appFeedback.classList.remove('error','success');
-
-    fetch(ENDPOINT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-      .then(() => {
-        appFeedback.textContent = 'Richiesta inviata. Verrai contattato al più presto.';
-        appFeedback.classList.add('success');
-        nomeApp.value = '';
-        contattoApp.value = '';
-        motivoApp.value = '';
-        tipoApp.value = '';
-      })
-      .catch(() => {
-        appFeedback.textContent = 'Si è verificato un errore durante l\'invio. Riprova più tardi.';
-        appFeedback.classList.add('error');
-      });
-  });
-
-  // EVENTI
-  const listaEventi = document.getElementById('lista-eventi');
-
-  const eventi = [
-    {
-      titolo: 'Culto domenicale',
-      descrizione: 'Adorazione, predicazione e comunione fraterna.',
-      quando: 'Ogni domenica · Ore 11:00',
-      dove: 'Chiesa Apostolica Carini'
-    },
-    {
-      titolo: 'Studio biblico',
-      descrizione: 'Approfondimento della Parola e domande/risposte.',
-      quando: 'Ogni mercoledì · Ore 21:00',
-      dove: 'Chiesa Apostolica Carini'
-    },
-    {
-      titolo: 'Incontro giovani',
-      descrizione: 'Tempo speciale per ragazzi e giovani adulti.',
-      quando: 'Una volta al mese · Ore 21:00',
-      dove: 'Chiesa Apostolica Carini'
-    }
-  ];
-
-  function renderEventi() {
-    if (!eventi.length) {
-      listaEventi.innerHTML = '<div style="font-size:11px; color:rgba(148,163,184,0.95);">Al momento non ci sono eventi programmati.</div>';
-      return;
-    }
-
-    listaEventi.innerHTML = eventi
-      .map(ev => {
-        return `
-          <div class="event-item">
-            <div class="event-item-title">${ev.titolo}</div>
-            <div class="event-item-desc">${ev.descrizione}</div>
-            <div class="event-item-meta">
-              <div>${ev.quando}</div>
-              <div>${ev.dove}</div>
-            </div>
-          </div>
-        `;
-      })
-      .join('');
-  }
-
-  renderEventi();
-  </script>
 </body>
 </html>
