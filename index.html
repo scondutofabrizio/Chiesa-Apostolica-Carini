@@ -2,1129 +2,1104 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <title>Chiesa Apostolica in Italia - Carini</title>
+  <title>Chiesa Apostolica Carini - Ristoro giornaliero</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Icone per browser e scorciatoia su schermata Home -->
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
 
   <style>
     :root {
       --bg: #050608;
-      --card-bg: #111318;
-      --accent: #fbbf24;
-      --accent-soft: #facc15;
-      --accent-strong: #eab308;
-      --accent-glow: rgba(250, 204, 21, 0.25);
-      --text-main: #e5e7eb;
-      --text-dim: #9ca3af;
-      --border-subtle: rgba(148, 163, 184, 0.45);
-      --pill-bg: rgba(15, 23, 42, 0.9);
-      --pill-active-bg: rgba(15, 23, 42, 0.98);
+      --card: #111319;
+      --accent: #ff8800;
+      --accent-soft: rgba(255,136,0,0.15);
+      --text: #f5f5f5;
+      --muted: #999;
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    body{
+      font-family:var(--font-main);
+      background:radial-gradient(circle at top,#202238 0,#050608 55%);
+      color:var(--text);
+      min-height:100vh;
     }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #020617 0, #020617 28%, #020617 60%, #030712 100%);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 12px;
-    }
-
-    .app-shell {
-      width: 100%;
-      max-width: 420px;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(3,7,18,0.98));
-      border-radius: 24px;
-      border: 1px solid rgba(148,163,184,0.35);
-      box-shadow:
-        0 32px 120px rgba(15,23,42,0.95),
-        0 0 0 1px rgba(15,23,42,0.9);
-      padding: 14px 12px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .app-shell::before {
-      content: "";
-      position: absolute;
-      inset: -80px;
-      background:
-        radial-gradient(circle at -10% -20%, rgba(250,204,21,0.10), transparent 55%),
-        radial-gradient(circle at 110% -20%, rgba(96,165,250,0.12), transparent 55%);
-      opacity: 0.9;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .app-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 9px 3px 3px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.5);
-      margin-bottom: 10px;
-      box-shadow: 0 0 0 1px rgba(15,23,42,0.9);
-    }
-
-    .status-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, #fefce8, #facc15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1f2937;
-      font-size: 12px;
-      box-shadow:
-        0 0 0 1px rgba(161,98,7,0.6),
-        0 0 0 4px rgba(250,204,21,0.14),
-        0 8px 18px rgba(250,204,21,0.35);
-    }
-
-    .status-text {
-      font-size: 11px;
-      color: rgba(209,213,219,0.95);
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .brand-main {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 16px;
-      background:
-        radial-gradient(circle at 30% 10%, #fef9c3, #facc15),
-        radial-gradient(circle at 80% 120%, #4b5563, #020617);
-      border: 1px solid rgba(251,191,36,0.7);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,0.95),
-        0 18px 45px rgba(15,23,42,0.95),
-        0 0 40px rgba(250,204,21,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #020617;
-      font-weight: 800;
-      font-size: 14px;
-      letter-spacing: 0.04em;
-    }
-
-    .brand-texts {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .brand-title {
-      font-size: 15px;
-      font-weight: 650;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      color: #f9fafb;
-    }
-
-    .brand-subtitle {
-      font-size: 12px;
-      color: rgba(148,163,184,0.95);
-    }
-
-    .theme-badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.5);
-      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.85));
-      font-size: 11px;
-      color: rgba(209,213,219,0.95);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .theme-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, #f97316, #ea580c);
-      box-shadow: 0 0 0 4px rgba(248,113,113,0.18);
-    }
-
-    .devo-card {
-      margin-top: 10px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(2,6,23,1));
-      border-radius:16px;
-      padding:14px 14px 16px;
-      border:1px solid rgba(51,65,85,0.9);
-      box-shadow:
-        0 14px 35px rgba(15,23,42,0.95),
-        inset 0 0 0 1px rgba(15,23,42,1);
-    }
-
-    .card-header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:6px;
-    }
-
-    .card-header-title {
+    .app{
+      max-width:480px;
+      margin:0 auto;
+      min-height:100vh;
       display:flex;
       flex-direction:column;
-      gap:2px;
+      background:rgba(0,0,0,0.55);
     }
 
-    .devo-label {
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.12em;
-      color:rgba(156,163,175,0.95);
+    header{
+      padding:12px 16px;
       display:flex;
       align-items:center;
-      gap:6px;
+      gap:12px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(135deg,#191b25,#101019);
     }
 
-    .devo-label-dot {
-      width:4px;
-      height:4px;
-      border-radius:999px;
-      background:var(--accent);
-      box-shadow:0 0 0 3px var(--accent-glow);
-    }
-
-    .devo-title {
-      font-size:15px;
-      font-weight:600;
-      color:#e5e7eb;
-    }
-
-    .today-pill {
-      font-size:11px;
-      padding:3px 8px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.95);
-      border:1px solid rgba(55,65,81,0.9);
-      color:rgba(209,213,219,0.96);
-      display:flex;
-      align-items:center;
-      gap:5px;
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 6px 18px rgba(15,23,42,0.95);
-    }
-
-    .today-pill-dot {
-      width:6px;
-      height:6px;
-      border-radius:999px;
-      background: radial-gradient(circle at 30% 10%, #bbf7d0, #22c55e);
-      box-shadow:0 0 0 4px rgba(34,197,94,0.22);
-    }
-
-    .date-nav {
-      display:flex;
-      gap:6px;
-      margin-top:10px;
-    }
-
-    .date-btn {
-      flex:1;
-      font-size:11px;
-      padding:6px 8px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      color:rgba(209,213,219,0.96);
-      cursor:pointer;
-    }
-
-    .date-btn:active {
-      transform:translateY(1px);
-    }
-
-    .verse-block {
-      margin-top:8px;
-      padding:10px 10px 10px;
+    .logo{
+      width:34px;
+      height:34px;
       border-radius:12px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.95));
-      border:1px solid rgba(55,65,81,0.95);
-      box-shadow:
-        inset 0 0 0 1px rgba(15,23,42,1),
-        0 10px 28px rgba(15,23,42,0.9);
-    }
-
-    .verse-ref {
-      font-size:12px;
-      color:rgba(209,213,219,0.95);
-      margin-bottom:4px;
-    }
-
-    .verse-text {
-      font-size:13px;
-      line-height:1.5;
-      color:#f9fafb;
-    }
-
-    .verse-note {
-      margin-top:6px;
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .event-card {
-      margin-top:10px;
-      padding:10px 10px 11px;
-      border-radius:12px;
-      border:1px solid rgba(55,65,81,0.9);
-      background: radial-gradient(circle at 80% 0%, rgba(37,99,235,0.16), rgba(15,23,42,0.98));
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 12px 26px rgba(15,23,42,0.95);
-    }
-
-    .event-label {
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.14em;
-      color:rgba(148,163,184,0.95);
-      margin-bottom:4px;
-    }
-
-    .event-main {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .event-title {
-      font-size:13px;
-      font-weight:500;
-      color:#e5e7eb;
-    }
-
-    .event-meta {
-      margin-top:4px;
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .event-badge {
-      align-self:flex-start;
-      padding:4px 8px;
-      border-radius:999px;
-      font-size:11px;
-      background:rgba(22,163,74,0.14);
-      color:rgba(187,247,208,0.96);
-      border:1px solid rgba(34,197,94,0.75);
-      box-shadow:
-        0 0 0 1px rgba(22,101,52,0.9),
-        0 8px 18px rgba(22,163,74,0.4);
-    }
-
-    .tabs-row {
-      display:flex;
-      margin-top:12px;
-      margin-bottom:10px;
-      padding:3px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.95);
-      border:1px solid rgba(31,41,55,0.95);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 10px 26px rgba(15,23,42,0.95);
-      gap:2px;
-    }
-
-    .tab {
-      flex:1;
-      text-align:center;
-      padding:6px 0;
-      border-radius:999px;
-      border:none;
-      background:transparent;
-      color:rgba(148,163,184,0.95);
-      font-size:11px;
-      font-weight:500;
-      letter-spacing:0.04em;
-      text-transform:uppercase;
-      cursor:pointer;
+      overflow:hidden;
+      background:#000;
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:6px;
+      flex-shrink:0;
     }
 
-    .tab-icon {
-      font-size:13px;
+    .logo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
 
-    .tab.active {
-      background: radial-gradient(circle at top, rgba(251,191,36,0.12), rgba(15,23,42,1));
-      color:#f9fafb;
-      box-shadow:
-        0 0 0 1px rgba(251,191,36,0.45),
-        0 8px 22px rgba(251,191,36,0.35);
+    .titles h1{font-size:16px;font-weight:700;}
+    .titles p{font-size:11px;color:var(--muted);margin-top:2px;}
+    .pill{
+      display:inline-flex;align-items:center;
+      padding:2px 8px;border-radius:999px;
+      border:1px solid rgba(255,255,255,0.2);
+      font-size:9px;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--muted);
+      margin-top:4px;gap:4px;
+    }
+    .pill span{width:4px;height:4px;border-radius:50%;background:var(--accent);}
+
+    main{
+      flex:1;
+      padding:12px 14px 16px;
     }
 
-    .tab-content {
-      display:none;
-    }
-
-    .tab-content.active {
-      display:block;
-    }
-
-    .section {
-      margin-top:2px;
-    }
-
-    .section-title-row {
+    .tabs{
       display:flex;
-      justify-content:space-between;
+      gap:6px;
+      margin-bottom:12px;
+      background:rgba(255,255,255,0.04);
+      border-radius:999px;
+      padding:4px;
+      flex-wrap:wrap;
+    }
+    .tab{
+      flex:1 1 0;border:none;background:transparent;
+      color:var(--muted);font-size:13px;
+      padding:6px 8px;border-radius:999px;
+      cursor:pointer;
+      text-align:center;
+    }
+    .tab.active{
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-weight:600;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:14px 14px 16px;
+      border:1px solid rgba(255,255,255,0.08);
+      margin-bottom:14px;
+    }
+
+    /* Header devozionale con data + freccia ieri + bottone Oggi */
+    .dev-header{
+      display:flex;
       align-items:center;
-      margin-bottom:6px;
-    }
-
-    .section-title {
-      font-size:13px;
-      font-weight:500;
-      color:#e5e7eb;
-    }
-
-    .section-sub {
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .field-group {
+      justify-content:space-between;
+      gap:8px;
       margin-bottom:8px;
     }
 
-    label {
-      display:block;
+    .nav-prev{
+      border:none;
+      background:transparent;
+      color:var(--muted);
       font-size:11px;
-      color:rgba(156,163,175,0.95);
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      cursor:pointer;
+      padding:4px 6px;
+      border-radius:999px;
+    }
+
+    .nav-prev:hover{
+      background:rgba(255,255,255,0.06);
+    }
+
+    .nav-prev[disabled]{
+      opacity:0.3;
+      cursor:default;
+    }
+
+    .nav-prev .arrow{
+      font-size:12px;
+      line-height:1;
+    }
+
+    .chip-date{
+      display:inline-flex;align-items:center;
+      gap:6px;padding:3px 9px;border-radius:999px;
+      background:rgba(255,255,255,0.06);
+      font-size:11px;color:var(--muted);
+    }
+    .chip-date span:first-child{
+      width:6px;height:6px;border-radius:50%;background:var(--accent);
+    }
+
+    /* bottone "Oggi" */
+    .nav-today{
+      border:none;
+      background:transparent;
+      color:var(--accent);
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+    .nav-today:hover{
+      background:rgba(255,255,255,0.06);
+    }
+
+    .dev-title{font-size:18px;font-weight:700;margin-bottom:4px;}
+    .dev-ref{font-size:12px;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;}
+    .dev-verse{font-size:13px;color:#ccc;margin-bottom:10px;white-space:pre-line;}
+    .dev-content{font-size:14px;line-height:1.5;color:#ddd;white-space:pre-line;}
+
+    .section-title{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px;}
+
+    textarea{
+      width:100%;min-height:110px;resize:vertical;
+      border-radius:12px;border:1px solid rgba(255,255,255,0.15);
+      background:rgba(0,0,0,0.65);
+      color:var(--text);padding:10px;font-size:14px;
+      outline:none;
+    }
+    textarea::placeholder{color:#666;}
+
+    .btn-row{display:flex;justify-content:flex-end;gap:8px;margin-top:10px;}
+    .btn{
+      border:none;border-radius:999px;padding:7px 14px;
+      font-size:13px;cursor:pointer;
+    }
+    .btn-primary{background:var(--accent);color:#111;font-weight:600;}
+    .btn-ghost{background:transparent;color:var(--muted);}
+    .btn-ghost:hover{background:rgba(255,255,255,0.08);}
+    .small-note{font-size:11px;color:var(--muted);margin-top:6px;}
+
+    .diary-item{
+      padding:9px 10px;border-radius:12px;
+      border:1px solid rgba(255,255,255,0.12);
+      margin-bottom:8px;
+      background:rgba(0,0,0,0.5);
+      cursor:pointer;
+    }
+    .diary-date{font-size:12px;color:var(--accent);margin-bottom:3px;}
+    .diary-preview{font-size:13px;color:#ddd;max-height:40px;overflow:hidden;}
+
+    .empty{text-align:center;font-size:13px;color:var(--muted);padding:14px 4px;}
+
+    /* Eventi */
+    .events-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .event-item{
+      padding:10px 11px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(0,0,0,0.5);
+    }
+
+    .event-date{
+      font-size:12px;
+      color:var(--accent);
       margin-bottom:3px;
     }
 
-    input[type="text"],
-    textarea {
-      width:100%;
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      color:#e5e7eb;
-      font-size:13px;
-      padding:8px 9px;
-      outline:none;
-      box-shadow: inset 0 0 0 1px rgba(15,23,42,1);
-    }
-
-    input[type="text"]:focus,
-    textarea:focus {
-      border-color:rgba(251,191,36,0.95);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 0 0 1px rgba(251,191,36,0.5),
-        0 10px 24px rgba(251,191,36,0.22);
-      background:rgba(15,23,42,1);
-    }
-
-    textarea {
-      resize:vertical;
-      min-height:90px;
-      max-height:180px;
-      line-height:1.5;
-    }
-
-    .btn-row {
-      display:flex;
-      justify-content:space-between;
-      gap:8px;
-      margin-top:4px;
-      margin-bottom:6px;
-    }
-
-    .btn {
-      flex:1;
-      border-radius:999px;
-      border:none;
-      font-size:12px;
-      font-weight:500;
-      padding:9px 0;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      letter-spacing:0.03em;
-      text-transform:uppercase;
-    }
-
-    .btn-primary {
-      background: radial-gradient(circle at 30% 0%, #fef9c3, #facc15);
-      color:#1f2937;
-      box-shadow:
-        0 0 0 1px rgba(251,191,36,0.7),
-        0 14px 35px rgba(251,191,36,0.35);
-    }
-
-    .btn-secondary {
-      background:rgba(15,23,42,0.98);
-      color:rgba(209,213,219,0.96);
-      border:1px solid rgba(55,65,81,0.98);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 10px 22px rgba(15,23,42,0.95);
-    }
-
-    .feedback {
-      font-size:11px;
-      margin-top:3px;
-      min-height:15px;
-    }
-
-    .feedback.success {
-      color:#bbf7d0;
-    }
-
-    .feedback.error {
-      color:#fecaca;
-    }
-
-    .event-list {
-      margin-top:6px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      max-height:220px;
-      overflow:auto;
-      padding-right:4px;
-    }
-
-    .event-item {
-      padding:7px 9px;
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      font-size:12px;
-    }
-
-    .event-item-title {
-      font-size:12px;
-      font-weight:500;
-      color:#e5e7eb;
+    .event-title{
+      font-size:14px;
+      font-weight:600;
       margin-bottom:2px;
     }
 
-    .event-item-desc {
-      font-size:11px;
-      color:rgba(156,163,175,0.95);
+    .event-location{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:3px;
+    }
+
+    .event-desc{
+      font-size:13px;
+      color:#ddd;
       margin-bottom:4px;
     }
 
-    .event-item-meta {
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
+    .event-booking{
+      font-size:12px;
+      color:#ccc;
     }
 
-    .footer {
-      margin-top:10px;
-      padding-top:8px;
-      border-top:1px dashed rgba(31,41,55,0.95);
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
+    /* Appuntamenti */
+    .field-group{
+      margin-bottom:10px;
+    }
+    .field-label{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+    .input-text{
+      width:100%;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.15);
+      background:rgba(0,0,0,0.65);
+      color:var(--text);
+      padding:8px 10px;
+      font-size:14px;
+      outline:none;
+    }
+    .input-text::placeholder{
+      color:#666;
+    }
+
+    .days-row{
       display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:8px;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:4px;
     }
-
-    .footer-left {
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-
-    .footer-title {
-      font-size:11px;
-      color:rgba(209,213,219,0.95);
-    }
-
-    .footer-sub {
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .footer-right {
-      text-align:right;
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .chip {
+    .day-chip{
       display:inline-flex;
       align-items:center;
-      gap:5px;
-      padding:3px 8px;
+      gap:4px;
+      font-size:12px;
+      color:var(--muted);
+      background:rgba(255,255,255,0.05);
       border-radius:999px;
-      border:1px solid rgba(55,65,81,0.98);
-      background:rgba(15,23,42,0.98);
-      font-size:10px;
-      color:rgba(156,163,175,0.95);
+      padding:4px 8px;
+      cursor:pointer;
+    }
+    .day-chip input{
+      accent-color:var(--accent);
     }
 
-    .chip-dot {
-      width:6px;
-      height:6px;
-      border-radius:999px;
-      background:radial-gradient(circle at 30% 10%, #bfdbfe, #60a5fa);
-      box-shadow:0 0 0 3px rgba(37,99,235,0.18);
+    footer{
+      padding:6px 12px 10px;
+      font-size:10px;color:var(--muted);
+      text-align:center;
+      border-top:1px solid rgba(255,255,255,0.06);
+      background:rgba(0,0,0,0.7);
     }
 
-    @media (max-width: 380px) {
-      .app-shell {
-        padding:12px 10px 14px;
-      }
-      .brand-title { font-size:14px; }
-      .devo-title { font-size:14px; }
-      .verse-text { font-size:12px; }
+    /* Home – blocco Prossimo evento */
+    .home-next-event{
+      margin-top:14px;
+      padding-top:10px;
+      border-top:1px solid rgba(255,255,255,0.06);
+    }
+    .home-next-event-date{
+      font-size:11px;
+      color:var(--accent);
+      margin-bottom:2px;
+    }
+    .home-next-event-title{
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:2px;
+    }
+    .home-next-event-loc{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    @media (max-width:480px){
+      main{padding:10px 10px 12px;}
+      .card{padding:12px 12px 14px;}
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <div class="app-inner">
-      <div class="status-pill">
-        <div class="status-icon">✶</div>
-        <div class="status-text">Ristoro giornaliero</div>
-      </div>
-
-      <div class="brand-row">
-        <div class="brand-main">
-          <div class="brand-logo">
-            <span>CA</span>
-          </div>
-          <div class="brand-texts">
-            <div class="brand-title">Chiesa Apostolica in Italia - Carini</div>
-            <div class="brand-subtitle">Via Don Luigi Sturzo 188 - Carini</div>
-          </div>
-        </div>
-        <div class="theme-badge">
-          <div class="theme-dot"></div>
-          <div>OSA · Rhema 2025</div>
-        </div>
-      </div>
-
-      <div class="devo-card">
-        <div class="card-header">
-          <div class="card-header-title">
-            <div class="devo-label">
-              <div class="devo-label-dot"></div>
-              Devozionale
-            </div>
-            <div class="devo-title" id="devo-titolo">Titolo devozionale</div>
-          </div>
-          <div class="today-pill">
-            <div class="today-pill-dot"></div>
-            <span id="oggi-label">Oggi</span>
-          </div>
-        </div>
-
-        <div class="verse-block">
-          <div class="verse-ref" id="devo-rif">Riferimento biblico</div>
-          <div class="verse-text" id="devo-verso">Testo del verso del giorno.</div>
-          <div class="verse-note" id="devo-testo"></div>
-        </div>
-
-        <div class="date-nav">
-          <button class="date-btn" id="btn-prev">Giorno precedente</button>
-          <button class="date-btn" id="btn-today">Torna a oggi</button>
-        </div>
-
-        <div class="event-card" id="prossimo-evento" style="display:none;">
-          <div class="event-label">Prossimo evento</div>
-          <div class="event-main">
-            <div>
-              <div class="event-title" id="evento-titolo">Titolo evento</div>
-              <div class="event-meta">
-                <span id="evento-quando">Data e ora</span> ·
-                <span id="evento-dove">Luogo</span>
-              </div>
-            </div>
-            <div class="event-badge">Partecipa</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tabs-row">
-        <button class="tab active" data-tab="scrivi">
-          <span class="tab-icon">✍️</span>
-          <span>Scrivi</span>
-        </button>
-        <button class="tab" data-tab="parla">
-          <span class="tab-icon">🤝</span>
-          <span>Parla con qualcuno</span>
-        </button>
-        <button class="tab" data-tab="eventi">
-          <span class="tab-icon">📅</span>
-          <span>Eventi</span>
-        </button>
-      </div>
-
-      <!-- TAB SCRIVI -->
-      <div class="tab-content active" id="tab-scrivi">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Scrivi il tuo devozionale</div>
-              <div class="section-sub">Alla data attualmente selezionata.</div>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="nome">Nome o nickname (opzionale)</label>
-            <input type="text" id="nome" placeholder="Come ti chiami?" />
-          </div>
-
-          <div class="field-group">
-            <label for="nota">Cosa ti ha trasmesso questo verso?</label>
-            <textarea id="nota" placeholder="Scrivi qui la tua riflessione personale..."></textarea>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-secondary" id="btn-clear-nota">
-              🧹 Pulisci
-            </button>
-            <button class="btn btn-primary" id="btn-save-nota">
-              💾 Invia
-            </button>
-          </div>
-
-          <div class="feedback" id="nota-feedback"></div>
-        </div>
-      </div>
-
-      <!-- TAB PARLA / APPUNTAMENTI -->
-      <div class="tab-content" id="tab-parla">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Parla con qualcuno</div>
-              <div class="section-sub">Appuntamenti disponibili solo lunedì–venerdì.</div>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="nome-app">Nome e cognome</label>
-            <input type="text" id="nome-app" placeholder="Nome e cognome" />
-          </div>
-
-          <div class="field-group">
-            <label for="contatto-app">Telefono</label>
-            <input type="text" id="contatto-app" placeholder="Es. 333 1234567" />
-          </div>
-
-          <div class="field-group">
-            <label for="data-app">Data (gg/mm/aaaa)</label>
-            <input type="text" id="data-app" placeholder="Es. 10/12/2025" />
-          </div>
-
-          <div class="field-group">
-            <label for="ora-app">Ora (HH:MM)</label>
-            <input type="text" id="ora-app" placeholder="Es. 20:30" />
-          </div>
-
-          <div class="field-group">
-            <label for="motivo-app">Motivo (breve descrizione)</label>
-            <textarea id="motivo-app" placeholder="Di cosa vorresti parlare?"></textarea>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-secondary" id="btn-clear-app">
-              🧹 Pulisci
-            </button>
-            <button class="btn btn-primary" id="btn-invia-app">
-              📩 Invia richiesta
-            </button>
-          </div>
-
-          <div class="feedback" id="app-feedback"></div>
-        </div>
-      </div>
-
-      <!-- TAB EVENTI -->
-      <div class="tab-content" id="tab-eventi">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Eventi della settimana</div>
-              <div class="section-sub">Cosa sta succedendo in Chiesa Apostolica Carini.</div>
-            </div>
-          </div>
-
-          <div class="event-list" id="lista-eventi"></div>
-        </div>
-      </div>
-
-      <div class="footer">
-        <div class="footer-left">
-          <div class="footer-title">Chiesa Apostolica in Italia - Carini</div>
-          <div class="footer-sub">OSA – Rhema 2025</div>
-        </div>
-        <div class="footer-right">
-          <div class="chip">
-            <div class="chip-dot"></div>
-            <span>Ristoro giornaliero</span>
-          </div>
-        </div>
-      </div>
+<div class="app">
+  <header>
+    <div class="logo">
+      <img src="icon.png" alt="Logo Chiesa Apostolica Carini">
     </div>
-  </div>
+    <div class="titles">
+      <h1>Chiesa Apostolica Carini</h1>
+      <p>Ristoro giornaliero</p>
+      <div class="pill"><span></span> Identità · Dicembre 2025</div>
+    </div>
+  </header>
 
-  <script>
-  const API = "https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec";
+  <main>
+    <div class="tabs">
+      <button class="tab active" data-tab="oggi">Oggi</button>
+      <button class="tab" data-tab="scrivi">Scrivi</button>
+      <button class="tab" data-tab="diario">Diario</button>
+      <button class="tab" data-tab="eventi">Eventi</button>
+      <button class="tab" data-tab="appuntamenti">Appuntamenti</button>
+    </div>
 
-  // TABS
-  const tabButtons = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
+    <!-- OGGI -->
+    <section class="card" id="tab-oggi">
+      <div class="dev-header">
+        <button class="nav-prev" id="prevDevoBtn" type="button">
+          <span class="arrow">←</span><span>Ieri</span>
+        </button>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="chip-date">
+            <span></span>
+            <span id="todayLabel">Oggi</span>
+          </div>
+          <button class="nav-today" id="todayDevoBtn" type="button">Oggi</button>
+        </div>
+      </div>
+      <div class="dev-title" id="devTitle">Titolo</div>
+      <div class="dev-ref" id="devRef">Riferimento</div>
+      <div class="dev-verse" id="devVerse"></div>
+      <div class="dev-content" id="devContent">Testo...</div>
 
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      tabButtons.forEach(b => b.classList.remove('active'));
-      tabContents.forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
+      <!-- NUOVO: Prossimo evento in home -->
+      <div class="home-next-event" id="homeNextEventCard">
+        <div class="section-title" style="margin-bottom:4px;">Prossimo evento</div>
+        <div id="homeNextEventInner" class="small-note">
+          Caricamento evento...
+        </div>
+      </div>
+    </section>
 
-      if (tab === 'eventi') {
-        caricaEventi();
-      }
+    <!-- SCRIVI -->
+    <section class="card" id="tab-scrivi" style="display:none;">
+      <div class="section-title">La mia nota di oggi</div>
+      <p style="font-size:13px;color:#ccc;margin-bottom:8px;">
+        Prenditi un momento per scrivere cosa ti ha parlato oggi attraverso questo devozionale.
+      </p>
+      <textarea id="noteInput" placeholder="Cosa hai capito? Cosa senti che Dio ti stia dicendo?"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-ghost" id="clearNote">Cancella</button>
+        <button class="btn btn-primary" id="saveNote">Salva nota</button>
+      </div>
+      <div class="small-note">
+        Le note vengono salvate solo su questo dispositivo (nessun altro le vede).
+      </div>
+    </section>
+
+    <!-- DIARIO -->
+    <section class="card" id="tab-diario" style="display:none;">
+      <div class="section-title">Il mio diario</div>
+      <div id="diaryList"></div>
+      <div class="small-note">
+        Tocca una nota per rileggerla e modificarla. Le note sono salvate solo su questo telefono.
+      </div>
+    </section>
+
+    <!-- EVENTI -->
+    <section class="card" id="tab-eventi" style="display:none;">
+      <div class="section-title">Eventi in programma</div>
+      <div id="eventsList" class="events-list"></div>
+      <div class="small-note">
+        Gli eventi sono sincronizzati con il foglio "eventi" del Google Sheet.
+      </div>
+    </section>
+
+    <!-- APPUNTAMENTI -->
+    <section class="card" id="tab-appuntamenti" style="display:none;">
+      <div class="section-title">Richiedi un appuntamento</div>
+      <p style="font-size:13px;color:#ccc;margin-bottom:8px;">
+        Compila i dati qui sotto per richiedere un appuntamento. Verrai ricontattato il prima possibile.
+      </p>
+
+      <div class="field-group">
+        <div class="field-label">Nome e cognome</div>
+        <input type="text" id="appFullName" class="input-text" placeholder="Es. Mario Rossi">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Numero di telefono</div>
+        <input type="tel" id="appPhone" class="input-text" placeholder="Es. 3331234567">
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Giorno preferito (lun–ven)</div>
+        <div class="days-row">
+          <!-- value: 1=lun ... 5=ven -->
+          <label class="day-chip">
+            <input type="radio" name="appDay" value="1" data-label="Lunedì" class="day-radio"> Lun
+          </label>
+          <label class="day-chip">
+            <input type="radio" name="appDay" value="2" data-label="Martedì" class="day-radio"> Mar
+          </label>
+          <label class="day-chip">
+            <input type="radio" name="appDay" value="3" data-label="Mercoledì" class="day-radio"> Mer
+          </label>
+          <label class="day-chip">
+            <input type="radio" name="appDay" value="4" data-label="Giovedì" class="day-radio"> Gio
+          </label>
+          <label class="day-chip">
+            <input type="radio" name="appDay" value="5" data-label="Venerdì" class="day-radio"> Ven
+          </label>
+        </div>
+        <div class="small-note">
+          Data proposta: <span id="appDatePreview">Seleziona un giorno…</span>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Motivazione</div>
+        <textarea id="appReason" placeholder="Scrivi brevemente il motivo dell'appuntamento"></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="appSubmit">Invia richiesta</button>
+      </div>
+
+      <div class="small-note">
+        I dati vengono inviati alla chiesa nel foglio "Appuntamenti" e utilizzati solo per ricontattarti.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    RiseUp &amp; Chiesa Apostolica Carini - OSA - Rhema 2025
+  </footer>
+</div>
+
+<script>
+  // 👉 URL Apps Script per note + appuntamenti
+  const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbycboxlETWxHJ08dpr4vixz5U1ht_mKguOdekKf7OEoon6lCeWYN1fxf_bkkbWc_StU/exec';
+
+  // 👉 URL CSV del foglio "eventi"
+  const EVENTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS6Xgp-3pVR9RdoCX0QKT0FYWQulkdKmCqr3Ou4x-JRmv2QwL7nsm9RlDXe-i08IxuFp2ZwCqP2X0Ow/pub?gid=1100957392&single=true&output=csv';
+
+  // 👉 URL CSV del foglio devozionali
+  const DEVOS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQHDbrymUnAs2GZoExowjFpbxzWUAi2PWL5z44qLFXly8ZF6MA929WC_c-V9mtG9i2U3fWQIH3MZME0/pub?gid=790463685&single=true&output=csv';
+
+  const STORAGE_KEY = 'riseup_generazione_diario';
+  const NAME_KEY    = 'riseup_user_name';
+  const CLIENT_KEY  = 'riseup_client_id';
+
+  let eventsLoaded = false;
+  let eventsData = null;
+  let currentDevoDate = null;
+
+  const defaultDevotionals = []; // fallback se il CSV non va
+  let devotionals = defaultDevotionals.slice();
+
+  function getTodayKey(){
+    const d=new Date();
+    const y=d.getFullYear();
+    const m=String(d.getMonth()+1).padStart(2,'0');
+    const day=String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function formatItalianDate(dateStr){
+    const d=new Date(dateStr);
+    if(isNaN(d.getTime())) return dateStr || '';
+    return d.toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  }
+
+  function getCurrentDevo(){
+    if(!devotionals || !devotionals.length) return null;
+
+    if(currentDevoDate){
+      const found = devotionals.find(d=>d.date===currentDevoDate);
+      if(found) return found;
+    }
+
+    const todayKey = getTodayKey();
+    const list = devotionals.slice().sort((a,b)=>a.date.localeCompare(b.date));
+
+    let devo = list.find(d=>d.date===todayKey);
+    if(devo){
+      currentDevoDate = devo.date;
+      return devo;
+    }
+
+    let lastPast = null;
+    list.forEach(d=>{
+      if(d.date <= todayKey) lastPast = d;
     });
-  });
+    if(lastPast){
+      currentDevoDate = lastPast.date;
+      return lastPast;
+    }
 
-  // ELEMENTI DEVOZIONALE
-  const titoloDev = document.getElementById('devo-titolo');
-  const refDev = document.getElementById('devo-rif');
-  const versoDev = document.getElementById('devo-verso');
-  const testoDev = document.getElementById('devo-testo');
-  const oggiLabel = document.getElementById('oggi-label');
-
-  const prossimoEventoBox = document.getElementById('prossimo-evento');
-  const eventoTitoloEl = document.getElementById('evento-titolo');
-  const eventoQuandoEl = document.getElementById('evento-quando');
-  const eventoDoveEl = document.getElementById('evento-dove');
-
-  const btnPrev = document.getElementById('btn-prev');
-  const btnToday = document.getElementById('btn-today');
-
-  function formattaDataItaliano(date) {
-    const giorni = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
-    const mesi = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-    const g = giorni[date.getDay()];
-    const d = String(date.getDate()).padStart(2,'0');
-    const m = mesi[date.getMonth()];
-    const y = date.getFullYear();
-    return `${g} ${d} ${m} ${y}`;
+    currentDevoDate = list[0].date;
+    return list[0];
   }
 
-  function formatDMY(date){
-    const d=String(date.getDate()).padStart(2,"0");
-    const m=String(date.getMonth()+1).padStart(2,"0");
-    const y=date.getFullYear();
-    return `${d}/${m}/${y}`;
+  function getClientId(){
+    let cid = localStorage.getItem(CLIENT_KEY);
+    if(!cid){
+      cid = 'cid-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+      localStorage.setItem(CLIENT_KEY, cid);
+    }
+    return cid;
   }
 
-  function toYMD(date){
-    const y = date.getFullYear();
-    const m = String(date.getMonth()+1).padStart(2,"0");
-    const d = String(date.getDate()).padStart(2,"0");
-    return `${y}-${m}-${d}`;
+  // 👉 Chiede SEMPRE il nome (non lo salva)
+  function getUserName(){
+    const name = prompt('Inserisci il tuo nome o nickname (per la chiesa):') || 'Anonimo';
+    return name;
   }
 
-  let devoCorrenteData = new Date();
-  const oggi = new Date(); // per confronto
-
-  async function caricaDevozionale() {
-    const url = `${API}?date=${toYMD(devoCorrenteData)}`;
-
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-
-      const devo = data.devotional;
-
-      if (devo) {
-        titoloDev.textContent = devo.titolo || '';
-        refDev.textContent = devo.riferimento || '';
-        versoDev.textContent = devo.testo || '';
-        testoDev.textContent = '';
-      } else {
-        titoloDev.textContent = 'Nessun devozionale trovato per questa data';
-        refDev.textContent = '';
-        versoDev.textContent = '';
-        testoDev.textContent = '';
-      }
-
-      const testoData = formattaDataItaliano(devoCorrenteData);
-
-      const stessaGiornata =
-        devoCorrenteData.getFullYear() === oggi.getFullYear() &&
-        devoCorrenteData.getMonth() === oggi.getMonth() &&
-        devoCorrenteData.getDate() === oggi.getDate();
-
-      oggiLabel.textContent = stessaGiornata ? `Oggi · ${testoData}` : testoData;
-
-      if (data.nextEvent) {
-        prossimoEventoBox.style.display = 'block';
-        eventoTitoloEl.textContent = data.nextEvent.titolo || '';
-        eventoQuandoEl.textContent = (data.nextEvent.data || '') + (data.nextEvent.ora ? ' · ' + data.nextEvent.ora : '');
-        eventoDoveEl.textContent = data.nextEvent.luogo || '';
-      } else {
-        prossimoEventoBox.style.display = 'none';
-      }
-
-    } catch (e) {
-      titoloDev.textContent = 'Errore nel caricamento del devozionale';
-      refDev.textContent = '';
-      versoDev.textContent = '';
-      testoDev.textContent = '';
-      prossimoEventoBox.style.display = 'none';
+  function loadNotes(){
+    try{
+      const raw=localStorage.getItem(STORAGE_KEY);
+      return raw?JSON.parse(raw):[];
+    }catch(e){
+      console.error(e);return[];
     }
   }
 
-  btnPrev.addEventListener('click', () => {
-    devoCorrenteData.setDate(devoCorrenteData.getDate() - 1);
-    caricaDevozionale();
-  });
+  function saveNotes(notes){
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(notes));
+  }
 
-  btnToday.addEventListener('click', () => {
-    devoCorrenteData = new Date();
-    caricaDevozionale();
-  });
+  function preloadTodayNote(dateStr){
+    const notes=loadNotes();
+    const existing=notes.find(n=>n.date===dateStr);
+    document.getElementById('noteInput').value= existing ? existing.text : '';
+  }
 
-  caricaDevozionale();
+  function sendToSheet(payload){
+    if(!ENDPOINT_URL){
+      console.warn('ENDPOINT_URL non configurato');
+      return;
+    }
+    const url = ENDPOINT_URL + '?payload=' + encodeURIComponent(JSON.stringify(payload));
+    fetch(url, { method: 'GET', mode: 'no-cors' })
+      .catch(err => console.error('Errore invio payload:', err));
+  }
 
-  // SCRIVI
-  const nomeInput = document.getElementById('nome');
-  const notaText = document.getElementById('nota');
-  const btnSaveNota = document.getElementById('btn-save-nota');
-  const btnClearNota = document.getElementById('btn-clear-nota');
-  const notaFeedback = document.getElementById('nota-feedback');
+  function renderToday(){
+    const devo=getCurrentDevo();
+    if(!devo) return;
 
-  btnClearNota.addEventListener('click', () => {
-    notaText.value = '';
-    notaFeedback.textContent = '';
-    notaFeedback.className = 'feedback';
-  });
+    const todayKey = getTodayKey();
+    const labelEl = document.getElementById('todayLabel');
+    const prevBtn = document.getElementById('prevDevoBtn');
 
-  btnSaveNota.addEventListener('click', async () => {
-    notaFeedback.textContent = '';
-    notaFeedback.className = 'feedback';
+    if(devo.date === todayKey){
+      const today=new Date();
+      labelEl.textContent =
+        today.toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+    }else{
+      labelEl.textContent = formatItalianDate(devo.date);
+    }
 
-    const nome = nomeInput.value.trim();
-    const testo = notaText.value.trim();
+    const listPastOrToday = devotionals
+      .slice()
+      .filter(d=>d.date <= todayKey)
+      .sort((a,b)=>a.date.localeCompare(b.date));
+    const idx = listPastOrToday.findIndex(d=>d.date===devo.date);
+    prevBtn.disabled = (idx <= 0);
 
-    if (!testo) {
-      notaFeedback.textContent = 'Scrivi qualcosa prima di inviare.';
-      notaFeedback.classList.add('error');
+    document.getElementById('devTitle').textContent=devo.title;
+    document.getElementById('devRef').textContent=devo.ref;
+    document.getElementById('devVerse').textContent=devo.verse || '';
+    document.getElementById('devContent').textContent=devo.content;
+    preloadTodayNote(devo.date);
+
+    // aggiorna anche il prossimo evento in home
+    renderHomeNextEvent();
+  }
+
+  function goPrevDevo(){
+    const devo = getCurrentDevo();
+    if(!devo) return;
+
+    const todayKey = getTodayKey();
+
+    const allowed = devotionals
+      .slice()
+      .filter(d=>d.date <= todayKey)
+      .sort((a,b)=>a.date.localeCompare(b.date));
+
+    const idx = allowed.findIndex(d=>d.date===devo.date);
+    if(idx <= 0) return;
+
+    currentDevoDate = allowed[idx-1].date;
+    renderToday();
+  }
+
+  function goToday(){
+    currentDevoDate = null;
+    renderToday();
+  }
+
+  function handleSaveNote(){
+    const devo=getCurrentDevo();
+    if(!devo) return;
+
+    const text=document.getElementById('noteInput').value.trim();
+    if(!text){
+      alert('Scrivi qualcosa prima di salvare 🙂');
       return;
     }
 
+    const notes=loadNotes();
+    const idx=notes.findIndex(n=>n.date===devo.date);
+    const now=new Date().toISOString();
+    if(idx>=0){
+      notes[idx].text=text;
+      notes[idx].updatedAt=now;
+    }else{
+      notes.push({date:devo.date,title:devo.title,text,createdAt:now,updatedAt:now});
+    }
+    saveNotes(notes);
+
     const payload = {
-      type: 'response',
-      data_devozionale: formatDMY(devoCorrenteData),
-      nome: nome,
-      testo_rispsosta: testo
+      userName: getUserName(),
+      clientId: getClientId(),
+      devotionalDate: devo.date,
+      devotionalTitle: devo.title,
+      verseRef: devo.ref,
+      noteText: text,
+      createdAt: now
     };
+    sendToSheet(payload);
 
-    try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+    renderDiary();
+    alert('Nota salvata su questo dispositivo ✅\nE inviata alla chiesa.');
+  }
+
+  function handleClearNote(){
+    if(!confirm('Vuoi davvero cancellare il testo?')) return;
+    document.getElementById('noteInput').value='';
+  }
+
+  function renderDiary(){
+    const notes=loadNotes().sort((a,b)=>a.date.localeCompare(b.date));
+    const box=document.getElementById('diaryList');
+    box.innerHTML='';
+    if(!notes.length){
+      box.innerHTML='<div class="empty">Non hai ancora scritto nessuna nota. Inizia oggi dalla scheda “Scrivi”.</div>';
+      return;
+    }
+    notes.forEach(n=>{
+      const div=document.createElement('div');
+      div.className='diary-item';
+      const d=document.createElement('div');
+      d.className='diary-date';
+      d.textContent=`${new Date(n.date).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'})} · ${n.title||''}`;
+      const p=document.createElement('div');
+      p.className='diary-preview';
+      p.textContent=n.text;
+      div.appendChild(d);div.appendChild(p);
+      div.addEventListener('click',()=>{
+        currentDevoDate = n.date;
+        renderToday();
+        document.getElementById('noteInput').value=n.text;
+        setActiveTab('scrivi');
       });
+      box.appendChild(div);
+    });
+  }
 
-      let json = {};
-      try { json = await res.json(); } catch(_) {}
+  function parseCSV(text){
+    const rows=[];
+    let row=[];
+    let cur='';
+    let inQuotes=false;
 
-      if (json.status && json.status !== 'ok') {
-        notaFeedback.textContent = json.message || 'Errore durante l\'invio.';
-        notaFeedback.classList.add('error');
+    for(let i=0;i<text.length;i++){
+      const c=text[i];
+
+      if(c === '"'){
+        if(inQuotes && text[i+1] === '"'){
+          cur+='"';
+          i++;
+        }else{
+          inQuotes = !inQuotes;
+        }
+      }else if(c === ',' && !inQuotes){
+        row.push(cur);
+        cur='';
+      }else if((c === '\n' || c === '\r') && !inQuotes){
+        if(cur !== '' || row.length){
+          row.push(cur);
+          rows.push(row);
+          row=[];
+          cur='';
+        }
+        if(c === '\r' && text[i+1] === '\n') i++;
+      }else{
+        cur+=c;
+      }
+    }
+    if(cur !== '' || row.length){
+      row.push(cur);
+      rows.push(row);
+    }
+    return rows;
+  }
+
+  function parseDevoDate(str){
+    if(!str) return null;
+    str = String(str).trim();
+    if(/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+    const parts = str.split('/');
+    if(parts.length === 3){
+      let d = parts[0].padStart(2,'0');
+      let m = parts[1].padStart(2,'0');
+      let y = parts[2];
+      if(y.length === 2) y = '20' + y;
+      if(y.length === 4){
+        return `${y}-${m}-${d}`;
+      }
+    }
+    return null;
+  }
+
+  function fetchDevotionals(){
+    if(!DEVOS_CSV_URL) return Promise.resolve(defaultDevotionals);
+
+    return fetch(DEVOS_CSV_URL)
+      .then(r=>r.text())
+      .then(text=>{
+        const rows = parseCSV(text);
+        if(!rows.length) return defaultDevotionals;
+
+        const headers = rows[0].map(h=>h.trim().toLowerCase());
+        const idx = {};
+        headers.forEach((h,i)=>{ idx[h]=i; });
+
+        function col(){
+          for(let i=0;i<arguments.length;i++){
+            const key = arguments[i];
+            if(idx[key] !== undefined) return idx[key];
+          }
+          return -1;
+        }
+
+        const iDate    = col('data','date','giorno');
+        const iTitle   = col('titolo','title');
+        const iRef     = col('riferimento','riferimento biblico','rif bibiclo','rif biblico','rif.');
+        const iVerse   = col('verso','versetto','testo versetto');
+        const iContent = col('contenuto','commento','testo','devocionale');
+
+        if(iDate<0 || iTitle<0 || iRef<0 || iContent<0){
+          console.warn('Colonne devozionali non trovate nel CSV, uso il fallback interno.');
+          return defaultDevotionals;
+        }
+
+        const list = rows.slice(1).map(r=>{
+          const d = parseDevoDate(r[iDate] || '');
+          return {
+            date: d || '',
+            title: r[iTitle] || '',
+            ref: r[iRef] || '',
+            verse: iVerse>=0 ? (r[iVerse] || '') : '',
+            content: r[iContent] || ''
+          };
+        }).filter(d => d.date && d.title && d.content);
+
+        if(!list.length){
+          console.warn('CSV devozionali vuoto o non valido, uso fallback.');
+          return defaultDevotionals;
+        }
+
+        return list;
+      })
+      .catch(err=>{
+        console.error('Errore caricamento devozionali da CSV:', err);
+        return defaultDevotionals;
+      });
+  }
+
+  function parseEventDate(ev){
+    if(!ev.data) return null;
+    const parts = ev.data.split('/');
+    if(parts.length < 3) return null;
+    const d = Number(parts[0]);
+    const m = Number(parts[1]);
+    const y = Number(parts[2]);
+    if(!y || !m || !d) return null;
+    let hh = 0, mm = 0;
+    if(ev.ora){
+      const t = ev.ora.split(':');
+      hh = Number(t[0]) || 0;
+      mm = Number(t[1]) || 0;
+    }
+    return new Date(y, m-1, d, hh, mm);
+  }
+
+  function fetchEvents(){
+    if(eventsLoaded) return Promise.resolve(eventsData || []);
+    return fetch(EVENTS_CSV_URL)
+      .then(r=>r.text())
+      .then(text=>{
+        const rows = parseCSV(text);
+        if(!rows.length) return [];
+        const headers = rows[0].map(h=>h.trim().toLowerCase());
+        const idx = {};
+        headers.forEach((h,i)=>{ idx[h]=i; });
+
+        const list = rows.slice(1).map(r=>({
+          giorno: r[idx['giorno']] || '',
+          data: r[idx['data']] || '',
+          ora: r[idx['ora']] || '',
+          evento: r[idx['evento']] || '',
+          luogo: r[idx['luogo']] || '',
+          descrizione: r[idx['descrizione']] || '',
+          prenotazione: r[idx['prenotazione']] || ''
+        })).filter(e=>e.evento);
+
+        list.forEach(ev=>{
+          ev._dateObj = parseEventDate(ev);
+        });
+
+        eventsData = list;
+        eventsLoaded = true;
+        return list;
+      })
+      .catch(err=>{
+        console.error('Errore caricamento eventi:', err);
+        return [];
+      });
+  }
+
+  function renderEvents(){
+    const container = document.getElementById('eventsList');
+    if(!container) return;
+    container.innerHTML = '<div class="small-note">Caricamento eventi...</div>';
+
+    fetchEvents().then(list=>{
+      if(!list.length){
+        container.innerHTML = '<div class="empty">Nessun evento disponibile al momento.</div>';
         return;
       }
 
-      notaFeedback.textContent = 'Risposta inviata.';
-      notaFeedback.classList.add('success');
-      notaText.value = '';
+      const now = new Date();
+      const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    } catch (e) {
-      notaFeedback.textContent = 'Errore di connessione.';
-      notaFeedback.classList.add('error');
-    }
-  });
+      list.sort((a,b)=>{
+        if(a._dateObj && b._dateObj) return a._dateObj - b._dateObj;
+        if(a._dateObj) return -1;
+        if(b._dateObj) return 1;
+        return 0;
+      });
 
-  // PARLA / APPUNTAMENTI
-  const nomeApp = document.getElementById('nome-app');
-  const contattoApp = document.getElementById('contatto-app');
-  const dataApp = document.getElementById('data-app');
-  const oraApp = document.getElementById('ora-app');
-  const motivoApp = document.getElementById('motivo-app');
-  const btnClearApp = document.getElementById('btn-clear-app');
-  const btnInviaApp = document.getElementById('btn-invia-app');
-  const appFeedback = document.getElementById('app-feedback');
+      const upcoming = list.filter(ev => !ev._dateObj || ev._dateObj >= todayMidnight);
+      const toShow = upcoming.length ? upcoming : list;
 
-  btnClearApp.addEventListener('click', () => {
-    nomeApp.value = '';
-    contattoApp.value = '';
-    dataApp.value = '';
-    oraApp.value = '';
-    motivoApp.value = '';
-    appFeedback.textContent = '';
-    appFeedback.className = 'feedback';
-  });
+      container.innerHTML = '';
+      toShow.forEach(ev=>{
+        const wrap = document.createElement('div');
+        wrap.className = 'event-item';
 
-  function parseDMY(str){
-    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(str);
-    if (!m) return null;
-    const d = parseInt(m[1],10);
-    const mo = parseInt(m[2],10)-1;
-    const y = parseInt(m[3],10);
-    return new Date(y,mo,d);
+        const dateDiv = document.createElement('div');
+        dateDiv.className = 'event-date';
+        dateDiv.textContent = ev.data + (ev.ora ? ' · ' + ev.ora : '');
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'event-title';
+        titleDiv.textContent = ev.evento;
+
+        const locDiv = document.createElement('div');
+        locDiv.className = 'event-location';
+        if(ev.luogo) locDiv.textContent = ev.luogo;
+
+        const descDiv = document.createElement('div');
+        descDiv.className = 'event-desc';
+        if(ev.descrizione) descDiv.textContent = ev.descrizione;
+
+        const bookDiv = document.createElement('div');
+        bookDiv.className = 'event-booking';
+        if(ev.prenotazione) bookDiv.textContent = ev.prenotazione;
+
+        wrap.appendChild(dateDiv);
+        wrap.appendChild(titleDiv);
+        if(ev.luogo) wrap.appendChild(locDiv);
+        if(ev.descrizione) wrap.appendChild(descDiv);
+        if(ev.prenotazione) wrap.appendChild(bookDiv);
+
+        container.appendChild(wrap);
+      });
+    });
   }
 
-  btnInviaApp.addEventListener('click', async () => {
-    appFeedback.textContent = '';
-    appFeedback.className = 'feedback';
+  // 👉 NUOVO: prossimo evento in home
+  function renderHomeNextEvent(){
+    const box = document.getElementById('homeNextEventInner');
+    if(!box) return;
 
-    const nome = nomeApp.value.trim();
-    const tel  = contattoApp.value.trim();
-    const dataStr = dataApp.value.trim();
-    const oraStr  = oraApp.value.trim();
-    const motivo = motivoApp.value.trim();
+    fetchEvents().then(list=>{
+      if(!list.length){
+        box.textContent = 'Nessun evento in programma.';
+        return;
+      }
 
-    if (!nome || !tel || !dataStr || !oraStr || !motivo) {
-      appFeedback.textContent = 'Compila tutti i campi.';
-      appFeedback.classList.add('error');
+      const now = new Date();
+      const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+      list.sort((a,b)=>{
+        if(a._dateObj && b._dateObj) return a._dateObj - b._dateObj;
+        if(a._dateObj) return -1;
+        if(b._dateObj) return 1;
+        return 0;
+      });
+
+      const upcoming = list.filter(ev => ev._dateObj && ev._dateObj >= todayMidnight);
+      const ev = upcoming[0] || list[0];
+
+      const line1 = (ev.data || '') + (ev.ora ? ' · ' + ev.ora : '');
+      const line2 = ev.evento || '';
+      const line3 = ev.luogo || '';
+
+      box.innerHTML = `
+        <div class="home-next-event-date">${line1 || 'Data da definire'}</div>
+        <div class="home-next-event-title">${line2}</div>
+        ${line3 ? `<div class="home-next-event-loc">${line3}</div>` : ''}
+      `;
+    }).catch(err=>{
+      console.error('Errore prossimo evento home:', err);
+      box.textContent = 'Non è stato possibile caricare gli eventi.';
+    });
+  }
+
+  function setActiveTab(name){
+    document.querySelectorAll('.tab').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.tab===name);
+    });
+    document.getElementById('tab-oggi').style.display          = (name==='oggi') ? '' : 'none';
+    document.getElementById('tab-scrivi').style.display        = (name==='scrivi') ? '' : 'none';
+    document.getElementById('tab-diario').style.display        = (name==='diario') ? '' : 'none';
+    document.getElementById('tab-eventi').style.display        = (name==='eventi') ? '' : 'none';
+    document.getElementById('tab-appuntamenti').style.display  = (name==='appuntamenti') ? '' : 'none';
+
+    if(name === 'eventi'){
+      renderEvents();
+    }
+    if(name === 'diario'){
+      renderDiary();
+    }
+    if(name === 'oggi'){
+      renderHomeNextEvent();
+    }
+  }
+
+  // APPUNTAMENTI – calcolo data proposta
+  function getNextDateForWeekday(weekdayNumber){
+    // weekdayNumber: 1=lun ... 5=ven (come getDay lun=1)
+    const now = new Date();
+    const todayDow = now.getDay(); // 0=dom,1=lun,...6=sab
+    let targetDow = weekdayNumber; // 1..5
+
+    let diff = targetDow - todayDow;
+    if(diff < 0) diff += 7; // prossimo giro
+    const result = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diff);
+    return result;
+  }
+
+  function updateAppointmentPreview(){
+    const radios = document.querySelectorAll('.day-radio');
+    const preview = document.getElementById('appDatePreview');
+    let selected = null;
+    radios.forEach(r=>{
+      if(r.checked) selected = r;
+    });
+    if(!selected){
+      preview.textContent = 'Seleziona un giorno…';
+      return;
+    }
+    const weekdayNum = parseInt(selected.value,10); // 1..5
+    const label = selected.dataset.label || '';
+    const dateObj = getNextDateForWeekday(weekdayNum);
+    const dd = String(dateObj.getDate()).padStart(2,'0');
+    const mm = String(dateObj.getMonth()+1).padStart(2,'0');
+    const yyyy = dateObj.getFullYear();
+    preview.textContent = `${label} ${dd}/${mm}/${yyyy}`;
+  }
+
+  function handleAppointmentSubmit(){
+    const fullName = document.getElementById('appFullName').value.trim();
+    const phone    = document.getElementById('appPhone').value.trim();
+    const reason   = document.getElementById('appReason').value.trim();
+    const radios   = Array.from(document.querySelectorAll('.day-radio'));
+    const selected = radios.find(r=>r.checked);
+
+    if(!fullName || !phone || !reason){
+      alert('Compila nome, numero e motivazione prima di inviare.');
+      return;
+    }
+    if(!selected){
+      alert('Seleziona un giorno preferito (lun–ven).');
       return;
     }
 
-    if (!/^\d{2}:\d{2}$/.test(oraStr)) {
-      appFeedback.textContent = 'Inserisci l\'ora in formato HH:MM.';
-      appFeedback.classList.add('error');
-      return;
-    }
+    const weekdayNum = parseInt(selected.value,10);
+    const label = selected.dataset.label || '';
+    const dateObj = getNextDateForWeekday(weekdayNum);
+    const dd = String(dateObj.getDate()).padStart(2,'0');
+    const mm = String(dateObj.getMonth()+1).padStart(2,'0');
+    const yyyy = dateObj.getFullYear();
+    const iso = `${yyyy}-${mm}-${dd}`;
+    const displayShort = `${label.slice(0,3).toLowerCase()} ${dd}/${mm}`;
 
-    const d = parseDMY(dataStr);
-    if (!d) {
-      appFeedback.textContent = 'Inserisci la data in formato gg/mm/aaaa.';
-      appFeedback.classList.add('error');
-      return;
-    }
-
-    const day = d.getDay(); // 0 dom, 6 sab
-    if (day === 0 || day === 6) {
-      appFeedback.textContent = 'Si possono prenotare solo lun–ven.';
-      appFeedback.classList.add('error');
-      return;
-    }
+    const now = new Date().toISOString();
 
     const payload = {
       type: 'appointment',
-      Data: dataStr,
-      Ora: oraStr,
-      Nome: nome,
-      Telefono: tel,
-      Motivo: motivo
+      fullName: fullName,
+      phone: phone,
+      appointmentDateDisplay: displayShort, // per colonna D
+      appointmentDateISO: iso,              // per colonna E
+      reason: reason,
+      clientId: getClientId(),
+      createdAt: now
     };
 
-    try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+    sendToSheet(payload);
 
-      let json = {};
-      try { json = await res.json(); } catch(_) {}
+    document.getElementById('appFullName').value = '';
+    document.getElementById('appPhone').value = '';
+    document.getElementById('appReason').value = '';
+    radios.forEach(r=>r.checked = false);
+    updateAppointmentPreview();
 
-      if (json.status && json.status !== 'ok') {
-        appFeedback.textContent = json.message || 'Errore durante l\'invio.';
-        appFeedback.classList.add('error');
-        return;
-      }
+    alert('Richiesta inviata ✅\nVerrai ricontattato quanto prima.');
+  }
 
-      appFeedback.textContent = 'Richiesta inviata.';
-      appFeedback.classList.add('success');
-
-      nomeApp.value = '';
-      contattoApp.value = '';
-      dataApp.value = '';
-      oraApp.value = '';
-      motivoApp.value = '';
-
-    } catch (e) {
-      appFeedback.textContent = 'Errore di connessione.';
-      appFeedback.classList.add('error');
-    }
+  // Event listeners
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      setActiveTab(btn.dataset.tab);
+    });
   });
 
-  // EVENTI
-  const listaEventi = document.getElementById('lista-eventi');
+  document.getElementById('saveNote').addEventListener('click',handleSaveNote);
+  document.getElementById('clearNote').addEventListener('click',handleClearNote);
+  document.getElementById('prevDevoBtn').addEventListener('click', goPrevDevo);
+  document.getElementById('todayDevoBtn').addEventListener('click', goToday);
+  document.getElementById('appSubmit').addEventListener('click', handleAppointmentSubmit);
+  document.querySelectorAll('.day-radio').forEach(r=>{
+    r.addEventListener('change', updateAppointmentPreview);
+  });
 
-  async function caricaEventi() {
-    try {
-      const res = await fetch(API);
-      const data = await res.json();
-
-      const eventi = data.weekEvents || [];
-      if (!eventi.length) {
-        listaEventi.innerHTML = "<div style='font-size:11px; color:rgba(148,163,184,0.95);'>Nessun evento questa settimana.</div>";
-        return;
-      }
-
-      listaEventi.innerHTML = eventi.map(ev => `
-        <div class="event-item">
-          <div class="event-item-title">${ev.titolo || ''}</div>
-          <div class="event-item-desc">${ev.descrizione || ''}</div>
-          <div class="event-item-meta">
-            <div>${ev.data || ''} · ${ev.ora || ''}</div>
-            <div>${ev.luogo || ''}</div>
-          </div>
-        </div>
-      `).join('');
-    } catch (e) {
-      listaEventi.innerHTML = "<div style='font-size:11px; color:rgba(148,163,184,0.95);'>Errore nel caricamento degli eventi.</div>";
-    }
-  }
-  </script>
+  // Init
+  fetchDevotionals().then(list=>{
+    devotionals = list.slice().sort((a,b)=>a.date.localeCompare(b.date));
+    currentDevoDate = null;
+    renderToday();
+    renderDiary();
+  });
+</script>
 </body>
 </html>
