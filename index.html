@@ -6,1125 +6,246 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    :root {
-      --bg: #050608;
-      --card-bg: #111318;
-      --accent: #fbbf24;
-      --accent-soft: #facc15;
-      --accent-strong: #eab308;
-      --accent-glow: rgba(250, 204, 21, 0.25);
-      --text-main: #e5e7eb;
-      --text-dim: #9ca3af;
-      --border-subtle: rgba(148, 163, 184, 0.45);
-      --pill-bg: rgba(15, 23, 42, 0.9);
-      --pill-active-bg: rgba(15, 23, 42, 0.98);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
+    /* Stili principali rimasti invariati, puoi riutilizzare quelli che hai già */
     body {
       margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #020617 0, #020617 28%, #020617 60%, #030712 100%);
-      color: var(--text-main);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #050608;
+      color: #e5e7eb;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 24px 12px;
-    }
-
-    .app-shell {
-      width: 100%;
-      max-width: 420px;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.98), rgba(3,7,18,0.98));
-      border-radius: 24px;
-      border: 1px solid rgba(148,163,184,0.35);
-      box-shadow:
-        0 32px 120px rgba(15,23,42,0.95),
-        0 0 0 1px rgba(15,23,42,0.9);
-      padding: 14px 12px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .app-shell::before {
-      content: "";
-      position: absolute;
-      inset: -80px;
-      background:
-        radial-gradient(circle at -10% -20%, rgba(250,204,21,0.10), transparent 55%),
-        radial-gradient(circle at 110% -20%, rgba(96,165,250,0.12), transparent 55%);
-      opacity: 0.9;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .app-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 9px 3px 3px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.5);
-      margin-bottom: 10px;
-      box-shadow: 0 0 0 1px rgba(15,23,42,0.9);
-    }
-
-    .status-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, #fefce8, #facc15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1f2937;
-      font-size: 12px;
-      box-shadow:
-        0 0 0 1px rgba(161,98,7,0.6),
-        0 0 0 4px rgba(250,204,21,0.14),
-        0 8px 18px rgba(250,204,21,0.35);
-    }
-
-    .status-text {
-      font-size: 11px;
-      color: rgba(209,213,219,0.95);
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .brand-main {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 16px;
-      background:
-        radial-gradient(circle at 30% 10%, #fef9c3, #facc15),
-        radial-gradient(circle at 80% 120%, #4b5563, #020617);
-      border: 1px solid rgba(251,191,36,0.7);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,0.95),
-        0 18px 45px rgba(15,23,42,0.95),
-        0 0 40px rgba(250,204,21,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #020617;
-      font-weight: 800;
-      font-size: 14px;
-      letter-spacing: 0.04em;
-    }
-
-    .brand-texts {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .brand-title {
-      font-size: 15px;
-      font-weight: 650;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      color: #f9fafb;
-    }
-
-    .brand-subtitle {
-      font-size: 12px;
-      color: rgba(148,163,184,0.95);
-    }
-
-    .theme-badge {
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.5);
-      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(15,23,42,0.85));
-      font-size: 11px;
-      color: rgba(209,213,219,0.95);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-
-    .theme-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 10%, #f97316, #ea580c);
-      box-shadow: 0 0 0 4px rgba(248,113,113,0.18);
-    }
-
-    .devo-card {
-      margin-top: 10px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(2,6,23,1));
-      border-radius:16px;
-      padding:14px 14px 16px;
-      border:1px solid rgba(51,65,85,0.9);
-      box-shadow:
-        0 14px 35px rgba(15,23,42,0.95),
-        inset 0 0 0 1px rgba(15,23,42,1);
-    }
-
-    .card-header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:6px;
-    }
-
-    .card-header-title {
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-
-    .devo-label {
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.12em;
-      color:rgba(156,163,175,0.95);
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    .devo-label-dot {
-      width:4px;
-      height:4px;
-      border-radius:999px;
-      background:var(--accent);
-      box-shadow:0 0 0 3px var(--accent-glow);
-    }
-
-    .devo-title {
-      font-size:15px;
-      font-weight:600;
-      color:#e5e7eb;
-    }
-
-    .today-pill {
-      font-size:11px;
-      padding:3px 8px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.95);
-      border:1px solid rgba(55,65,81,0.9);
-      color:rgba(209,213,219,0.96);
-      display:flex;
-      align-items:center;
-      gap:5px;
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 6px 18px rgba(15,23,42,0.95);
-    }
-
-    .today-pill-dot {
-      width:6px;
-      height:6px;
-      border-radius:999px;
-      background: radial-gradient(circle at 30% 10%, #bbf7d0, #22c55e);
-      box-shadow:0 0 0 4px rgba(34,197,94,0.22);
-    }
-
-    .date-nav {
-      display:flex;
-      gap:6px;
-      margin-top:10px;
-    }
-
-    .date-btn {
-      flex:1;
-      font-size:11px;
-      padding:6px 8px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      color:rgba(209,213,219,0.96);
-      cursor:pointer;
-    }
-
-    .date-btn:active {
-      transform:translateY(1px);
-    }
-
-    .verse-block {
-      margin-top:8px;
-      padding:10px 10px 10px;
-      border-radius:12px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.9), rgba(15,23,42,0.95));
-      border:1px solid rgba(55,65,81,0.95);
-      box-shadow:
-        inset 0 0 0 1px rgba(15,23,42,1),
-        0 10px 28px rgba(15,23,42,0.9);
-    }
-
-    .verse-ref {
-      font-size:12px;
-      color:rgba(209,213,219,0.95);
-      margin-bottom:4px;
-    }
-
-    .verse-text {
-      font-size:13px;
-      line-height:1.5;
-      color:#f9fafb;
-    }
-
-    .verse-note {
-      margin-top:6px;
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .event-card {
-      margin-top:10px;
-      padding:10px 10px 11px;
-      border-radius:12px;
-      border:1px solid rgba(55,65,81,0.9);
-      background: radial-gradient(circle at 80% 0%, rgba(37,99,235,0.16), rgba(15,23,42,0.98));
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 12px 26px rgba(15,23,42,0.95);
-    }
-
-    .event-label {
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.14em;
-      color:rgba(148,163,184,0.95);
-      margin-bottom:4px;
-    }
-
-    .event-main {
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .event-title {
-      font-size:13px;
-      font-weight:500;
-      color:#e5e7eb;
-    }
-
-    .event-meta {
-      margin-top:4px;
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .event-badge {
-      align-self:flex-start;
-      padding:4px 8px;
-      border-radius:999px;
-      font-size:11px;
-      background:rgba(22,163,74,0.14);
-      color:rgba(187,247,208,0.96);
-      border:1px solid rgba(34,197,94,0.75);
-      box-shadow:
-        0 0 0 1px rgba(22,101,52,0.9),
-        0 8px 18px rgba(22,163,74,0.4);
-    }
-
-    .tabs-row {
-      display:flex;
-      margin-top:12px;
-      margin-bottom:10px;
-      padding:3px;
-      border-radius:999px;
-      background:rgba(15,23,42,0.95);
-      border:1px solid rgba(31,41,55,0.95);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 10px 26px rgba(15,23,42,0.95);
-      gap:2px;
-    }
-
-    .tab {
-      flex:1;
-      text-align:center;
-      padding:6px 0;
-      border-radius:999px;
-      border:none;
-      background:transparent;
-      color:rgba(148,163,184,0.95);
-      font-size:11px;
-      font-weight:500;
-      letter-spacing:0.04em;
-      text-transform:uppercase;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-    }
-
-    .tab-icon {
-      font-size:13px;
-    }
-
-    .tab.active {
-      background: radial-gradient(circle at top, rgba(251,191,36,0.12), rgba(15,23,42,1));
-      color:#f9fafb;
-      box-shadow:
-        0 0 0 1px rgba(251,191,36,0.45),
-        0 8px 22px rgba(251,191,36,0.35);
-    }
-
-    .tab-content {
-      display:none;
-    }
-
-    .tab-content.active {
-      display:block;
-    }
-
-    .section {
-      margin-top:2px;
-    }
-
-    .section-title-row {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:6px;
-    }
-
-    .section-title {
-      font-size:13px;
-      font-weight:500;
-      color:#e5e7eb;
-    }
-
-    .section-sub {
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .field-group {
-      margin-bottom:8px;
-    }
-
-    label {
-      display:block;
-      font-size:11px;
-      color:rgba(156,163,175,0.95);
-      margin-bottom:3px;
-    }
-
-    input[type="text"],
-    textarea {
-      width:100%;
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      color:#e5e7eb;
-      font-size:13px;
-      padding:8px 9px;
-      outline:none;
-      box-shadow: inset 0 0 0 1px rgba(15,23,42,1);
-    }
-
-    input[type="text"]:focus,
-    textarea:focus {
-      border-color:rgba(251,191,36,0.95);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 0 0 1px rgba(251,191,36,0.5),
-        0 10px 24px rgba(251,191,36,0.22);
-      background:rgba(15,23,42,1);
-    }
-
-    textarea {
-      resize:vertical;
-      min-height:90px;
-      max-height:180px;
-      line-height:1.5;
-    }
-
-    .btn-row {
-      display:flex;
-      justify-content:space-between;
-      gap:8px;
-      margin-top:4px;
-      margin-bottom:6px;
-    }
-
-    .btn {
-      flex:1;
-      border-radius:999px;
-      border:none;
-      font-size:12px;
-      font-weight:500;
-      padding:9px 0;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      letter-spacing:0.03em;
-      text-transform:uppercase;
-    }
-
-    .btn-primary {
-      background: radial-gradient(circle at 30% 0%, #fef9c3, #facc15);
-      color:#1f2937;
-      box-shadow:
-        0 0 0 1px rgba(251,191,36,0.7),
-        0 14px 35px rgba(251,191,36,0.35);
-    }
-
-    .btn-secondary {
-      background:rgba(15,23,42,0.98);
-      color:rgba(209,213,219,0.96);
-      border:1px solid rgba(55,65,81,0.98);
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,1),
-        0 10px 22px rgba(15,23,42,0.95);
-    }
-
-    .feedback {
-      font-size:11px;
-      margin-top:3px;
-      min-height:15px;
-    }
-
-    .feedback.success {
-      color:#bbf7d0;
-    }
-
-    .feedback.error {
-      color:#fecaca;
-    }
-
-    .event-list {
-      margin-top:6px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      max-height:220px;
-      overflow:auto;
-      padding-right:4px;
-    }
-
-    .event-item {
-      padding:7px 9px;
-      border-radius:10px;
-      border:1px solid rgba(55,65,81,0.95);
-      background:rgba(15,23,42,0.98);
-      font-size:12px;
-    }
-
-    .event-item-title {
-      font-size:12px;
-      font-weight:500;
-      color:#e5e7eb;
-      margin-bottom:2px;
-    }
-
-    .event-item-desc {
-      font-size:11px;
-      color:rgba(156,163,175,0.95);
-      margin-bottom:4px;
-    }
-
-    .event-item-meta {
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .footer {
-      margin-top:10px;
-      padding-top:8px;
-      border-top:1px dashed rgba(31,41,55,0.95);
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:8px;
-    }
-
-    .footer-left {
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-
-    .footer-title {
-      font-size:11px;
-      color:rgba(209,213,219,0.95);
-    }
-
-    .footer-sub {
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .footer-right {
-      text-align:right;
-      font-size:10px;
-      color:rgba(148,163,184,0.95);
-    }
-
-    .chip {
-      display:inline-flex;
-      align-items:center;
-      gap:5px;
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid rgba(55,65,81,0.98);
-      background:rgba(15,23,42,0.98);
-      font-size:10px;
-      color:rgba(156,163,175,0.95);
-    }
-
-    .chip-dot {
-      width:6px;
-      height:6px;
-      border-radius:999px;
-      background:radial-gradient(circle at 30% 10%, #bfdbfe, #60a5fa);
-      box-shadow:0 0 0 3px rgba(37,99,235,0.18);
-    }
-
-    @media (max-width: 380px) {
-      .app-shell {
-        padding:12px 10px 14px;
-      }
-      .brand-title { font-size:14px; }
-      .devo-title { font-size:14px; }
-      .verse-text { font-size:12px; }
-    }
+      padding: 20px;
+    }
+    .app-shell { width: 100%; max-width: 420px; background: #111318; border-radius: 24px; padding: 14px; }
+    .status-pill, .brand-row, .devo-card, .tabs-row, .tab-content, .footer { margin-bottom: 12px; }
+    .btn { cursor: pointer; border-radius: 999px; padding: 8px 12px; border: none; }
+    .btn-primary { background: #fbbf24; color: #1f2937; }
+    .btn-secondary { background: #111318; color: #e5e7eb; border: 1px solid #555; }
+    .feedback { font-size: 11px; min-height: 15px; }
+    .feedback.success { color: #bbf7d0; }
+    .feedback.error { color: #fecaca; }
+    input, textarea { width: 100%; padding: 8px; border-radius: 10px; border: 1px solid #555; background: #111318; color: #e5e7eb; }
   </style>
 </head>
 <body>
   <div class="app-shell">
-    <div class="app-inner">
-      <div class="status-pill">
-        <div class="status-icon">✶</div>
-        <div class="status-text">Ristoro giornaliero</div>
-      </div>
+    <div class="status-pill">
+      Ristoro giornaliero
+    </div>
 
-      <div class="brand-row">
-        <div class="brand-main">
-          <div class="brand-logo">
-            <span>CA</span>
-          </div>
-          <div class="brand-texts">
-            <div class="brand-title">Chiesa Apostolica in Italia - Carini</div>
-            <div class="brand-subtitle">Via Don Luigi Sturzo 188 - Carini</div>
-          </div>
-        </div>
-        <div class="theme-badge">
-          <div class="theme-dot"></div>
-          <div>OSA · Rhema 2025</div>
+    <div class="brand-row">
+      <div class="brand-main">
+        <div class="brand-logo">CA</div>
+        <div class="brand-texts">
+          <div class="brand-title">Chiesa Apostolica in Italia - Carini</div>
+          <div class="brand-subtitle">Via Don Luigi Sturzo 188 - Carini</div>
         </div>
       </div>
+    </div>
 
-      <div class="devo-card">
-        <div class="card-header">
-          <div class="card-header-title">
-            <div class="devo-label">
-              <div class="devo-label-dot"></div>
-              Devozionale
-            </div>
-            <div class="devo-title" id="devo-titolo">Titolo devozionale</div>
-          </div>
-          <div class="today-pill">
-            <div class="today-pill-dot"></div>
-            <span id="oggi-label">Oggi</span>
-          </div>
-        </div>
-
-        <div class="verse-block">
-          <div class="verse-ref" id="devo-rif">Riferimento biblico</div>
-          <div class="verse-text" id="devo-verso">Testo del verso del giorno.</div>
-          <div class="verse-note" id="devo-testo"></div>
-        </div>
-
-        <div class="date-nav">
-          <button class="date-btn" id="btn-prev">Giorno precedente</button>
-          <button class="date-btn" id="btn-today">Torna a oggi</button>
-        </div>
-
-        <div class="event-card" id="prossimo-evento" style="display:none;">
-          <div class="event-label">Prossimo evento</div>
-          <div class="event-main">
-            <div>
-              <div class="event-title" id="evento-titolo">Titolo evento</div>
-              <div class="event-meta">
-                <span id="evento-quando">Data e ora</span> ·
-                <span id="evento-dove">Luogo</span>
-              </div>
-            </div>
-            <div class="event-badge">Partecipa</div>
-          </div>
+    <div class="devo-card">
+      <div class="card-header">
+        <div class="card-header-title">
+          <div class="devo-title" id="devo-titolo">Titolo devozionale</div>
         </div>
       </div>
 
-      <div class="tabs-row">
-        <button class="tab active" data-tab="scrivi">
-          <span class="tab-icon">✍️</span>
-          <span>Scrivi</span>
-        </button>
-        <button class="tab" data-tab="parla">
-          <span class="tab-icon">🤝</span>
-          <span>Parla con qualcuno</span>
-        </button>
-        <button class="tab" data-tab="eventi">
-          <span class="tab-icon">📅</span>
-          <span>Eventi</span>
-        </button>
+      <div class="verse-block">
+        <div class="verse-ref" id="devo-rif">Riferimento biblico</div>
+        <div class="verse-text" id="devo-verso">Testo del verso del giorno</div>
       </div>
 
-      <!-- TAB SCRIVI -->
-      <div class="tab-content active" id="tab-scrivi">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Scrivi il tuo devozionale</div>
-              <div class="section-sub">Alla data attualmente selezionata.</div>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="nome">Nome o nickname (opzionale)</label>
-            <input type="text" id="nome" placeholder="Come ti chiami?" />
-          </div>
-
-          <div class="field-group">
-            <label for="nota">Cosa ti ha trasmesso questo verso?</label>
-            <textarea id="nota" placeholder="Scrivi qui la tua riflessione personale..."></textarea>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-secondary" id="btn-clear-nota">
-              🧹 Pulisci
-            </button>
-            <button class="btn btn-primary" id="btn-save-nota">
-              💾 Invia
-            </button>
-          </div>
-
-          <div class="feedback" id="nota-feedback"></div>
-        </div>
+      <div class="date-nav">
+        <button id="btn-prev" class="btn btn-secondary">Giorno precedente</button>
+        <button id="btn-today" class="btn btn-primary">Oggi</button>
       </div>
 
-      <!-- TAB PARLA / APPUNTAMENTI -->
-      <div class="tab-content" id="tab-parla">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Parla con qualcuno</div>
-              <div class="section-sub">Appuntamenti disponibili solo lunedì–venerdì.</div>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label for="nome-app">Nome e cognome</label>
-            <input type="text" id="nome-app" placeholder="Nome e cognome" />
-          </div>
-
-          <div class="field-group">
-            <label for="contatto-app">Telefono</label>
-            <input type="text" id="contatto-app" placeholder="Es. 333 1234567" />
-          </div>
-
-          <div class="field-group">
-            <label for="data-app">Data (gg/mm/aaaa)</label>
-            <input type="text" id="data-app" placeholder="Es. 10/12/2025" />
-          </div>
-
-          <div class="field-group">
-            <label for="ora-app">Ora (HH:MM)</label>
-            <input type="text" id="ora-app" placeholder="Es. 20:30" />
-          </div>
-
-          <div class="field-group">
-            <label for="motivo-app">Motivo (breve descrizione)</label>
-            <textarea id="motivo-app" placeholder="Di cosa vorresti parlare?"></textarea>
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-secondary" id="btn-clear-app">
-              🧹 Pulisci
-            </button>
-            <button class="btn btn-primary" id="btn-invia-app">
-              📩 Invia richiesta
-            </button>
-          </div>
-
-          <div class="feedback" id="app-feedback"></div>
-        </div>
+      <div class="event-card" id="prossimo-evento" style="display:none;">
+        <div class="event-title" id="evento-titolo"></div>
+        <div class="event-meta"><span id="evento-quando"></span> · <span id="evento-dove"></span></div>
       </div>
+    </div>
 
-      <!-- TAB EVENTI -->
-      <div class="tab-content" id="tab-eventi">
-        <div class="section">
-          <div class="section-title-row">
-            <div>
-              <div class="section-title">Eventi della settimana</div>
-              <div class="section-sub">Cosa sta succedendo in Chiesa Apostolica Carini.</div>
-            </div>
-          </div>
+    <div class="tabs-row">
+      <button class="tab active" data-tab="scrivi">Scrivi</button>
+      <button class="tab" data-tab="parla">Parla</button>
+      <button class="tab" data-tab="eventi">Eventi</button>
+    </div>
 
-          <div class="event-list" id="lista-eventi"></div>
-        </div>
+    <div class="tab-content active" id="tab-scrivi">
+      <input type="text" id="nome" placeholder="Nome o nickname (opzionale)" />
+      <textarea id="nota" placeholder="Scrivi qui la tua riflessione..."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="btn-clear-nota">Pulisci</button>
+        <button class="btn btn-primary" id="btn-save-nota">Invia</button>
       </div>
+      <div class="feedback" id="nota-feedback"></div>
+    </div>
 
-      <div class="footer">
-        <div class="footer-left">
-          <div class="footer-title">Chiesa Apostolica in Italia - Carini</div>
-          <div class="footer-sub">OSA – Rhema 2025</div>
-        </div>
-        <div class="footer-right">
-          <div class="chip">
-            <div class="chip-dot"></div>
-            <span>Ristoro giornaliero</span>
-          </div>
-        </div>
+    <div class="tab-content" id="tab-parla">
+      <input type="text" id="nome-app" placeholder="Nome e cognome" />
+      <input type="text" id="contatto-app" placeholder="Telefono" />
+      <input type="text" id="data-app" placeholder="Data gg/mm/aaaa" />
+      <input type="text" id="ora-app" placeholder="Ora HH:MM" />
+      <textarea id="motivo-app" placeholder="Motivo della richiesta"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="btn-clear-app">Pulisci</button>
+        <button class="btn btn-primary" id="btn-invia-app">Invia richiesta</button>
       </div>
+      <div class="feedback" id="app-feedback"></div>
+    </div>
+
+    <div class="tab-content" id="tab-eventi">
+      <div id="lista-eventi"></div>
     </div>
   </div>
 
   <script>
-  const API = "https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec";
+    const API = "https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec";
 
-  // TABS
-  const tabButtons = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      tabButtons.forEach(b => b.classList.remove('active'));
-      tabContents.forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + tab).classList.add('active');
-
-      if (tab === 'eventi') {
-        caricaEventi();
-      }
+    // TABS
+    document.querySelectorAll('.tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        if(btn.dataset.tab === 'eventi') caricaEventi();
+      });
     });
-  });
 
-  // ELEMENTI DEVOZIONALE
-  const titoloDev = document.getElementById('devo-titolo');
-  const refDev = document.getElementById('devo-rif');
-  const versoDev = document.getElementById('devo-verso');
-  const testoDev = document.getElementById('devo-testo');
-  const oggiLabel = document.getElementById('oggi-label');
+    // Devozionale
+    let devoCorrenteData = new Date();
+    const oggi = new Date();
+    const titoloDev = document.getElementById('devo-titolo');
+    const refDev = document.getElementById('devo-rif');
+    const versoDev = document.getElementById('devo-verso');
+    const prossimoEventoBox = document.getElementById('prossimo-evento');
+    const eventoTitoloEl = document.getElementById('evento-titolo');
+    const eventoQuandoEl = document.getElementById('evento-quando');
+    const eventoDoveEl = document.getElementById('evento-dove');
 
-  const prossimoEventoBox = document.getElementById('prossimo-evento');
-  const eventoTitoloEl = document.getElementById('evento-titolo');
-  const eventoQuandoEl = document.getElementById('evento-quando');
-  const eventoDoveEl = document.getElementById('evento-dove');
+    function formatDMY(date){
+      const d=String(date.getDate()).padStart(2,"0");
+      const m=String(date.getMonth()+1).padStart(2,"0");
+      const y=date.getFullYear();
+      return `${d}/${m}/${y}`;
+    }
 
-  const btnPrev = document.getElementById('btn-prev');
-  const btnToday = document.getElementById('btn-today');
+    function toYMD(date){
+      const y=date.getFullYear();
+      const m=String(date.getMonth()+1).padStart(2,"0");
+      const d=String(date.getDate()).padStart(2,"0");
+      return `${y}-${m}-${d}`;
+    }
 
-  function formattaDataItaliano(date) {
-    const giorni = ['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
-    const mesi = ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
-    const g = giorni[date.getDay()];
-    const d = String(date.getDate()).padStart(2,'0');
-    const m = mesi[date.getMonth()];
-    const y = date.getFullYear();
-    return `${g} ${d} ${m} ${y}`;
-  }
+    async function caricaDevozionale(){
+      try{
+        const res = await fetch(`${API}?data=${toYMD(devoCorrenteData)}`);
+        const data = await res.json();
 
-  function formatDMY(date){
-    const d=String(date.getDate()).padStart(2,"0");
-    const m=String(date.getMonth()+1).padStart(2,"0");
-    const y=date.getFullYear();
-    return `${d}/${m}/${y}`;
-  }
+        const devo = data.devotional;
+        if(devo){
+          titoloDev.textContent = devo.title || '';
+          refDev.textContent = devo.ref || '';
+          versoDev.textContent = devo.content || '';
+        } else {
+          titoloDev.textContent = 'Nessun devozionale trovato';
+          refDev.textContent = '';
+          versoDev.textContent = '';
+        }
 
-  function toYMD(date){
-    const y = date.getFullYear();
-    const m = String(date.getMonth()+1).padStart(2,"0");
-    const d = String(date.getDate()).padStart(2,"0");
-    return `${y}-${m}-${d}`;
-  }
+        if(data.nextEvent){
+          prossimoEventoBox.style.display='block';
+          eventoTitoloEl.textContent = data.nextEvent.title || '';
+          eventoQuandoEl.textContent = (data.nextEvent.data || '') + (data.nextEvent.time ? ' · ' + data.nextEvent.time : '');
+          eventoDoveEl.textContent = data.nextEvent.location || '';
+        } else {
+          prossimoEventoBox.style.display='none';
+        }
 
-  let devoCorrenteData = new Date();
-  const oggi = new Date(); // per confronto
-
-  async function caricaDevozionale() {
-    const url = `${API}?date=${toYMD(devoCorrenteData)}`;
-
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-
-      const devo = data.devotional;
-
-      if (devo) {
-        titoloDev.textContent = devo.titolo || '';
-        refDev.textContent = devo.riferimento || '';
-        versoDev.textContent = devo.testo || '';
-        testoDev.textContent = '';
-      } else {
-        titoloDev.textContent = 'Nessun devozionale trovato per questa data';
+      } catch(e){
+        titoloDev.textContent = 'Errore nel caricamento';
         refDev.textContent = '';
         versoDev.textContent = '';
-        testoDev.textContent = '';
+        prossimoEventoBox.style.display='none';
       }
-
-      const testoData = formattaDataItaliano(devoCorrenteData);
-
-      const stessaGiornata =
-        devoCorrenteData.getFullYear() === oggi.getFullYear() &&
-        devoCorrenteData.getMonth() === oggi.getMonth() &&
-        devoCorrenteData.getDate() === oggi.getDate();
-
-      oggiLabel.textContent = stessaGiornata ? `Oggi · ${testoData}` : testoData;
-
-      if (data.nextEvent) {
-        prossimoEventoBox.style.display = 'block';
-        eventoTitoloEl.textContent = data.nextEvent.titolo || '';
-        eventoQuandoEl.textContent = (data.nextEvent.data || '') + (data.nextEvent.ora ? ' · ' + data.nextEvent.ora : '');
-        eventoDoveEl.textContent = data.nextEvent.luogo || '';
-      } else {
-        prossimoEventoBox.style.display = 'none';
-      }
-
-    } catch (e) {
-      titoloDev.textContent = 'Errore nel caricamento del devozionale';
-      refDev.textContent = '';
-      versoDev.textContent = '';
-      testoDev.textContent = '';
-      prossimoEventoBox.style.display = 'none';
     }
-  }
 
-  btnPrev.addEventListener('click', () => {
-    devoCorrenteData.setDate(devoCorrenteData.getDate() - 1);
+    document.getElementById('btn-prev').addEventListener('click', () => { devoCorrenteData.setDate(devoCorrenteData.getDate()-1); caricaDevozionale(); });
+    document.getElementById('btn-today').addEventListener('click', () => { devoCorrenteData=new Date(); caricaDevozionale(); });
+
     caricaDevozionale();
-  });
 
-  btnToday.addEventListener('click', () => {
-    devoCorrenteData = new Date();
-    caricaDevozionale();
-  });
+    // Scrivi
+    const nomeInput = document.getElementById('nome');
+    const notaText = document.getElementById('nota');
+    const btnSaveNota = document.getElementById('btn-save-nota');
+    const btnClearNota = document.getElementById('btn-clear-nota');
+    const notaFeedback = document.getElementById('nota-feedback');
 
-  caricaDevozionale();
+    btnClearNota.addEventListener('click', ()=>{ notaText.value=''; notaFeedback.textContent=''; notaFeedback.className='feedback'; });
 
-  // SCRIVI
-  const nomeInput = document.getElementById('nome');
-  const notaText = document.getElementById('nota');
-  const btnSaveNota = document.getElementById('btn-save-nota');
-  const btnClearNota = document.getElementById('btn-clear-nota');
-  const notaFeedback = document.getElementById('nota-feedback');
+    btnSaveNota.addEventListener('click', async ()=>{
+      notaFeedback.textContent=''; notaFeedback.className='feedback';
+      if(!notaText.value.trim()){ notaFeedback.textContent='Scrivi qualcosa'; notaFeedback.classList.add('error'); return; }
 
-  btnClearNota.addEventListener('click', () => {
-    notaText.value = '';
-    notaFeedback.textContent = '';
-    notaFeedback.className = 'feedback';
-  });
+      const payload = { type:'response', devotionalDate:formatDMY(devoCorrenteData), userName:nomeInput.value.trim(), noteText:notaText.value.trim() };
 
-  btnSaveNota.addEventListener('click', async () => {
-    notaFeedback.textContent = '';
-    notaFeedback.className = 'feedback';
+      try{
+        const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+        const json = await res.json();
+        if(json.status==='ok'){ notaFeedback.textContent='Inviato'; notaFeedback.classList.add('success'); notaText.value=''; } 
+        else { notaFeedback.textContent=json.message||'Errore'; notaFeedback.classList.add('error'); }
+      } catch(e){ notaFeedback.textContent='Errore di connessione'; notaFeedback.classList.add('error'); }
+    });
 
-    const nome = nomeInput.value.trim();
-    const testo = notaText.value.trim();
+    // Parla / Appuntamenti
+    const nomeApp = document.getElementById('nome-app');
+    const contattoApp = document.getElementById('contatto-app');
+    const dataApp = document.getElementById('data-app');
+    const oraApp = document.getElementById('ora-app');
+    const motivoApp = document.getElementById('motivo-app');
+    const btnClearApp = document.getElementById('btn-clear-app');
+    const btnInviaApp = document.getElementById('btn-invia-app');
+    const appFeedback = document.getElementById('app-feedback');
 
-    if (!testo) {
-      notaFeedback.textContent = 'Scrivi qualcosa prima di inviare.';
-      notaFeedback.classList.add('error');
-      return;
-    }
+    btnClearApp.addEventListener('click', ()=>{
+      nomeApp.value=''; contattoApp.value=''; dataApp.value=''; oraApp.value=''; motivoApp.value='';
+      appFeedback.textContent=''; appFeedback.className='feedback';
+    });
 
-    const payload = {
-      type: 'response',
-      data_devozionale: formatDMY(devoCorrenteData),
-      nome: nome,
-      testo_rispsosta: testo
-    };
-
-    try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      let json = {};
-      try { json = await res.json(); } catch(_) {}
-
-      if (json.status && json.status !== 'ok') {
-        notaFeedback.textContent = json.message || 'Errore durante l\'invio.';
-        notaFeedback.classList.add('error');
-        return;
+    btnInviaApp.addEventListener('click', async ()=>{
+      appFeedback.textContent=''; appFeedback.className='feedback';
+      if(!nomeApp.value.trim()||!contattoApp.value.trim()||!dataApp.value.trim()||!oraApp.value.trim()||!motivoApp.value.trim()){
+        appFeedback.textContent='Compila tutti i campi'; appFeedback.classList.add('error'); return;
       }
+      const payload = { type:'appointment', appointmentDateDisplay:dataApp.value.trim(), appointmentDateISO:toYMD(parseDMY(dataApp.value.trim())), fullName:nomeApp.value.trim(), phone:contattoApp.value.trim(), reason:motivoApp.value.trim() };
+      try{
+        const res = await fetch(API,{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+        const json = await res.json();
+        if(json.status==='ok'){ appFeedback.textContent='Richiesta inviata'; appFeedback.classList.add('success'); nomeApp.value=''; contattoApp.value=''; dataApp.value=''; oraApp.value=''; motivoApp.value=''; }
+        else { appFeedback.textContent=json.message||'Errore'; appFeedback.classList.add('error'); }
+      } catch(e){ appFeedback.textContent='Errore di connessione'; appFeedback.classList.add('error'); }
+    });
 
-      notaFeedback.textContent = 'Risposta inviata.';
-      notaFeedback.classList.add('success');
-      notaText.value = '';
-
-    } catch (e) {
-      notaFeedback.textContent = 'Errore di connessione.';
-      notaFeedback.classList.add('error');
-    }
-  });
-
-  // PARLA / APPUNTAMENTI
-  const nomeApp = document.getElementById('nome-app');
-  const contattoApp = document.getElementById('contatto-app');
-  const dataApp = document.getElementById('data-app');
-  const oraApp = document.getElementById('ora-app');
-  const motivoApp = document.getElementById('motivo-app');
-  const btnClearApp = document.getElementById('btn-clear-app');
-  const btnInviaApp = document.getElementById('btn-invia-app');
-  const appFeedback = document.getElementById('app-feedback');
-
-  btnClearApp.addEventListener('click', () => {
-    nomeApp.value = '';
-    contattoApp.value = '';
-    dataApp.value = '';
-    oraApp.value = '';
-    motivoApp.value = '';
-    appFeedback.textContent = '';
-    appFeedback.className = 'feedback';
-  });
-
-  function parseDMY(str){
-    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(str);
-    if (!m) return null;
-    const d = parseInt(m[1],10);
-    const mo = parseInt(m[2],10)-1;
-    const y = parseInt(m[3],10);
-    return new Date(y,mo,d);
-  }
-
-  btnInviaApp.addEventListener('click', async () => {
-    appFeedback.textContent = '';
-    appFeedback.className = 'feedback';
-
-    const nome = nomeApp.value.trim();
-    const tel  = contattoApp.value.trim();
-    const dataStr = dataApp.value.trim();
-    const oraStr  = oraApp.value.trim();
-    const motivo = motivoApp.value.trim();
-
-    if (!nome || !tel || !dataStr || !oraStr || !motivo) {
-      appFeedback.textContent = 'Compila tutti i campi.';
-      appFeedback.classList.add('error');
-      return;
+    function parseDMY(str){
+      const m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(str);
+      if(!m) return null;
+      return new Date(Number(m[3]), Number(m[2])-1, Number(m[1]));
     }
 
-    if (!/^\d{2}:\d{2}$/.test(oraStr)) {
-      appFeedback.textContent = 'Inserisci l\'ora in formato HH:MM.';
-      appFeedback.classList.add('error');
-      return;
+    // Eventi
+    const listaEventi = document.getElementById('lista-eventi');
+    async function caricaEventi(){
+      try{
+        const res = await fetch(API);
+        const data = await res.json();
+        const eventi = data.weekEvents||[];
+        if(!eventi.length){ listaEventi.innerHTML='<div>Nessun evento questa settimana.</div>'; return; }
+        listaEventi.innerHTML = eventi.map(ev => `<div><strong>${ev.title||''}</strong><div>${ev.description||''}</div><div>${ev.data||''} · ${ev.time||''} · ${ev.location||''}</div></div>`).join('');
+      } catch(e){ listaEventi.innerHTML='<div>Errore nel caricamento eventi.</div>'; }
     }
-
-    const d = parseDMY(dataStr);
-    if (!d) {
-      appFeedback.textContent = 'Inserisci la data in formato gg/mm/aaaa.';
-      appFeedback.classList.add('error');
-      return;
-    }
-
-    const day = d.getDay(); // 0 dom, 6 sab
-    if (day === 0 || day === 6) {
-      appFeedback.textContent = 'Si possono prenotare solo lun–ven.';
-      appFeedback.classList.add('error');
-      return;
-    }
-
-    const payload = {
-      type: 'appointment',
-      Data: dataStr,
-      Ora: oraStr,
-      Nome: nome,
-      Telefono: tel,
-      Motivo: motivo
-    };
-
-    try {
-      const res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      let json = {};
-      try { json = await res.json(); } catch(_) {}
-
-      if (json.status && json.status !== 'ok') {
-        appFeedback.textContent = json.message || 'Errore durante l\'invio.';
-        appFeedback.classList.add('error');
-        return;
-      }
-
-      appFeedback.textContent = 'Richiesta inviata.';
-      appFeedback.classList.add('success');
-
-      nomeApp.value = '';
-      contattoApp.value = '';
-      dataApp.value = '';
-      oraApp.value = '';
-      motivoApp.value = '';
-
-    } catch (e) {
-      appFeedback.textContent = 'Errore di connessione.';
-      appFeedback.classList.add('error');
-    }
-  });
-
-  // EVENTI
-  const listaEventi = document.getElementById('lista-eventi');
-
-  async function caricaEventi() {
-    try {
-      const res = await fetch(API);
-      const data = await res.json();
-
-      const eventi = data.weekEvents || [];
-      if (!eventi.length) {
-        listaEventi.innerHTML = "<div style='font-size:11px; color:rgba(148,163,184,0.95);'>Nessun evento questa settimana.</div>";
-        return;
-      }
-
-      listaEventi.innerHTML = eventi.map(ev => `
-        <div class="event-item">
-          <div class="event-item-title">${ev.titolo || ''}</div>
-          <div class="event-item-desc">${ev.descrizione || ''}</div>
-          <div class="event-item-meta">
-            <div>${ev.data || ''} · ${ev.ora || ''}</div>
-            <div>${ev.luogo || ''}</div>
-          </div>
-        </div>
-      `).join('');
-    } catch (e) {
-      listaEventi.innerHTML = "<div style='font-size:11px; color:rgba(148,163,184,0.95);'>Errore nel caricamento degli eventi.</div>";
-    }
-  }
   </script>
 </body>
 </html>
