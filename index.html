@@ -1,117 +1,217 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Ristoro Giornaliero – Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      background:#0f172a;
+      color:#e5e7eb;
+      margin:0;
+      padding:20px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .app{
+      width:100%;
+      max-width:420px;
+      background:#020617;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 20px 40px rgba(0,0,0,.4);
+    }
+
+    h1{
+      font-size:20px;
+      margin-bottom:4px;
+    }
+
+    .subtitle{
+      font-size:13px;
+      color:#94a3b8;
+      margin-bottom:16px;
+    }
+
+    .card{
+      background:#020617;
+      border:1px solid #1e293b;
+      border-radius:12px;
+      padding:14px;
+      margin-bottom:14px;
+    }
+
+    .label{
+      font-size:11px;
+      color:#94a3b8;
+      margin-bottom:4px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .title{
+      font-size:16px;
+      font-weight:600;
+      margin-bottom:4px;
+    }
+
+    .ref{
+      font-size:13px;
+      color:#38bdf8;
+      margin-bottom:8px;
+    }
+
+    .content{
+      font-size:14px;
+      line-height:1.5;
+      color:#e5e7eb;
+      white-space:pre-line;
+    }
+
+    textarea,input{
+      width:100%;
+      background:#020617;
+      border:1px solid #334155;
+      color:#e5e7eb;
+      border-radius:10px;
+      padding:10px;
+      font-size:14px;
+    }
+
+    textarea{min-height:90px;}
+
+    button{
+      width:100%;
+      border:none;
+      border-radius:999px;
+      padding:10px;
+      background:#38bdf8;
+      color:#020617;
+      font-weight:600;
+      cursor:pointer;
+      margin-top:10px;
+    }
+
+    button:hover{opacity:.9}
+
+    .status{
+      font-size:12px;
+      margin-top:6px;
+    }
+
+    .ok{color:#4ade80}
+    .err{color:#f87171}
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <h1>Ristoro giornaliero</h1>
+  <div class="subtitle">Test collegamento Google Sheet</div>
+
+  <!-- DEVOTIONAL -->
+  <div class="card">
+    <div class="label">Devozionale di oggi</div>
+    <div class="title" id="devTitle">Caricamento…</div>
+    <div class="ref" id="devRef"></div>
+    <div class="content" id="devContent"></div>
+  </div>
+
+  <!-- NEXT EVENT -->
+  <div class="card">
+    <div class="label">Prossimo evento</div>
+    <div id="eventBox">Caricamento…</div>
+  </div>
+
+  <!-- RESPONSE -->
+  <div class="card">
+    <div class="label">La tua risposta</div>
+    <input id="userName" placeholder="Il tuo nome (opzionale)">
+    <textarea id="noteText" placeholder="Scrivi qui…"></textarea>
+    <button id="sendBtn">Invia risposta</button>
+    <div class="status" id="statusBox"></div>
+  </div>
+
+</div>
+
 <script>
 const API = 'https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec';
 
-let currentDate = new Date();
-
-/* ================= UTIL ================= */
-
-function iso(date){
-  return date.toISOString().split('T')[0];
+function todayISO(){
+  return new Date().toISOString().split('T')[0];
 }
 
-function formatIT(date){
-  return date.toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+/* LOAD DATA */
+async function load(){
+  try{
+    const res = await fetch(`${API}?action=init&date=${todayISO()}`);
+    const data = await res.json();
+
+    // DEVOTIONAL
+    if(data.devotional){
+      devTitle.textContent = data.devotional.title;
+      devRef.textContent = data.devotional.ref;
+      devContent.textContent = data.devotional.content;
+    }else{
+      devTitle.textContent = 'Nessun devozionale trovato';
+      devRef.textContent = '';
+      devContent.textContent = '';
+    }
+
+    // EVENT
+    if(data.nextEvent){
+      eventBox.innerHTML = `
+        <strong>${data.nextEvent.title}</strong><br>
+        ${data.nextEvent.date} ${data.nextEvent.time || ''}<br>
+        <span style="color:#94a3b8">${data.nextEvent.location || ''}</span>
+      `;
+    }else{
+      eventBox.textContent = 'Nessun evento in programma';
+    }
+
+  }catch(e){
+    devTitle.textContent = 'Errore di caricamento';
+    console.error(e);
+  }
 }
 
-/* ================= LOAD INIT ================= */
-
-async function loadInit(){
-  const res = await fetch(`${API}?action=init&date=${iso(currentDate)}`);
-  const data = await res.json();
-
-  renderDevotional(data.devotional);
-  renderHomeEvent(data.nextEvent);
-}
-
-function renderDevotional(dev){
-  if(!dev){
-    document.getElementById('devTitle').textContent = 'Nessun devozionale';
-    document.getElementById('devRef').textContent = '';
-    document.getElementById('devContent').textContent = '';
+/* SEND NOTE */
+sendBtn.onclick = async ()=>{
+  statusBox.textContent = '';
+  const text = noteText.value.trim();
+  if(!text){
+    statusBox.textContent = 'Scrivi qualcosa';
+    statusBox.className = 'status err';
     return;
   }
-
-  document.getElementById('todayLabel').textContent = formatIT(new Date(dev.date));
-  document.getElementById('devTitle').textContent = dev.title;
-  document.getElementById('devRef').textContent = dev.ref;
-  document.getElementById('devContent').textContent = dev.content;
-}
-
-function renderHomeEvent(ev){
-  const box = document.getElementById('homeNextEventInner');
-  if(!ev){
-    box.textContent = 'Nessun evento in programma.';
-    return;
-  }
-  box.innerHTML = `
-    <div class="home-next-event-date">${ev.date} ${ev.time||''}</div>
-    <div class="home-next-event-title">${ev.title}</div>
-    <div class="home-next-event-loc">${ev.location||''}</div>
-  `;
-}
-
-/* ================= NAV ================= */
-
-document.getElementById('prevDevoBtn').onclick = ()=>{
-  currentDate.setDate(currentDate.getDate()-1);
-  loadInit();
-};
-
-document.getElementById('todayDevoBtn').onclick = ()=>{
-  currentDate = new Date();
-  loadInit();
-};
-
-/* ================= NOTE ================= */
-
-document.getElementById('saveNote').onclick = async ()=>{
-  const text = document.getElementById('noteInput').value.trim();
-  if(!text){ alert('Scrivi qualcosa'); return; }
 
   const payload = {
-    type: 'devotional_note',
-    devotionalDate: iso(currentDate),
-    userName: prompt('Nome o nickname') || 'Anonimo',
+    type:'devotional_note',
+    devotionalDate: todayISO(),
+    userName: userName.value || 'Anonimo',
     noteText: text
   };
 
-  await fetch(API,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(payload)
-  });
-
-  alert('Nota inviata ✅');
-};
-
-/* ================= APPUNTAMENTI ================= */
-
-document.getElementById('appSubmit').onclick = async ()=>{
-  const fullName = appFullName.value.trim();
-  const phone = appPhone.value.trim();
-  const reason = appReason.value.trim();
-  if(!fullName || !phone || !reason){
-    alert('Compila tutti i campi');
-    return;
+  try{
+    await fetch(API,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    statusBox.textContent = 'Inviato correttamente ✅';
+    statusBox.className = 'status ok';
+    noteText.value='';
+  }catch(e){
+    statusBox.textContent = 'Errore invio';
+    statusBox.className = 'status err';
   }
-
-  const payload = {
-    type:'appointment',
-    fullName,
-    phone,
-    appointmentDateISO: iso(new Date()),
-    reason
-  };
-
-  await fetch(API,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(payload)
-  });
-
-  alert('Richiesta inviata ✅');
 };
 
-/* INIT */
-loadInit();
+load();
 </script>
+</body>
+</html>
