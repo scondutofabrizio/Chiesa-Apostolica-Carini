@@ -1,251 +1,82 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <title>Chiesa Apostolica in Italia - Carini</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <style>
-    /* Stili principali rimasti invariati, puoi riutilizzare quelli che hai già */
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #050608;
-      color: #e5e7eb;
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
-    .app-shell { width: 100%; max-width: 420px; background: #111318; border-radius: 24px; padding: 14px; }
-    .status-pill, .brand-row, .devo-card, .tabs-row, .tab-content, .footer { margin-bottom: 12px; }
-    .btn { cursor: pointer; border-radius: 999px; padding: 8px 12px; border: none; }
-    .btn-primary { background: #fbbf24; color: #1f2937; }
-    .btn-secondary { background: #111318; color: #e5e7eb; border: 1px solid #555; }
-    .feedback { font-size: 11px; min-height: 15px; }
-    .feedback.success { color: #bbf7d0; }
-    .feedback.error { color: #fecaca; }
-    input, textarea { width: 100%; padding: 8px; border-radius: 10px; border: 1px solid #555; background: #111318; color: #e5e7eb; }
-  </style>
+<meta charset="UTF-8">
+<title>Ristoro Giornaliero</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:#050608;color:#e5e7eb;font-family:sans-serif;padding:20px}
+.card{background:#111318;padding:15px;border-radius:16px;margin-bottom:12px}
+button,input,textarea{width:100%;margin-top:8px;padding:8px;border-radius:8px}
+</style>
 </head>
 <body>
-  <div class="app-shell">
-    <div class="status-pill">
-      Ristoro giornaliero
-    </div>
 
-    <div class="brand-row">
-      <div class="brand-main">
-        <div class="brand-logo">CA</div>
-        <div class="brand-texts">
-          <div class="brand-title">Chiesa Apostolica in Italia - Carini</div>
-          <div class="brand-subtitle">Via Don Luigi Sturzo 188 - Carini</div>
-        </div>
-      </div>
-    </div>
+<div class="card">
+  <h3 id="titolo"></h3>
+  <small id="rif"></small>
+  <p id="testo"></p>
+  <button onclick="prev()">← Giorno prima</button>
+  <button onclick="today()">Oggi</button>
+</div>
 
-    <div class="devo-card">
-      <div class="card-header">
-        <div class="card-header-title">
-          <div class="devo-title" id="devo-titolo">Titolo devozionale</div>
-        </div>
-      </div>
+<div class="card">
+  <input id="nome" placeholder="Nome">
+  <textarea id="nota" placeholder="Scrivi una riflessione"></textarea>
+  <button onclick="sendNote()">Invia</button>
+  <div id="fb"></div>
+</div>
 
-      <div class="verse-block">
-        <div class="verse-ref" id="devo-rif">Riferimento biblico</div>
-        <div class="verse-text" id="devo-verso">Testo del verso del giorno</div>
-      </div>
+<div class="card">
+  <h4>Prossimo evento</h4>
+  <div id="evento"></div>
+</div>
 
-      <div class="date-nav">
-        <button id="btn-prev" class="btn btn-secondary">Giorno precedente</button>
-        <button id="btn-today" class="btn btn-primary">Oggi</button>
-      </div>
+<script>
+const API="https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec";
+let d=new Date();
 
-      <div class="event-card" id="prossimo-evento" style="display:none;">
-        <div class="event-title" id="evento-titolo"></div>
-        <div class="event-meta"><span id="evento-quando"></span> · <span id="evento-dove"></span></div>
-      </div>
-    </div>
+function ymd(dt){return dt.toISOString().slice(0,10)}
 
-    <div class="tabs-row">
-      <button class="tab active" data-tab="scrivi">Scrivi</button>
-      <button class="tab" data-tab="parla">Parla</button>
-      <button class="tab" data-tab="eventi">Eventi</button>
-    </div>
+async function load(){
+  const r=await fetch(API+"?data="+ymd(d));
+  const j=await r.json();
 
-    <div class="tab-content active" id="tab-scrivi">
-      <input type="text" id="nome" placeholder="Nome o nickname (opzionale)" />
-      <textarea id="nota" placeholder="Scrivi qui la tua riflessione..."></textarea>
-      <div class="btn-row">
-        <button class="btn btn-secondary" id="btn-clear-nota">Pulisci</button>
-        <button class="btn btn-primary" id="btn-save-nota">Invia</button>
-      </div>
-      <div class="feedback" id="nota-feedback"></div>
-    </div>
+  if(j.devotional){
+    titolo.textContent=j.devotional.title;
+    rif.textContent=j.devotional.ref;
+    testo.textContent=j.devotional.content;
+  } else {
+    titolo.textContent="Nessun devozionale";
+    rif.textContent="";
+    testo.textContent="";
+  }
 
-    <div class="tab-content" id="tab-parla">
-      <input type="text" id="nome-app" placeholder="Nome e cognome" />
-      <input type="text" id="contatto-app" placeholder="Telefono" />
-      <input type="text" id="data-app" placeholder="Data gg/mm/aaaa" />
-      <input type="text" id="ora-app" placeholder="Ora HH:MM" />
-      <textarea id="motivo-app" placeholder="Motivo della richiesta"></textarea>
-      <div class="btn-row">
-        <button class="btn btn-secondary" id="btn-clear-app">Pulisci</button>
-        <button class="btn btn-primary" id="btn-invia-app">Invia richiesta</button>
-      </div>
-      <div class="feedback" id="app-feedback"></div>
-    </div>
+  evento.textContent=j.nextEvent
+    ? `${j.nextEvent.title} – ${j.nextEvent.data} ${j.nextEvent.time}`
+    : "Nessun evento";
+}
 
-    <div class="tab-content" id="tab-eventi">
-      <div id="lista-eventi"></div>
-    </div>
-  </div>
+function prev(){d.setDate(d.getDate()-1);load()}
+function today(){d=new Date();load()}
 
-  <script>
-    const API = "https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec";
+async function sendNote(){
+  const res=await fetch(API,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      type:"response",
+      devotionalDate:ymd(d),
+      userName:nome.value,
+      noteText:nota.value
+    })
+  });
+  const j=await res.json();
+  fb.textContent=j.status==="ok"?"Inviato":"Errore";
+  nota.value="";
+}
 
-    // TABS
-    document.querySelectorAll('.tab').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        if(btn.dataset.tab === 'eventi') caricaEventi();
-      });
-    });
-
-    // Devozionale
-    let devoCorrenteData = new Date();
-    const oggi = new Date();
-    const titoloDev = document.getElementById('devo-titolo');
-    const refDev = document.getElementById('devo-rif');
-    const versoDev = document.getElementById('devo-verso');
-    const prossimoEventoBox = document.getElementById('prossimo-evento');
-    const eventoTitoloEl = document.getElementById('evento-titolo');
-    const eventoQuandoEl = document.getElementById('evento-quando');
-    const eventoDoveEl = document.getElementById('evento-dove');
-
-    function formatDMY(date){
-      const d=String(date.getDate()).padStart(2,"0");
-      const m=String(date.getMonth()+1).padStart(2,"0");
-      const y=date.getFullYear();
-      return `${d}/${m}/${y}`;
-    }
-
-    function toYMD(date){
-      const y=date.getFullYear();
-      const m=String(date.getMonth()+1).padStart(2,"0");
-      const d=String(date.getDate()).padStart(2,"0");
-      return `${y}-${m}-${d}`;
-    }
-
-    async function caricaDevozionale(){
-      try{
-        const res = await fetch(`${API}?data=${toYMD(devoCorrenteData)}`);
-        const data = await res.json();
-
-        const devo = data.devotional;
-        if(devo){
-          titoloDev.textContent = devo.title || '';
-          refDev.textContent = devo.ref || '';
-          versoDev.textContent = devo.content || '';
-        } else {
-          titoloDev.textContent = 'Nessun devozionale trovato';
-          refDev.textContent = '';
-          versoDev.textContent = '';
-        }
-
-        if(data.nextEvent){
-          prossimoEventoBox.style.display='block';
-          eventoTitoloEl.textContent = data.nextEvent.title || '';
-          eventoQuandoEl.textContent = (data.nextEvent.data || '') + (data.nextEvent.time ? ' · ' + data.nextEvent.time : '');
-          eventoDoveEl.textContent = data.nextEvent.location || '';
-        } else {
-          prossimoEventoBox.style.display='none';
-        }
-
-      } catch(e){
-        titoloDev.textContent = 'Errore nel caricamento';
-        refDev.textContent = '';
-        versoDev.textContent = '';
-        prossimoEventoBox.style.display='none';
-      }
-    }
-
-    document.getElementById('btn-prev').addEventListener('click', () => { devoCorrenteData.setDate(devoCorrenteData.getDate()-1); caricaDevozionale(); });
-    document.getElementById('btn-today').addEventListener('click', () => { devoCorrenteData=new Date(); caricaDevozionale(); });
-
-    caricaDevozionale();
-
-    // Scrivi
-    const nomeInput = document.getElementById('nome');
-    const notaText = document.getElementById('nota');
-    const btnSaveNota = document.getElementById('btn-save-nota');
-    const btnClearNota = document.getElementById('btn-clear-nota');
-    const notaFeedback = document.getElementById('nota-feedback');
-
-    btnClearNota.addEventListener('click', ()=>{ notaText.value=''; notaFeedback.textContent=''; notaFeedback.className='feedback'; });
-
-    btnSaveNota.addEventListener('click', async ()=>{
-      notaFeedback.textContent=''; notaFeedback.className='feedback';
-      if(!notaText.value.trim()){ notaFeedback.textContent='Scrivi qualcosa'; notaFeedback.classList.add('error'); return; }
-
-      const payload = { type:'response', devotionalDate:formatDMY(devoCorrenteData), userName:nomeInput.value.trim(), noteText:notaText.value.trim() };
-
-      try{
-        const res = await fetch(API, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-        const json = await res.json();
-        if(json.status==='ok'){ notaFeedback.textContent='Inviato'; notaFeedback.classList.add('success'); notaText.value=''; } 
-        else { notaFeedback.textContent=json.message||'Errore'; notaFeedback.classList.add('error'); }
-      } catch(e){ notaFeedback.textContent='Errore di connessione'; notaFeedback.classList.add('error'); }
-    });
-
-    // Parla / Appuntamenti
-    const nomeApp = document.getElementById('nome-app');
-    const contattoApp = document.getElementById('contatto-app');
-    const dataApp = document.getElementById('data-app');
-    const oraApp = document.getElementById('ora-app');
-    const motivoApp = document.getElementById('motivo-app');
-    const btnClearApp = document.getElementById('btn-clear-app');
-    const btnInviaApp = document.getElementById('btn-invia-app');
-    const appFeedback = document.getElementById('app-feedback');
-
-    btnClearApp.addEventListener('click', ()=>{
-      nomeApp.value=''; contattoApp.value=''; dataApp.value=''; oraApp.value=''; motivoApp.value='';
-      appFeedback.textContent=''; appFeedback.className='feedback';
-    });
-
-    btnInviaApp.addEventListener('click', async ()=>{
-      appFeedback.textContent=''; appFeedback.className='feedback';
-      if(!nomeApp.value.trim()||!contattoApp.value.trim()||!dataApp.value.trim()||!oraApp.value.trim()||!motivoApp.value.trim()){
-        appFeedback.textContent='Compila tutti i campi'; appFeedback.classList.add('error'); return;
-      }
-      const payload = { type:'appointment', appointmentDateDisplay:dataApp.value.trim(), appointmentDateISO:toYMD(parseDMY(dataApp.value.trim())), fullName:nomeApp.value.trim(), phone:contattoApp.value.trim(), reason:motivoApp.value.trim() };
-      try{
-        const res = await fetch(API,{ method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
-        const json = await res.json();
-        if(json.status==='ok'){ appFeedback.textContent='Richiesta inviata'; appFeedback.classList.add('success'); nomeApp.value=''; contattoApp.value=''; dataApp.value=''; oraApp.value=''; motivoApp.value=''; }
-        else { appFeedback.textContent=json.message||'Errore'; appFeedback.classList.add('error'); }
-      } catch(e){ appFeedback.textContent='Errore di connessione'; appFeedback.classList.add('error'); }
-    });
-
-    function parseDMY(str){
-      const m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(str);
-      if(!m) return null;
-      return new Date(Number(m[3]), Number(m[2])-1, Number(m[1]));
-    }
-
-    // Eventi
-    const listaEventi = document.getElementById('lista-eventi');
-    async function caricaEventi(){
-      try{
-        const res = await fetch(API);
-        const data = await res.json();
-        const eventi = data.weekEvents||[];
-        if(!eventi.length){ listaEventi.innerHTML='<div>Nessun evento questa settimana.</div>'; return; }
-        listaEventi.innerHTML = eventi.map(ev => `<div><strong>${ev.title||''}</strong><div>${ev.description||''}</div><div>${ev.data||''} · ${ev.time||''} · ${ev.location||''}</div></div>`).join('');
-      } catch(e){ listaEventi.innerHTML='<div>Errore nel caricamento eventi.</div>'; }
-    }
-  </script>
+load();
+</script>
 </body>
 </html>
