@@ -1,82 +1,117 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="UTF-8">
-<title>Ristoro Giornaliero</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{background:#050608;color:#e5e7eb;font-family:sans-serif;padding:20px}
-.card{background:#111318;padding:15px;border-radius:16px;margin-bottom:12px}
-button,input,textarea{width:100%;margin-top:8px;padding:8px;border-radius:8px}
-</style>
-</head>
-<body>
-
-<div class="card">
-  <h3 id="titolo"></h3>
-  <small id="rif"></small>
-  <p id="testo"></p>
-  <button onclick="prev()">← Giorno prima</button>
-  <button onclick="today()">Oggi</button>
-</div>
-
-<div class="card">
-  <input id="nome" placeholder="Nome">
-  <textarea id="nota" placeholder="Scrivi una riflessione"></textarea>
-  <button onclick="sendNote()">Invia</button>
-  <div id="fb"></div>
-</div>
-
-<div class="card">
-  <h4>Prossimo evento</h4>
-  <div id="evento"></div>
-</div>
-
 <script>
-const API="https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec";
-let d=new Date();
+const API = 'https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec';
 
-function ymd(dt){return dt.toISOString().slice(0,10)}
+let currentDate = new Date();
 
-async function load(){
-  const r=await fetch(API+"?data="+ymd(d));
-  const j=await r.json();
+/* ================= UTIL ================= */
 
-  if(j.devotional){
-    titolo.textContent=j.devotional.title;
-    rif.textContent=j.devotional.ref;
-    testo.textContent=j.devotional.content;
-  } else {
-    titolo.textContent="Nessun devozionale";
-    rif.textContent="";
-    testo.textContent="";
+function iso(date){
+  return date.toISOString().split('T')[0];
+}
+
+function formatIT(date){
+  return date.toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+}
+
+/* ================= LOAD INIT ================= */
+
+async function loadInit(){
+  const res = await fetch(`${API}?action=init&date=${iso(currentDate)}`);
+  const data = await res.json();
+
+  renderDevotional(data.devotional);
+  renderHomeEvent(data.nextEvent);
+}
+
+function renderDevotional(dev){
+  if(!dev){
+    document.getElementById('devTitle').textContent = 'Nessun devozionale';
+    document.getElementById('devRef').textContent = '';
+    document.getElementById('devContent').textContent = '';
+    return;
   }
 
-  evento.textContent=j.nextEvent
-    ? `${j.nextEvent.title} – ${j.nextEvent.data} ${j.nextEvent.time}`
-    : "Nessun evento";
+  document.getElementById('todayLabel').textContent = formatIT(new Date(dev.date));
+  document.getElementById('devTitle').textContent = dev.title;
+  document.getElementById('devRef').textContent = dev.ref;
+  document.getElementById('devContent').textContent = dev.content;
 }
 
-function prev(){d.setDate(d.getDate()-1);load()}
-function today(){d=new Date();load()}
+function renderHomeEvent(ev){
+  const box = document.getElementById('homeNextEventInner');
+  if(!ev){
+    box.textContent = 'Nessun evento in programma.';
+    return;
+  }
+  box.innerHTML = `
+    <div class="home-next-event-date">${ev.date} ${ev.time||''}</div>
+    <div class="home-next-event-title">${ev.title}</div>
+    <div class="home-next-event-loc">${ev.location||''}</div>
+  `;
+}
 
-async function sendNote(){
-  const res=await fetch(API,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      type:"response",
-      devotionalDate:ymd(d),
-      userName:nome.value,
-      noteText:nota.value
-    })
+/* ================= NAV ================= */
+
+document.getElementById('prevDevoBtn').onclick = ()=>{
+  currentDate.setDate(currentDate.getDate()-1);
+  loadInit();
+};
+
+document.getElementById('todayDevoBtn').onclick = ()=>{
+  currentDate = new Date();
+  loadInit();
+};
+
+/* ================= NOTE ================= */
+
+document.getElementById('saveNote').onclick = async ()=>{
+  const text = document.getElementById('noteInput').value.trim();
+  if(!text){ alert('Scrivi qualcosa'); return; }
+
+  const payload = {
+    type: 'devotional_note',
+    devotionalDate: iso(currentDate),
+    userName: prompt('Nome o nickname') || 'Anonimo',
+    noteText: text
+  };
+
+  await fetch(API,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
   });
-  const j=await res.json();
-  fb.textContent=j.status==="ok"?"Inviato":"Errore";
-  nota.value="";
-}
 
-load();
+  alert('Nota inviata ✅');
+};
+
+/* ================= APPUNTAMENTI ================= */
+
+document.getElementById('appSubmit').onclick = async ()=>{
+  const fullName = appFullName.value.trim();
+  const phone = appPhone.value.trim();
+  const reason = appReason.value.trim();
+  if(!fullName || !phone || !reason){
+    alert('Compila tutti i campi');
+    return;
+  }
+
+  const payload = {
+    type:'appointment',
+    fullName,
+    phone,
+    appointmentDateISO: iso(new Date()),
+    reason
+  };
+
+  await fetch(API,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  });
+
+  alert('Richiesta inviata ✅');
+};
+
+/* INIT */
+loadInit();
 </script>
-</body>
-</html>
