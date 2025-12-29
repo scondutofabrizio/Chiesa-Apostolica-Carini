@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chiesa Apostolica in Italia - Carini</title>
 
+<!-- Icona Web App -->
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Chiesa Apostolica Carini">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <style>
 :root {
   --nero:#0a0a0a;
@@ -45,7 +52,7 @@ header {
 header img {
   width:42px;
   height:42px;
-  border-radius:14px; /* logo smussato */
+  border-radius:14px;
 }
 
 header h1 {
@@ -129,7 +136,6 @@ nav button {
   border:none;
   color:var(--bianco);
   font-size:14px;
-  cursor:pointer;
 }
 
 nav button.active {
@@ -141,7 +147,7 @@ nav button.active {
 <body>
 
 <header>
-  <img src="icon.png">
+  <img src="icon.png" alt="Logo Chiesa">
   <h1>Chiesa Apostolica in Italia - Carini</h1>
 </header>
 
@@ -180,69 +186,62 @@ nav button.active {
 </footer>
 
 <nav>
-  <button class="active">📖 Home</button>
-  <button>📅 Eventi</button>
-  <button>💬 Appuntamento</button>
+  <button class="active" onclick="show('home',this)">📖 Home</button>
+  <button onclick="show('eventi',this)">📅 Eventi</button>
+  <button onclick="show('appuntamento',this)">💬 Appuntamento</button>
 </nav>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+const SHEET_ID = "1egO0kpl75l20ZzL_XMz9QBUzy0fAVK4q7mReOz8gQ40";
 
-  /* NAV */
-  const buttons = document.querySelectorAll('nav button');
-  buttons.forEach(btn=>{
-    btn.addEventListener('click', function(){
-      const index = Array.from(buttons).indexOf(this);
-      document.querySelectorAll('.page').forEach(p=>p.style.display="none");
-      document.querySelectorAll('.page')[index].style.display="block";
-      buttons.forEach(b=>b.classList.remove("active"));
-      this.classList.add("active");
-    });
-  });
+/* NAV */
+function show(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.style.display="none");
+  document.getElementById(id).style.display="block";
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
 
-  /* CSV PARSER */
-  function parseCSV(text){
-    return text.trim().split("\n").slice(1).map(r=>r.split(","));
+/* CSV PARSER */
+function parseCSV(text){
+  return text.trim().split("\n").slice(1).map(r=>r.split(","));
+}
+
+/* DEVOZIONALI */
+fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`)
+.then(r=>r.text())
+.then(csv=>{
+  const rows = parseCSV(csv);
+  const today = new Date().toLocaleDateString("it-IT");
+  const row = rows.find(r=>r[0]===today);
+  if(row){
+    dev-rif.innerText = row[1];
+    dev-testo.innerText = row[2];
+  } else {
+    dev-testo.innerText = "Devozionale in arrivo 🙏";
   }
+})
+.catch(err=>{
+  dev-testo.innerText = "Errore nel caricamento del devozionale";
+});
 
-  /* DEVOZIONALE */
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv")
-  .then(r=>r.text())
-  .then(csv=>{
-    const rows = parseCSV(csv);
-    const todayISO = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    const row = rows.find(r=>{
-      let sheetDate = r[0].trim();
-      if(sheetDate.includes("/")){
-        const parts = sheetDate.split("/");
-        sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
-      }
-      return sheetDate === todayISO;
-    });
-    if(row){
-      document.getElementById("dev-rif").innerText = row[1];
-      document.getElementById("dev-testo").innerText = row[2];
-    } else {
-      document.getElementById("dev-testo").innerText = "Devozionale in arrivo 🙏";
-    }
+/* EVENTI */
+fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=2127508252`)
+.then(r=>r.text())
+.then(csv=>{
+  const rows = parseCSV(csv);
+  const box = document.getElementById("lista-eventi");
+  box.innerHTML="";
+  rows.forEach(r=>{
+    box.innerHTML += `
+      <div class="event">
+        <strong>${r[1]}</strong><br>
+        <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+      </div>`;
   });
-
-  /* EVENTI */
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
-  .then(r=>r.text())
-  .then(csv=>{
-    const rows = parseCSV(csv);
-    const box = document.getElementById("lista-eventi");
-    box.innerHTML="";
-    rows.forEach(r=>{
-      box.innerHTML += `
-        <div class="event">
-          <strong>${r[1]}</strong><br>
-          <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
-        </div>`;
-    });
-  });
-
+})
+.catch(err=>{
+  document.getElementById("lista-eventi").innerText = "Errore nel caricamento eventi";
 });
 </script>
 
