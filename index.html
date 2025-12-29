@@ -5,12 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chiesa Apostolica in Italia - Carini</title>
 
-<!-- PWA -->
-<meta name="theme-color" content="#0a0a0a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="icon.png">
-
 <style>
 :root {
   --nero:#0a0a0a;
@@ -18,29 +12,27 @@
   --grigio:#9ca3af;
   --oro:#facc15;
   --verde:#22c55e;
-  --rosso:#f97316;
   --bianco:#ffffff;
   --glass:rgba(255,255,255,0.08);
 }
 
 * {
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 }
 
 html, body {
-  min-height: 100vh;
+  min-height:100vh;
 }
 
 body {
-  display:flex;
-  flex-direction:column;
   background: linear-gradient(180deg, var(--nero), var(--blu));
   color: var(--bianco);
 }
 
+/* HEADER */
 header {
   display:flex;
   align-items:center;
@@ -51,9 +43,9 @@ header {
 }
 
 header img {
-  width:40px;
-  height:40px;
-  border-radius:12px; /* logo smussato */
+  width:42px;
+  height:42px;
+  border-radius:14px;
 }
 
 header h1 {
@@ -61,9 +53,10 @@ header h1 {
   font-weight:600;
 }
 
+/* MAIN */
 main {
-  flex:1;
   padding:20px;
+  padding-bottom:100px;
 }
 
 .card {
@@ -87,18 +80,19 @@ main {
 .event {
   border-left:4px solid var(--verde);
   padding-left:12px;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
 .event span {
-  color:var(--grigio);
   font-size:14px;
+  color:var(--grigio);
 }
 
+/* WHATSAPP */
 .whatsapp-btn {
   display:flex;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   gap:10px;
   background:#25D366;
   color:#000;
@@ -109,15 +103,15 @@ main {
   text-decoration:none;
 }
 
+/* FOOTER (ripristinato) */
 footer {
   text-align:center;
+  padding:14px 0;
   font-size:13px;
   color:var(--grigio);
-  padding:14px 0;
-  background: var(--glass);
-  backdrop-filter: blur(12px);
 }
 
+/* NAV */
 nav {
   position:fixed;
   bottom:0;
@@ -146,39 +140,38 @@ nav button.active {
 <body>
 
 <header>
-  <img src="icon.png" alt="Logo">
+  <img src="icon.png">
   <h1>Chiesa Apostolica in Italia - Carini</h1>
 </header>
 
 <main>
-  <!-- HOME -->
-  <section id="home" class="page">
-    <div class="card">
-      <h2>📖 Devozionale di oggi</h2>
-      <h3 id="dev-rif"></h3>
-      <p id="dev-contenuto">Caricamento...</p>
-    </div>
-  </section>
 
-  <!-- EVENTI -->
-  <section id="eventi" class="page" style="display:none">
-    <div class="card">
-      <h2>📅 Eventi</h2>
-      <div id="lista-eventi">Caricamento...</div>
-    </div>
-  </section>
+<section id="home" class="page">
+  <div class="card">
+    <h2>📖 Devozionale di oggi</h2>
+    <strong id="dev-rif"></strong>
+    <p id="dev-testo">Caricamento...</p>
+  </div>
+</section>
 
-  <!-- WHATSAPP -->
-  <section id="appuntamento" class="page" style="display:none">
-    <div class="card">
-      <h2>💬 Appuntamento</h2>
-      <a class="whatsapp-btn"
-         href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il%20responsabile"
-         target="_blank">
-         📲 Contatta su WhatsApp
-      </a>
-    </div>
-  </section>
+<section id="eventi" class="page" style="display:none">
+  <div class="card">
+    <h2>📅 Eventi</h2>
+    <div id="lista-eventi">Caricamento...</div>
+  </div>
+</section>
+
+<section id="appuntamento" class="page" style="display:none">
+  <div class="card">
+    <h2>💬 Appuntamento</h2>
+    <a class="whatsapp-btn"
+       href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il%20responsabile"
+       target="_blank">
+       📲 Scrivici su WhatsApp
+    </a>
+  </div>
+</section>
+
 </main>
 
 <footer>
@@ -186,44 +179,44 @@ nav button.active {
 </footer>
 
 <nav>
-  <button class="active" onclick="showPage('home',this)">📖 Home</button>
-  <button onclick="showPage('eventi',this)">📅 Eventi</button>
-  <button onclick="showPage('appuntamento',this)">💬 Appuntamento</button>
+  <button class="active" onclick="show('home',this)">📖 Home</button>
+  <button onclick="show('eventi',this)">📅 Eventi</button>
+  <button onclick="show('appuntamento',this)">💬 Appuntamento</button>
 </nav>
 
 <script>
 const SHEET_ID = "1egO0kpl75l20ZzL_XMz9QBUzy0fAVK4q7mReOz8gQ40";
 
-// cambia sezione
-function showPage(id,btn){
-  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-  document.getElementById(id).style.display='block';
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+/* NAV */
+function show(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.style.display="none");
+  document.getElementById(id).style.display="block";
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
 }
 
-// CSV parser
+/* CSV PARSER */
 function parseCSV(text){
   return text.trim().split("\n").slice(1).map(r=>r.split(","));
 }
 
-// --- DEVOZIONALE ---
-fetch(`https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?gid=0&single=true&output=csv`)
+/* DEV O Z I O N A L E */
+fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`)
 .then(r=>r.text())
 .then(csv=>{
   const rows = parseCSV(csv);
   const today = new Date().toLocaleDateString("it-IT");
   const row = rows.find(r=>r[0]===today);
   if(row){
-    document.getElementById("dev-rif").innerText = row[1];
-    document.getElementById("dev-contenuto").innerText = row[2];
+    dev-rif.innerText = row[1];
+    dev-testo.innerText = row[2];
   } else {
-    document.getElementById("dev-contenuto").innerText = "Devozionale in arrivo 🙏";
+    dev-testo.innerText = "Devozionale in arrivo 🙏";
   }
 });
 
-// --- EVENTI ---
-fetch(`https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?gid=2127508252&single=true&output=csv`)
+/* EVENTI */
+fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=2127508252`)
 .then(r=>r.text())
 .then(csv=>{
   const rows = parseCSV(csv);
@@ -236,9 +229,6 @@ fetch(`https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?gid=2127508252&s
         <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
       </div>`;
   });
-})
-.catch(err=>{
-  document.getElementById("lista-eventi").innerText="Errore nel caricamento eventi";
 });
 </script>
 
