@@ -1,217 +1,227 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Ristoro Giornaliero – Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chiesa Apostolica in Italia - Carini</title>
 
-  <style>
-    body{
-      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-      background:#0f172a;
-      color:#e5e7eb;
-      margin:0;
-      padding:20px;
-      display:flex;
-      justify-content:center;
-    }
+<!-- PWA -->
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon.png">
 
-    .app{
-      width:100%;
-      max-width:420px;
-      background:#020617;
-      border-radius:16px;
-      padding:20px;
-      box-shadow:0 20px 40px rgba(0,0,0,.4);
-    }
+<style>
+:root {
+  --nero:#0a0a0a;
+  --blu:#0f172a;
+  --grigio:#9ca3af;
+  --oro:#facc15;
+  --verde:#22c55e;
+  --rosso:#f97316;
+  --bianco:#ffffff;
+  --glass:rgba(255,255,255,0.08);
+}
 
-    h1{
-      font-size:20px;
-      margin-bottom:4px;
-    }
+* { box-sizing:border-box; margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto; }
 
-    .subtitle{
-      font-size:13px;
-      color:#94a3b8;
-      margin-bottom:16px;
-    }
+body {
+  background: linear-gradient(180deg, var(--nero), var(--blu));
+  color: var(--bianco);
+  padding-bottom:90px;
+}
 
-    .card{
-      background:#020617;
-      border:1px solid #1e293b;
-      border-radius:12px;
-      padding:14px;
-      margin-bottom:14px;
-    }
+header {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:16px;
+  background:var(--glass);
+  backdrop-filter: blur(14px);
+}
 
-    .label{
-      font-size:11px;
-      color:#94a3b8;
-      margin-bottom:4px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
+header img {
+  width:40px;
+  height:40px;
+}
 
-    .title{
-      font-size:16px;
-      font-weight:600;
-      margin-bottom:4px;
-    }
+header h1 {
+  font-size:16px;
+  font-weight:600;
+}
 
-    .ref{
-      font-size:13px;
-      color:#38bdf8;
-      margin-bottom:8px;
-    }
+main {
+  padding:20px;
+}
 
-    .content{
-      font-size:14px;
-      line-height:1.5;
-      color:#e5e7eb;
-      white-space:pre-line;
-    }
+.card {
+  background:var(--glass);
+  backdrop-filter: blur(16px);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
+}
 
-    textarea,input{
-      width:100%;
-      background:#020617;
-      border:1px solid #334155;
-      color:#e5e7eb;
-      border-radius:10px;
-      padding:10px;
-      font-size:14px;
-    }
+.card h2 {
+  color:var(--oro);
+  margin-bottom:10px;
+}
 
-    textarea{min-height:90px;}
+.card p {
+  line-height:1.6;
+  color:#e5e7eb;
+}
 
-    button{
-      width:100%;
-      border:none;
-      border-radius:999px;
-      padding:10px;
-      background:#38bdf8;
-      color:#020617;
-      font-weight:600;
-      cursor:pointer;
-      margin-top:10px;
-    }
+.event {
+  border-left:4px solid var(--verde);
+  padding-left:12px;
+  margin-bottom:12px;
+}
 
-    button:hover{opacity:.9}
+.event span {
+  color:var(--grigio);
+  font-size:14px;
+}
 
-    .status{
-      font-size:12px;
-      margin-top:6px;
-    }
+.whatsapp-btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  background:#25D366;
+  color:#000;
+  padding:16px;
+  border-radius:18px;
+  font-size:18px;
+  font-weight:600;
+  text-decoration:none;
+}
 
-    .ok{color:#4ade80}
-    .err{color:#f87171}
-  </style>
+footer {
+  text-align:center;
+  font-size:13px;
+  color:var(--grigio);
+  padding:20px;
+}
+
+nav {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px);
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+
+nav button {
+  background:none;
+  border:none;
+  color:var(--bianco);
+  font-size:14px;
+}
+
+nav button.active {
+  color:var(--oro);
+}
+</style>
 </head>
 
 <body>
-<div class="app">
 
-  <h1>Ristoro giornaliero</h1>
-  <div class="subtitle">Test collegamento Google Sheet</div>
+<header>
+  <img src="icon.png" alt="Logo">
+  <h1>Chiesa Apostolica in Italia - Carini</h1>
+</header>
 
-  <!-- DEVOTIONAL -->
-  <div class="card">
-    <div class="label">Devozionale di oggi</div>
-    <div class="title" id="devTitle">Caricamento…</div>
-    <div class="ref" id="devRef"></div>
-    <div class="content" id="devContent"></div>
-  </div>
+<main>
+  <!-- HOME -->
+  <section id="home" class="page">
+    <div class="card">
+      <h2>📖 Devozionale di oggi</h2>
+      <h3 id="dev-rif"></h3>
+      <p id="dev-contenuto">Caricamento...</p>
+    </div>
+  </section>
 
-  <!-- NEXT EVENT -->
-  <div class="card">
-    <div class="label">Prossimo evento</div>
-    <div id="eventBox">Caricamento…</div>
-  </div>
+  <!-- EVENTI -->
+  <section id="eventi" class="page" style="display:none">
+    <div class="card">
+      <h2>📅 Eventi</h2>
+      <div id="lista-eventi">Caricamento...</div>
+    </div>
+  </section>
 
-  <!-- RESPONSE -->
-  <div class="card">
-    <div class="label">La tua risposta</div>
-    <input id="userName" placeholder="Il tuo nome (opzionale)">
-    <textarea id="noteText" placeholder="Scrivi qui…"></textarea>
-    <button id="sendBtn">Invia risposta</button>
-    <div class="status" id="statusBox"></div>
-  </div>
+  <!-- WHATSAPP -->
+  <section id="appuntamento" class="page" style="display:none">
+    <div class="card">
+      <h2>💬 Appuntamento</h2>
+      <a class="whatsapp-btn"
+         href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il%20responsabile"
+         target="_blank">
+         📲 Contatta su WhatsApp
+      </a>
+    </div>
+  </section>
+</main>
 
-</div>
+<footer>
+  La Chiatta - Rhema 2026
+</footer>
+
+<nav>
+  <button class="active" onclick="showPage('home',this)">📖 Home</button>
+  <button onclick="showPage('eventi',this)">📅 Eventi</button>
+  <button onclick="showPage('appuntamento',this)">💬 Appuntamento</button>
+</nav>
 
 <script>
-const API = 'https://script.google.com/macros/s/AKfycbx4NT11DqLhGYpP0PZid3t-NsZn1TJjLun_ReO1jZG-Hy1QwniE-BD8qfNiUZZeCWgTFg/exec';
+const SHEET_ID = "2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj";
 
-function todayISO(){
-  return new Date().toISOString().split('T')[0];
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
-/* LOAD DATA */
-async function load(){
-  try{
-    const res = await fetch(`${API}?action=init&date=${todayISO()}`);
-    const data = await res.json();
-
-    // DEVOTIONAL
-    if(data.devotional){
-      devTitle.textContent = data.devotional.title;
-      devRef.textContent = data.devotional.ref;
-      devContent.textContent = data.devotional.content;
-    }else{
-      devTitle.textContent = 'Nessun devozionale trovato';
-      devRef.textContent = '';
-      devContent.textContent = '';
-    }
-
-    // EVENT
-    if(data.nextEvent){
-      eventBox.innerHTML = `
-        <strong>${data.nextEvent.title}</strong><br>
-        ${data.nextEvent.date} ${data.nextEvent.time || ''}<br>
-        <span style="color:#94a3b8">${data.nextEvent.location || ''}</span>
-      `;
-    }else{
-      eventBox.textContent = 'Nessun evento in programma';
-    }
-
-  }catch(e){
-    devTitle.textContent = 'Errore di caricamento';
-    console.error(e);
-  }
+function parseCSV(text){
+  return text.trim().split("\n").slice(1).map(r=>r.split(","));
 }
 
-/* SEND NOTE */
-sendBtn.onclick = async ()=>{
-  statusBox.textContent = '';
-  const text = noteText.value.trim();
-  if(!text){
-    statusBox.textContent = 'Scrivi qualcosa';
-    statusBox.className = 'status err';
-    return;
+// DEVOTIONAL
+fetch(`https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?gid=0&single=true&output=csv`)
+.then(r=>r.text())
+.then(csv=>{
+  const rows = parseCSV(csv);
+  const today = new Date().toLocaleDateString("it-IT");
+  const row = rows.find(r=>r[0]===today);
+  if(row){
+    document.getElementById("dev-rif").innerText = row[1];
+    document.getElementById("dev-contenuto").innerText = row[2];
+  } else {
+    document.getElementById("dev-contenuto").innerText = "Devozionale in arrivo 🙏";
   }
+});
 
-  const payload = {
-    type:'devotional_note',
-    devotionalDate: todayISO(),
-    userName: userName.value || 'Anonimo',
-    noteText: text
-  };
-
-  try{
-    await fetch(API,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    });
-    statusBox.textContent = 'Inviato correttamente ✅';
-    statusBox.className = 'status ok';
-    noteText.value='';
-  }catch(e){
-    statusBox.textContent = 'Errore invio';
-    statusBox.className = 'status err';
-  }
-};
-
-load();
+// EVENTS
+fetch(`https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?gid=1883474437&single=true&output=csv`)
+.then(r=>r.text())
+.then(csv=>{
+  const rows = parseCSV(csv);
+  const box = document.getElementById("lista-eventi");
+  box.innerHTML="";
+  rows.forEach(r=>{
+    box.innerHTML += `
+      <div class="event">
+        <strong>${r[1]}</strong><br>
+        <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+      </div>`;
+  });
+});
 </script>
+
 </body>
 </html>
