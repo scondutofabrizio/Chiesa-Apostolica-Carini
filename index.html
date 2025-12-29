@@ -103,7 +103,7 @@ main {
   text-decoration:none;
 }
 
-/* FOOTER (ripristinato) */
+/* FOOTER */
 footer {
   text-align:center;
   padding:14px 0;
@@ -185,8 +185,6 @@ nav button.active {
 </nav>
 
 <script>
-const SHEET_ID = "1egO0kpl75l20ZzL_XMz9QBUzy0fAVK4q7mReOz8gQ40";
-
 /* NAV */
 function show(id,btn){
   document.querySelectorAll('.page').forEach(p=>p.style.display="none");
@@ -201,7 +199,7 @@ function parseCSV(text){
 }
 
 /* DEV O Z I O N A L E */
-fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`)
+fetch(`https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv`)
 .then(r=>r.text())
 .then(csv=>{
   const rows = parseCSV(csv);
@@ -216,18 +214,20 @@ fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=
 });
 
 /* EVENTI */
-fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=2127508252`)
+fetch(`https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv`)
 .then(r=>r.text())
 .then(csv=>{
   const rows = parseCSV(csv);
   const box = document.getElementById("lista-eventi");
   box.innerHTML="";
   rows.forEach(r=>{
-    box.innerHTML += `
-      <div class="event">
-        <strong>${r[1]}</strong><br>
-        <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
-      </div>`;
+    if(r[0]){
+      box.innerHTML += `
+        <div class="event">
+          <strong>${r[1]}</strong><br>
+          <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+        </div>`;
+    }
   });
 });
 </script>
