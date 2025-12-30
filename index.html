@@ -40,9 +40,8 @@ body {
 /* HEADER */
 header {
   display:flex;
-  flex-direction: column;
-  align-items:flex-start;
-  gap:4px;
+  align-items:center;
+  gap:12px;
   padding:16px;
   background:var(--glass);
   backdrop-filter: blur(14px);
@@ -52,6 +51,11 @@ header img {
   width:42px;
   height:42px;
   border-radius:14px; /* logo smussato */
+}
+
+header .header-text {
+  display:flex;
+  flex-direction: column;
 }
 
 header h1 {
@@ -153,8 +157,10 @@ nav button.active {
 
 <header>
   <img src="icon.png" alt="Logo">
-  <h1>Chiesa Apostolica in Italia - Carini</h1>
-  <div class="indirizzo">Via Don Luigi Sturzo 188</div>
+  <div class="header-text">
+    <h1>Chiesa Apostolica in Italia - Carini</h1>
+    <div class="indirizzo">Via Don Luigi Sturzo 188</div>
+  </div>
 </header>
 
 <main>
