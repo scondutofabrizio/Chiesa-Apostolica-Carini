@@ -190,9 +190,6 @@ nav button.active {
   <button>💬 Appuntamento</button>
 </nav>
 
-<!-- PapaParse per CSV complessi -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -208,44 +205,67 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  /* DEVOZIONALE */
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv", {
-    download: true,
-    header: true,
-    complete: function(results) {
-      const todayISO = new Date().toISOString().split("T")[0];
-      const row = results.data.find(r => {
-        let sheetDate = r.Data.trim();
-        if(sheetDate.includes("/")){
-          const parts = sheetDate.split("/");
-          sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
-        }
-        return sheetDate === todayISO;
-      });
-      if(row){
-        document.getElementById("dev-rif").innerText = row.Riferimento;
-        document.getElementById("dev-testo").innerText = row.Testo;
-      } else {
-        document.getElementById("dev-testo").innerText = "Devozionale in arrivo 🙏";
+  /* CSV PARSER base robusta */
+  function parseCSV(text){
+    const rows = [];
+    const lines = text.split(/\r?\n/);
+    for(const line of lines){
+      if(line.trim()==="") continue;
+      const values = [];
+      let current="";
+      let inQuotes=false;
+      for(let i=0;i<line.length;i++){
+        const c=line[i];
+        if(c==='\"') inQuotes = !inQuotes;
+        else if(c===',' && !inQuotes){
+          values.push(current);
+          current="";
+        } else current+=c;
       }
+      values.push(current);
+      rows.push(values);
+    }
+    return rows;
+  }
+
+  /* DEVOZIONALE */
+  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv")
+  .then(r=>r.text())
+  .then(csv=>{
+    const rows = parseCSV(csv);
+    const todayISO = new Date().toISOString().split("T")[0];
+    const row = rows.find(r=>{
+      if(!r[0]) return false;
+      let sheetDate=r[0].trim();
+      if(sheetDate.includes("/")){
+        const parts = sheetDate.split("/");
+        sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
+      }
+      return sheetDate===todayISO;
+    });
+    if(row){
+      document.getElementById("dev-rif").innerText=row[1];
+      document.getElementById("dev-testo").innerText=row[2];
+    } else {
+      document.getElementById("dev-testo").innerText="Devozionale in arrivo 🙏";
     }
   });
 
   /* EVENTI */
-  Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv", {
-    download: true,
-    header: true,
-    complete: function(results) {
-      const box = document.getElementById("lista-eventi");
-      box.innerHTML = "";
-      results.data.forEach(r => {
-        if(r.Data) box.innerHTML += `
-          <div class="event">
-            <strong>${r.Titolo}</strong><br>
-            <span>📅 ${r.Data} ⏰ ${r.Ora} 📍 ${r.Luogo}</span>
-          </div>`;
-      });
-    }
+  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
+  .then(r=>r.text())
+  .then(csv=>{
+    const rows = parseCSV(csv);
+    const box = document.getElementById("lista-eventi");
+    box.innerHTML="";
+    rows.forEach(r=>{
+      if(!r[0]) return;
+      box.innerHTML += `
+        <div class="event">
+          <strong>${r[1]}</strong><br>
+          <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+        </div>`;
+    });
   });
 
 });
