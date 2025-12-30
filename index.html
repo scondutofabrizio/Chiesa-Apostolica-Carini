@@ -5,11 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chiesa Apostolica in Italia - Carini</title>
 
-<!-- Icona Web App -->
-<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="icon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icon.png">
-
 <style>
 :root {
   --nero:#0a0a0a;
@@ -53,9 +48,9 @@ header img {
   border-radius:14px; /* logo smussato */
 }
 
-header .header-text {
+header .titolo {
   display:flex;
-  flex-direction: column;
+  flex-direction:column;
 }
 
 header h1 {
@@ -156,10 +151,10 @@ nav button.active {
 <body>
 
 <header>
-  <img src="icon.png" alt="Logo">
-  <div class="header-text">
+  <img src="icon.png">
+  <div class="titolo">
     <h1>Chiesa Apostolica in Italia - Carini</h1>
-    <div class="indirizzo">Via Don Luigi Sturzo 188</div>
+    <span class="indirizzo">Via Don Luigi Sturzo 188</span>
   </div>
 </header>
 
@@ -218,27 +213,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  /* CSV PARSER base robusta */
+  /* CSV PARSER */
   function parseCSV(text){
-    const rows = [];
-    const lines = text.split(/\r?\n/);
-    for(const line of lines){
-      if(line.trim()==="") continue;
-      const values = [];
-      let current="";
-      let inQuotes=false;
-      for(let i=0;i<line.length;i++){
-        const c=line[i];
-        if(c==='\"') inQuotes = !inQuotes;
-        else if(c===',' && !inQuotes){
-          values.push(current);
-          current="";
-        } else current+=c;
-      }
-      values.push(current);
-      rows.push(values);
-    }
-    return rows;
+    return text.trim().split("\n").slice(1).map(r=>r.split(","));
   }
 
   /* DEVOZIONALE */
@@ -248,37 +225,50 @@ document.addEventListener("DOMContentLoaded", function() {
     const rows = parseCSV(csv);
     const todayISO = new Date().toISOString().split("T")[0];
     const row = rows.find(r=>{
-      if(!r[0]) return false;
-      let sheetDate=r[0].trim();
+      let sheetDate = r[0].trim();
       if(sheetDate.includes("/")){
         const parts = sheetDate.split("/");
         sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
       }
-      return sheetDate===todayISO;
+      return sheetDate === todayISO;
     });
     if(row){
-      document.getElementById("dev-rif").innerText=row[1];
-      document.getElementById("dev-testo").innerText=row[2];
+      document.getElementById("dev-rif").innerText = row[1];
+      document.getElementById("dev-testo").innerText = row[2];
     } else {
-      document.getElementById("dev-testo").innerText="Devozionale in arrivo 🙏";
+      document.getElementById("dev-testo").innerText = "Devozionale in arrivo 🙏";
     }
   });
 
-  /* EVENTI */
+  /* EVENTI: SOLO 7 GIORNI SUCCESSIVI */
   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
   .then(r=>r.text())
   .then(csv=>{
     const rows = parseCSV(csv);
     const box = document.getElementById("lista-eventi");
     box.innerHTML="";
+    
+    const today = new Date();
+    const nextWeek = new Date();
+    nextWeek.setDate(today.getDate() + 7);
+    
     rows.forEach(r=>{
-      if(!r[0]) return;
-      box.innerHTML += `
-        <div class="event">
-          <strong>${r[1]}</strong><br>
-          <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
-        </div>`;
+      let sheetDate = r[0].trim();
+      if(sheetDate.includes("/")){
+        const parts = sheetDate.split("/");
+        sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
+      }
+      const eventDate = new Date(sheetDate);
+      if(eventDate >= today && eventDate <= nextWeek){
+        box.innerHTML += `
+          <div class="event">
+            <strong>${r[1]}</strong><br>
+            <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+          </div>`;
+      }
     });
+    
+    if(box.innerHTML === "") box.innerHTML = "Nessun evento nei prossimi 7 giorni.";
   });
 
 });
