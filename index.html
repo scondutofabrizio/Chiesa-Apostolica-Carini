@@ -23,128 +23,35 @@
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 }
 
-html, body {
-  min-height:100vh;
-}
+html, body { min-height:100vh; }
 
-body {
-  background: linear-gradient(180deg, var(--nero), var(--blu));
-  color: var(--bianco);
-}
+body { background: linear-gradient(180deg, var(--nero), var(--blu)); color: var(--bianco); }
 
 /* HEADER */
-header {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:16px;
-  background:var(--glass);
-  backdrop-filter: blur(14px);
-}
-
-header img {
-  width:42px;
-  height:42px;
-  border-radius:14px; /* logo smussato */
-}
-
-header .titolo {
-  display:flex;
-  flex-direction:column;
-}
-
-header h1 {
-  font-size:16px;
-  font-weight:600;
-}
-
-header .indirizzo {
-  font-size:12px;
-  color: var(--grigio);
-}
+header { display:flex; align-items:center; gap:12px; padding:16px; background:var(--glass); backdrop-filter: blur(14px); }
+header img { width:42px; height:42px; border-radius:14px; }
+header .titolo { display:flex; flex-direction:column; }
+header h1 { font-size:16px; font-weight:600; }
+header .indirizzo { font-size:12px; color: var(--grigio); }
 
 /* MAIN */
-main {
-  padding:20px;
-  padding-bottom:100px;
-}
-
-.card {
-  background:var(--glass);
-  backdrop-filter: blur(16px);
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:20px;
-}
-
-.card h2 {
-  color:var(--oro);
-  margin-bottom:10px;
-}
-
-.card p {
-  line-height:1.6;
-  color:#e5e7eb;
-}
-
-.event {
-  border-left:4px solid var(--verde);
-  padding-left:12px;
-  margin-bottom:14px;
-}
-
-.event span {
-  font-size:14px;
-  color:var(--grigio);
-}
+main { padding:20px; padding-bottom:100px; }
+.card { background:var(--glass); backdrop-filter: blur(16px); border-radius:18px; padding:20px; margin-bottom:20px; }
+.card h2 { color:var(--oro); margin-bottom:10px; }
+.card p { line-height:1.6; color:#e5e7eb; }
+.event { border-left:4px solid var(--verde); padding-left:12px; margin-bottom:14px; }
+.event span { font-size:14px; color:var(--grigio); }
 
 /* WHATSAPP */
-.whatsapp-btn {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  background:#25D366;
-  color:#000;
-  padding:16px;
-  border-radius:18px;
-  font-size:18px;
-  font-weight:600;
-  text-decoration:none;
-}
+.whatsapp-btn { display:flex; justify-content:center; align-items:center; gap:10px; background:#25D366; color:#000; padding:16px; border-radius:18px; font-size:18px; font-weight:600; text-decoration:none; }
 
 /* FOOTER */
-footer {
-  text-align:center;
-  padding:14px 0;
-  font-size:13px;
-  color:var(--grigio);
-}
+footer { text-align:center; padding:14px 0; font-size:13px; color:var(--grigio); }
 
 /* NAV */
-nav {
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter: blur(20px);
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-}
-
-nav button {
-  background:none;
-  border:none;
-  color:var(--bianco);
-  font-size:14px;
-  cursor:pointer;
-}
-
-nav button.active {
-  color:var(--oro);
-}
+nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:10px 0; }
+nav button { background:none; border:none; color:var(--bianco); font-size:14px; cursor:pointer; }
+nav button.active { color:var(--oro); }
 </style>
 </head>
 
@@ -188,9 +95,7 @@ nav button.active {
 
 </main>
 
-<footer>
-  La Chiatta - Rhema 2026
-</footer>
+<footer>La Chiatta - Rhema 2026</footer>
 
 <nav>
   <button class="active">📖 Home</button>
@@ -201,7 +106,7 @@ nav button.active {
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
-  /* NAV */
+  // NAV
   const buttons = document.querySelectorAll('nav button');
   buttons.forEach(btn=>{
     btn.addEventListener('click', function(){
@@ -213,24 +118,30 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  /* CSV PARSER */
+  // CSV PARSER ROBUSTO
   function parseCSV(text){
-    return text.trim().split("\n").slice(1).map(r=>r.split(","));
+    const lines = text.trim().split("\n");
+    return lines.slice(1).map(line=>{
+      // split considerando le virgolette
+      const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+      return line.split(regex).map(s=>s.replace(/^"|"$/g,''));
+    });
   }
 
-  /* DEVOZIONALE */
+  // DEVOZIONALE
   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv")
   .then(r=>r.text())
   .then(csv=>{
     const rows = parseCSV(csv);
-    const todayISO = new Date().toISOString().split("T")[0];
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
     const row = rows.find(r=>{
-      let sheetDate = r[0].trim();
-      if(sheetDate.includes("/")){
-        const parts = sheetDate.split("/");
-        sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
+      let d = r[0].trim();
+      if(d.includes("/")){
+        const p = d.split("/");
+        d = `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
       }
-      return sheetDate === todayISO;
+      return d===todayStr;
     });
     if(row){
       document.getElementById("dev-rif").innerText = row[1];
@@ -240,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  /* EVENTI: SOLO 7 GIORNI SUCCESSIVI */
+  // EVENTI SOLO 7 GIORNI SUCCESSIVI
   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
   .then(r=>r.text())
   .then(csv=>{
@@ -253,22 +164,18 @@ document.addEventListener("DOMContentLoaded", function() {
     nextWeek.setDate(today.getDate() + 7);
     
     rows.forEach(r=>{
-      let sheetDate = r[0].trim();
-      if(sheetDate.includes("/")){
-        const parts = sheetDate.split("/");
-        sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
+      let d = r[0].trim();
+      if(d.includes("/")){
+        const p = d.split("/");
+        d = `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
       }
-      const eventDate = new Date(sheetDate);
-      if(eventDate >= today && eventDate <= nextWeek){
-        box.innerHTML += `
-          <div class="event">
-            <strong>${r[1]}</strong><br>
-            <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
-          </div>`;
+      const evDate = new Date(d);
+      if(evDate >= today && evDate <= nextWeek){
+        box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
       }
     });
     
-    if(box.innerHTML === "") box.innerHTML = "Nessun evento nei prossimi 7 giorni.";
+    if(box.innerHTML==="") box.innerHTML = "Nessun evento nei prossimi 7 giorni.";
   });
 
 });
