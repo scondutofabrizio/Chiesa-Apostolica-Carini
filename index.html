@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chiesa Apostolica in Italia - Carini</title>
 
+<!-- Web App Icon -->
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Chiesa Apostolica - Carini">
+<meta name="mobile-web-app-capable" content="yes">
+
 <style>
 :root {
   --nero:#0a0a0a;
@@ -15,16 +22,8 @@
   --bianco:#ffffff;
   --glass:rgba(255,255,255,0.08);
 }
-
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
-}
-
+* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto; }
 html, body { min-height:100vh; }
-
 body { background: linear-gradient(180deg, var(--nero), var(--blu)); color: var(--bianco); }
 
 /* HEADER */
@@ -122,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function() {
   function parseCSV(text){
     const lines = text.trim().split("\n");
     return lines.slice(1).map(line=>{
-      // split considerando le virgolette
       const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
       return line.split(regex).map(s=>s.replace(/^"|"$/g,''));
     });
@@ -161,16 +159,18 @@ document.addEventListener("DOMContentLoaded", function() {
     
     const today = new Date();
     const nextWeek = new Date();
-    nextWeek.setDate(today.getDate() + 7);
-    
+    nextWeek.setDate(today.getDate()+7);
+
     rows.forEach(r=>{
       let d = r[0].trim();
       if(d.includes("/")){
         const p = d.split("/");
         d = `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
       }
-      const evDate = new Date(d);
-      if(evDate >= today && evDate <= nextWeek){
+      const [y,m,day] = d.split("-").map(Number);
+      const evDate = new Date(y,m-1,day); // ignora ora
+      if(evDate >= new Date(today.getFullYear(),today.getMonth(),today.getDate()) &&
+         evDate <= new Date(nextWeek.getFullYear(),nextWeek.getMonth(),nextWeek.getDate())){
         box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
       }
     });
