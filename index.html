@@ -5,12 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chiesa Apostolica in Italia - Carini</title>
 
-<!-- Web App Icon -->
-<link rel="icon" type="image/png" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Chiesa Apostolica - Carini">
-<meta name="mobile-web-app-capable" content="yes">
+<!-- Icona Web App -->
+<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icon.png">
 
 <style>
 :root {
@@ -22,45 +20,146 @@
   --bianco:#ffffff;
   --glass:rgba(255,255,255,0.08);
 }
-* { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto; }
-html, body { min-height:100vh; }
-body { background: linear-gradient(180deg, var(--nero), var(--blu)); color: var(--bianco); }
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+}
+
+html, body {
+  min-height:100vh;
+}
+
+body {
+  background: linear-gradient(180deg, var(--nero), var(--blu));
+  color: var(--bianco);
+}
 
 /* HEADER */
-header { display:flex; align-items:center; gap:12px; padding:16px; background:var(--glass); backdrop-filter: blur(14px); }
-header img { width:42px; height:42px; border-radius:14px; }
-header .titolo { display:flex; flex-direction:column; }
-header h1 { font-size:16px; font-weight:600; }
-header .indirizzo { font-size:12px; color: var(--grigio); }
+header {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:16px;
+  background:var(--glass);
+  backdrop-filter: blur(14px);
+}
+
+header img {
+  width:42px;
+  height:42px;
+  border-radius:14px; /* logo smussato */
+}
+
+header .header-text {
+  display:flex;
+  flex-direction: column;
+}
+
+header h1 {
+  font-size:16px;
+  font-weight:600;
+}
+
+header .indirizzo {
+  font-size:12px;
+  color: var(--grigio);
+}
 
 /* MAIN */
-main { padding:20px; padding-bottom:100px; }
-.card { background:var(--glass); backdrop-filter: blur(16px); border-radius:18px; padding:20px; margin-bottom:20px; }
-.card h2 { color:var(--oro); margin-bottom:10px; }
-.card p { line-height:1.6; color:#e5e7eb; }
-.event { border-left:4px solid var(--verde); padding-left:12px; margin-bottom:14px; }
-.event span { font-size:14px; color:var(--grigio); }
+main {
+  padding:20px;
+  padding-bottom:100px;
+}
+
+.card {
+  background:var(--glass);
+  backdrop-filter: blur(16px);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.card h2 {
+  color:var(--oro);
+  margin-bottom:10px;
+}
+
+.card p {
+  line-height:1.6;
+  color:#e5e7eb;
+}
+
+.event {
+  border-left:4px solid var(--verde);
+  padding-left:12px;
+  margin-bottom:14px;
+}
+
+.event span {
+  font-size:14px;
+  color:var(--grigio);
+}
 
 /* WHATSAPP */
-.whatsapp-btn { display:flex; justify-content:center; align-items:center; gap:10px; background:#25D366; color:#000; padding:16px; border-radius:18px; font-size:18px; font-weight:600; text-decoration:none; }
+.whatsapp-btn {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  background:#25D366;
+  color:#000;
+  padding:16px;
+  border-radius:18px;
+  font-size:18px;
+  font-weight:600;
+  text-decoration:none;
+}
 
 /* FOOTER */
-footer { text-align:center; padding:14px 0; font-size:13px; color:var(--grigio); }
+footer {
+  text-align:center;
+  padding:14px 0;
+  font-size:13px;
+  color:var(--grigio);
+}
 
 /* NAV */
-nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:10px 0; }
-nav button { background:none; border:none; color:var(--bianco); font-size:14px; cursor:pointer; }
-nav button.active { color:var(--oro); }
+nav {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px);
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+
+nav button {
+  background:none;
+  border:none;
+  color:var(--bianco);
+  font-size:14px;
+  cursor:pointer;
+}
+
+nav button.active {
+  color:var(--oro);
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <img src="icon.png">
-  <div class="titolo">
+  <img src="icon.png" alt="Logo">
+  <div class="header-text">
     <h1>Chiesa Apostolica in Italia - Carini</h1>
-    <span class="indirizzo">Via Don Luigi Sturzo 188</span>
+    <div class="indirizzo">Via Don Luigi Sturzo 188</div>
   </div>
 </header>
 
@@ -94,7 +193,9 @@ nav button.active { color:var(--oro); }
 
 </main>
 
-<footer>La Chiatta - Rhema 2026</footer>
+<footer>
+  La Chiatta - Rhema 2026
+</footer>
 
 <nav>
   <button class="active">📖 Home</button>
@@ -105,7 +206,7 @@ nav button.active { color:var(--oro); }
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
-  // NAV
+  /* NAV */
   const buttons = document.querySelectorAll('nav button');
   buttons.forEach(btn=>{
     btn.addEventListener('click', function(){
@@ -117,65 +218,67 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // CSV PARSER ROBUSTO
+  /* CSV PARSER base robusta */
   function parseCSV(text){
-    const lines = text.trim().split("\n");
-    return lines.slice(1).map(line=>{
-      const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
-      return line.split(regex).map(s=>s.replace(/^"|"$/g,''));
-    });
+    const rows = [];
+    const lines = text.split(/\r?\n/);
+    for(const line of lines){
+      if(line.trim()==="") continue;
+      const values = [];
+      let current="";
+      let inQuotes=false;
+      for(let i=0;i<line.length;i++){
+        const c=line[i];
+        if(c==='\"') inQuotes = !inQuotes;
+        else if(c===',' && !inQuotes){
+          values.push(current);
+          current="";
+        } else current+=c;
+      }
+      values.push(current);
+      rows.push(values);
+    }
+    return rows;
   }
 
-  // DEVOZIONALE
+  /* DEVOZIONALE */
   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv")
   .then(r=>r.text())
   .then(csv=>{
     const rows = parseCSV(csv);
-    const today = new Date();
-    const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+    const todayISO = new Date().toISOString().split("T")[0];
     const row = rows.find(r=>{
-      let d = r[0].trim();
-      if(d.includes("/")){
-        const p = d.split("/");
-        d = `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
+      if(!r[0]) return false;
+      let sheetDate=r[0].trim();
+      if(sheetDate.includes("/")){
+        const parts = sheetDate.split("/");
+        sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
       }
-      return d===todayStr;
+      return sheetDate===todayISO;
     });
     if(row){
-      document.getElementById("dev-rif").innerText = row[1];
-      document.getElementById("dev-testo").innerText = row[2];
+      document.getElementById("dev-rif").innerText=row[1];
+      document.getElementById("dev-testo").innerText=row[2];
     } else {
-      document.getElementById("dev-testo").innerText = "Devozionale in arrivo 🙏";
+      document.getElementById("dev-testo").innerText="Devozionale in arrivo 🙏";
     }
   });
 
-  // EVENTI SOLO 7 GIORNI SUCCESSIVI
+  /* EVENTI */
   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
   .then(r=>r.text())
   .then(csv=>{
     const rows = parseCSV(csv);
     const box = document.getElementById("lista-eventi");
     box.innerHTML="";
-    
-    const today = new Date();
-    const nextWeek = new Date();
-    nextWeek.setDate(today.getDate()+7);
-
     rows.forEach(r=>{
-      let d = r[0].trim();
-      if(d.includes("/")){
-        const p = d.split("/");
-        d = `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
-      }
-      const [y,m,day] = d.split("-").map(Number);
-      const evDate = new Date(y,m-1,day); // ignora ora
-      if(evDate >= new Date(today.getFullYear(),today.getMonth(),today.getDate()) &&
-         evDate <= new Date(nextWeek.getFullYear(),nextWeek.getMonth(),nextWeek.getDate())){
-        box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
-      }
+      if(!r[0]) return;
+      box.innerHTML += `
+        <div class="event">
+          <strong>${r[1]}</strong><br>
+          <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+        </div>`;
     });
-    
-    if(box.innerHTML==="") box.innerHTML = "Nessun evento nei prossimi 7 giorni.";
   });
 
 });
