@@ -20,7 +20,7 @@ header { display:flex; align-items:center; gap:12px; padding:16px; background:va
 header img { width:42px; height:42px; border-radius:14px;}
 header .header-text { display:flex; flex-direction: column;}
 header h1 { font-size:16px; font-weight:600;}
-header .indirizzo { font-size:12px; color: var(--grigio);}
+header .indirizzo, header .telefono { font-size:12px; color: var(--grigio); }
 
 /* MAIN */
 main { padding:16px; padding-bottom:160px;}
@@ -50,7 +50,7 @@ main { padding:16px; padding-bottom:160px;}
 .map-container iframe { width:100%; height:200px; border-radius:12px; border:0;}
 
 /* FOOTER */
-footer { text-align:center; padding:14px 0; font-size:13px; color:var(--grigio);}
+footer { position:fixed; bottom:56px; left:0; right:0; text-align:center; padding:14px 0; font-size:13px; color:var(--grigio); background:rgba(0,0,0,0.4); backdrop-filter: blur(12px); z-index:998;}
 
 /* NAV */
 nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:14px 0; z-index:999;}
@@ -66,6 +66,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
   <div class="header-text">
     <h1>Chiesa Apostolica in Italia - Carini</h1>
     <div class="indirizzo">Via Don Luigi Sturzo 188, Carini</div>
+    <div class="telefono">📞 +39 351 298 4545</div>
   </div>
 </header>
 
@@ -219,27 +220,26 @@ document.addEventListener("DOMContentLoaded", function() {
     const box = document.getElementById("lista-eventi");
     box.innerHTML="";
     rows.slice(1).forEach(r=>{
-  if(!r[0] || !r[1] || r[1].trim()==="") return; // salta eventi vuoti
+      if(!r[0] || !r[1] || r[1].trim()==="") return;
 
-  const nomeEvento = r[1].toLowerCase();
-  let waBtn = "";
+      const nomeEvento = r[1].toLowerCase();
+      let waBtn = "";
 
-  // SOLO se NON è soundschest
-  if (!nomeEvento.includes("soundschest")) {
-    const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
-    const msg = encodeURIComponent(msgText);
-    waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank" aria-label="Condividi evento su WhatsApp">📲 Condividi su WhatsApp</a>`;
-  }
+      if (!nomeEvento.includes("soundschest")) {
+        const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
+        const msg = encodeURIComponent(msgText);
+        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank" aria-label="Condividi evento su WhatsApp">📲 Condividi su WhatsApp</a>`;
+      }
 
-  box.innerHTML += `
-    <div class="event">
-      <strong>${r[1]}</strong><br>
-      <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
-      ${waBtn}
-    </div>
-  `;
-});
-});
+      box.innerHTML += `
+        <div class="event">
+          <strong>${r[1]}</strong><br>
+          <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+          ${waBtn}
+        </div>
+      `;
+    });
+  });
 
   /* PRIVATO */
   const privatoBadge = document.getElementById("privato-badge");
