@@ -201,6 +201,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   caricaDevozionale();
+
   const now = new Date();
   const midnight = new Date();
   midnight.setHours(24,0,0,0);
@@ -219,11 +220,11 @@ document.addEventListener("DOMContentLoaded", function() {
     box.innerHTML="";
     rows.slice(1).forEach(r=>{
       if(!r[0] || !r[1] || r[1].trim()==="") return; // salta eventi vuoti
-      const msg = encodeURIComponent(`Vieni all'evento ${r[1]}`);
+      const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
+      const msg = encodeURIComponent(msgText);
       const waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank" aria-label="Condividi evento su WhatsApp">📲 Condividi su WhatsApp</a>`;
       box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>${waBtn}</div>`;
     });
-    if(box.innerHTML==="") box.innerHTML="<p>Nessun evento disponibile al momento.</p>";
   });
 
   /* PRIVATO */
