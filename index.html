@@ -188,11 +188,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const rows = parseCSV(csv);
     const box = document.getElementById("lista-eventi");
     box.innerHTML="";
-    rows.forEach(r=>{
-      if(!r[0]) return;
-      box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
-    });
-  });
+    rows.slice(1).forEach(r=>{
+  if(!r[0]) return;
+  box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
+});
+});
 
   /* PRIVATO (INTOCCATO) */
   document.getElementById("accedi").addEventListener("click", function(){
