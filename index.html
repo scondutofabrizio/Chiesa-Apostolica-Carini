@@ -74,7 +74,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 
 <section id="home" class="page">
   <div class="card">
-    <h2>Devozionale di oggi</h2>
+    <h2>📖 Devozionale di oggi</h2>
     <strong id="dev-rif"></strong>
     <p id="dev-testo">Caricamento...</p>
   </div>
@@ -82,21 +82,21 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 
 <section id="eventi" class="page" style="display:none">
   <div class="card">
-    <h2>Eventi</h2>
+    <h2>📅 Eventi</h2>
     <div id="lista-eventi">Caricamento...</div>
   </div>
 </section>
 
 <section id="appuntamento" class="page" style="display:none">
   <div class="card">
-    <h2>Appuntamento</h2>
-    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao vorrei prendere un appuntamento con il responsabile" target="_blank">Scrivici su WhatsApp</a>
+    <h2>💬 Appuntamento</h2>
+    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il%20responsabile" target="_blank">Scrivici su WhatsApp</a>
   </div>
 </section>
 
 <section id="social" class="page" style="display:none">
   <div class="card">
-    <h2>Seguici sui social</h2>
+    <h2>🌐 Seguici sui social</h2>
     <div class="social-container">
       <a class="social-btn" href="https://www.facebook.com/chiesaapostolica.carini" target="_blank">
         <svg viewBox="0 0 24 24" fill="#3b5998" xmlns="http://www.w3.org/2000/svg">
@@ -112,15 +112,15 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
       </a>
     </div>
     <div class="map-container">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.11!2d13.0689!3d38.0891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1312d1c2b9d0d9cd%3A0x123456abcdef!2sVia%20Don%20Luigi%20Sturzo%20188%2C%20Carini!5e0!3m2!1sit!2sit!4v1699999999999" allowfullscreen="" loading="lazy"></iframe>
-      <a class="whatsapp-btn" href="https://www.google.com/maps/dir/?api=1&destination=38.0891,13.0689" target="_blank">Apri in Maps</a>
+      <iframe src="https://www.google.com/maps?q=Via+Don+Luigi+Sturzo+188,+Carini&output=embed" allowfullscreen="" loading="lazy"></iframe>
+      <a class="whatsapp-btn" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188,+Carini" target="_blank">Apri in Maps</a>
     </div>
   </div>
 </section>
 
 <section id="privato" class="page" style="display:none">
   <div class="card">
-    <h2>Area Privata <span id="privato-badge" class="badge" style="display:none;">!</span></h2>
+    <h2>🔒 Area Privata <span id="privato-badge" class="badge" style="display:none;">!</span></h2>
     <input type="password" id="password" placeholder="Inserisci la password">
     <button id="accedi">Accedi</button>
     <div id="privato-content"></div>
@@ -134,11 +134,11 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 </footer>
 
 <nav>
-  <button class="active">Home</button>
-  <button>Eventi</button>
-  <button>Appuntamento</button>
-  <button>Social</button>
-  <button>Privato</button>
+  <button class="active">📖 Home</button>
+  <button>📅 Eventi</button>
+  <button>💬 Appuntamento</button>
+  <button>🌐 Social</button>
+  <button>🔒 Privato</button>
 </nav>
 
 <script>
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("dev-rif").innerText=row[1];
         document.getElementById("dev-testo").innerText=row[2];
       } else {
-        document.getElementById("dev-testo").innerText="Devozionale in arrivo";
+        document.getElementById("dev-testo").innerText="Devozionale in arrivo 🙏";
       }
     });
   }
@@ -221,14 +221,16 @@ document.addEventListener("DOMContentLoaded", function() {
     box.innerHTML="";
     rows.slice(1).forEach(r=>{
       if(!r[0] || !r[1] || r[1].trim()==="") return;
-      const nomeEvento = r[1].toLowerCase();
+
       let waBtn = "";
-      let textMsg = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
-      if(r[4] && r[4].trim()!=="") {
-        textMsg += `\n${r[4].trim()}`;
+      if(r[4] && r[4].trim()!==""){
+        const msg = encodeURIComponent(`Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]} `);
+        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}%0A${r[4]}" target="_blank">Invia su WhatsApp</a>`;
+      } else {
+        const msg = encodeURIComponent(`Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`);
+        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank">Invia su WhatsApp</a>`;
       }
-      const msg = encodeURIComponent(textMsg);
-      waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank">Condividi su WhatsApp</a>`;
+
       box.innerHTML += `
         <div class="event">
           <strong>${r[1]}</strong><br>
@@ -253,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function() {
       content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
       privatoBadge.style.display="none";
     } else {
-      content.innerHTML = "<p>Password errata</p>";
+      content.innerHTML = "<p>❌ Password errata</p>";
     }
   });
 
