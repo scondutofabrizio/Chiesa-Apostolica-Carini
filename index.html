@@ -24,7 +24,7 @@ header h1 { font-size:16px; font-weight:600;}
 header .indirizzo { font-size:12px; color: var(--grigio);}
 
 /* MAIN */
-main { padding:20px; padding-bottom:140px;} /* aumentato padding-bottom per nav più alta */
+main { padding:20px; padding-bottom:140px;}
 .card { background:var(--glass); backdrop-filter: blur(16px); border-radius:18px; padding:20px; margin-bottom:20px;}
 .card h2 { color:var(--oro); margin-bottom:10px;}
 .card p { line-height:1.6; color:#e5e7eb;}
@@ -42,7 +42,7 @@ main { padding:20px; padding-bottom:140px;} /* aumentato padding-bottom per nav 
 /* FOOTER */
 footer { text-align:center; padding:14px 0; font-size:13px; color:var(--grigio);}
 
-/* NAV - aggiornata altezza e pulsanti */
+/* NAV */
 nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:18px 0; z-index:999;}
 nav button { background:none; border:none; color:var(--bianco); font-size:16px; cursor:pointer; padding:8px 12px;}
 nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,255,255,0.1);}
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  /* CSV PARSER robusto */
+  /* CSV PARSER */
   function parseCSV(text){
     const rows = [];
     const lines = text.split(/\r?\n/);
@@ -140,30 +140,48 @@ document.addEventListener("DOMContentLoaded", function() {
     return rows;
   }
 
-  /* DEVOZIONALE */
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv")
-  .then(r=>r.text())
-  .then(csv=>{
-    const rows = parseCSV(csv);
-    const todayISO = new Date().toISOString().split("T")[0];
-    const row = rows.find(r=>{
-      if(!r[0]) return false;
-      let sheetDate=r[0].trim();
-      if(sheetDate.includes("/")){
-        const parts = sheetDate.split("/");
-        sheetDate = `${parts[2]}-${parts[1].padStart(2,"0")}-${parts[0].padStart(2,"0")}`;
-      }
-      return sheetDate===todayISO;
-    });
-    if(row){
-      document.getElementById("dev-rif").innerText=row[1];
-      document.getElementById("dev-testo").innerText=row[2];
-    } else {
-      document.getElementById("dev-testo").innerText="Devozionale in arrivo 🙏";
-    }
-  });
+  /* ===============================
+     DEVOZIONALE (aggiorna a mezzanotte)
+     =============================== */
 
-  /* EVENTI: mostra tutto senza filtro */
+  function caricaDevozionale(){
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv")
+    .then(r=>r.text())
+    .then(csv=>{
+      const rows = parseCSV(csv);
+      const todayISO = new Date().toISOString().split("T")[0];
+      const row = rows.find(r=>{
+        if(!r[0]) return false;
+        let sheetDate=r[0].trim();
+        if(sheetDate.includes("/")){
+          const p = sheetDate.split("/");
+          sheetDate = `${p[2]}-${p[1].padStart(2,"0")}-${p[0].padStart(2,"0")}`;
+        }
+        return sheetDate===todayISO;
+      });
+      if(row){
+        document.getElementById("dev-rif").innerText=row[1];
+        document.getElementById("dev-testo").innerText=row[2];
+      } else {
+        document.getElementById("dev-testo").innerText="Devozionale in arrivo 🙏";
+      }
+    });
+  }
+
+  caricaDevozionale();
+
+  // Timer fino alla prossima mezzanotte
+  const now = new Date();
+  const midnight = new Date();
+  midnight.setHours(24,0,0,0);
+  const msToMidnight = midnight - now;
+
+  setTimeout(()=>{
+    caricaDevozionale();
+    setInterval(caricaDevozionale, 86400000);
+  }, msToMidnight);
+
+  /* EVENTI (INTOCCATO) */
   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
   .then(r=>r.text())
   .then(csv=>{
@@ -176,7 +194,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  /* PRIVATO */
+  /* PRIVATO (INTOCCATO) */
   document.getElementById("accedi").addEventListener("click", function(){
     const pwd = document.getElementById("password").value.trim().toLowerCase();
     const content = document.getElementById("privato-content");
