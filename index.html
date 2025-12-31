@@ -20,10 +20,12 @@ header { display:flex; align-items:center; gap:12px; padding:16px; background:va
 header img { width:42px; height:42px; border-radius:14px;}
 header .header-text { display:flex; flex-direction: column;}
 header h1 { font-size:16px; font-weight:600;}
-header .indirizzo, header .telefono { font-size:12px; color: var(--grigio); }
+header .telefono { font-size:12px; color: var(--grigio);}
+header .chiatta { font-size:13px; font-weight:600; color: var(--oro); margin:4px 0;}
+header .indirizzo { font-size:12px; color: var(--grigio);}
 
 /* MAIN */
-main { padding:16px; padding-bottom:200px;}
+main { padding:16px; padding-bottom:160px;}
 .card { background:var(--glass); backdrop-filter: blur(16px); border-radius:18px; padding:16px; margin-bottom:16px;}
 .card h2 { color:var(--oro); margin-bottom:10px; font-size:18px;}
 .card p { line-height:1.6; color:#e5e7eb;}
@@ -49,9 +51,6 @@ main { padding:16px; padding-bottom:200px;}
 .map-container { margin-top:12px; text-align:center;}
 .map-container iframe { width:100%; height:200px; border-radius:12px; border:0;}
 
-/* FOOTER */
-footer { position:fixed; bottom:56px; left:0; right:0; text-align:center; padding:14px 0; font-size:13px; color:var(--grigio); background:rgba(0,0,0,0.4); backdrop-filter: blur(12px); z-index:998;}
-
 /* NAV */
 nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:14px 0; z-index:999;}
 nav button { background:none; border:none; color:var(--bianco); font-size:14px; cursor:pointer; padding:6px 8px;}
@@ -65,10 +64,12 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
   <img src="icon.png" alt="Logo">
   <div class="header-text">
     <h1>Chiesa Apostolica in Italia - Carini</h1>
-    <div class="indirizzo">Via Don Luigi Sturzo 188, Carini</div>
+    <div class="chiatta">La Chiatta - Rhema 2026</div>
     <div class="telefono">+39 351 298 4545</div>
+    <div class="indirizzo">Via Don Luigi Sturzo 188 - Carini</div>
   </div>
 </header>
+
 
 <main>
 
@@ -90,7 +91,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 <section id="appuntamento" class="page" style="display:none">
   <div class="card">
     <h2>💬 Appuntamento</h2>
-    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il%20responsabile" target="_blank">Scrivici su WhatsApp</a>
+    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il responsabile" target="_blank">Scrivici su WhatsApp</a>
   </div>
 </section>
 
@@ -112,7 +113,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
       </a>
     </div>
     <div class="map-container">
-      <iframe src="https://www.google.com/maps?q=Via+Don+Luigi+Sturzo+188,+Carini&output=embed" allowfullscreen="" loading="lazy"></iframe>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.11!2d13.067985!3d38.089090!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1312d1c2b9d0d9cd%3A0x123456abcdef!2sVia%20Don%20Luigi%20Sturzo%20188%2C%20Carini!5e0!3m2!1sit!2sit!4v1699999999999" allowfullscreen="" loading="lazy"></iframe>
       <a class="whatsapp-btn" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188,+Carini" target="_blank">Apri in Maps</a>
     </div>
   </div>
@@ -128,10 +129,6 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 </section>
 
 </main>
-
-<footer>
-  La Chiatta - Rhema 2026
-</footer>
 
 <nav>
   <button class="active">📖 Home</button>
@@ -200,7 +197,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   }
-
   caricaDevozionale();
 
   const now = new Date();
@@ -223,12 +219,15 @@ document.addEventListener("DOMContentLoaded", function() {
       if(!r[0] || !r[1] || r[1].trim()==="") return;
 
       let waBtn = "";
-      if(r[4] && r[4].trim()!==""){
-        const msg = encodeURIComponent(`Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]} `);
-        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}%0A${r[4]}" target="_blank">Invia su WhatsApp</a>`;
+      if(r[4] && r[4].trim() !== ""){
+        const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
+        const msg = encodeURIComponent(msgText);
+        const locandina = encodeURIComponent(r[4]);
+        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}%0A${locandina}" target="_blank">Condividi su WhatsApp</a>`;
       } else {
-        const msg = encodeURIComponent(`Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`);
-        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank">Invia su WhatsApp</a>`;
+        const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
+        const msg = encodeURIComponent(msgText);
+        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank">Condividi su WhatsApp</a>`;
       }
 
       box.innerHTML += `
