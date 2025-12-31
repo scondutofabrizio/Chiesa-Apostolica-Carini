@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chiesa Apostolica in Italia - Carini</title>
 
-<!-- Icona Web App -->
 <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icon.png">
 <link rel="icon" type="image/png" sizes="16x16" href="icon.png">
@@ -40,9 +39,15 @@ main { padding:16px; padding-bottom:160px;}
 #privato iframe { width:100%; height:400px; border:none; margin-top:16px;}
 
 /* SOCIAL */
-.social-container { display:flex; justify-content:center; gap:24px; margin-top:20px;}
+.social-container { display:flex; justify-content:center; gap:24px; margin-top:20px; flex-wrap:wrap;}
+.social-btn { display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; color:var(--bianco);}
 .social-btn svg { width:36px; height:36px; cursor:pointer; transition: transform 0.2s;}
 .social-btn svg:hover { transform: scale(1.1);}
+.badge { font-size:12px; background:var(--oro); color:var(--nero); border-radius:12px; padding:2px 6px;}
+
+/* MAP */
+.map-container { margin-top:12px; text-align:center;}
+.map-container iframe { width:100%; height:200px; border-radius:12px; border:0;}
 
 /* FOOTER */
 footer { text-align:center; padding:14px 0; font-size:13px; color:var(--grigio);}
@@ -60,7 +65,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
   <img src="icon.png" alt="Logo">
   <div class="header-text">
     <h1>Chiesa Apostolica in Italia - Carini</h1>
-    <div class="indirizzo">Via Don Luigi Sturzo 188</div>
+    <div class="indirizzo">Via Don Luigi Sturzo 188, Carini</div>
   </div>
 </header>
 
@@ -84,7 +89,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 <section id="appuntamento" class="page" style="display:none">
   <div class="card">
     <h2>💬 Appuntamento</h2>
-    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il responsabile" target="_blank">📲 Scrivici su WhatsApp</a>
+    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il responsabile" target="_blank" aria-label="Scrivi su WhatsApp">📲 Scrivici su WhatsApp</a>
   </div>
 </section>
 
@@ -92,25 +97,31 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
   <div class="card">
     <h2>🌐 Seguici sui social</h2>
     <div class="social-container">
-      <a class="social-btn" href="fb://profile/100077603721798" target="_blank">
+      <a class="social-btn" href="https://www.facebook.com/chiesaapostolica.carini" target="_blank" aria-label="Facebook Chiesa Apostolica Carini">
         <svg viewBox="0 0 24 24" fill="#3b5998" xmlns="http://www.w3.org/2000/svg">
           <path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.987H7.898v-2.892h2.54V9.797c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.772-1.63 1.562v1.875h2.773l-.443 2.892h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/>
         </svg>
+        <div class="badge" id="fb-follower">+1.2k</div>
       </a>
-      <a class="social-btn" href="https://www.instagram.com/chiesa_apostolica_carini/" target="_blank">
+      <a class="social-btn" href="https://www.instagram.com/chiesa_apostolica_carini/" target="_blank" aria-label="Instagram Chiesa Apostolica Carini">
         <svg viewBox="0 0 24 24" fill="#E1306C" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.33 3.608 1.304.974.975 1.242 2.242 1.304 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.33 2.633-1.304 3.608-.975.974-2.242 1.242-3.608 1.304-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.33-3.608-1.304-.974-.975-1.242-2.242-1.304-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.33-2.633 1.304-3.608.975-.974 2.242-1.242 3.608-1.304C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.772.131 4.674.39 3.757 1.307 2.84 2.224 2.581 3.322 2.522 4.602.013 8.332 0 8.741 0 12c0 3.259.013 3.668.072 4.948.059 1.28.318 2.378 1.235 3.295.917.917 2.015 1.176 3.295 1.235C8.332 23.987 8.741 24 12 24s3.668-.013 4.948-.072c1.28-.059 2.378-.318 3.295-1.235.917-.917 1.176-2.015 1.235-3.295.059-1.28.072-1.689.072-4.948s-.013-3.668-.072-4.948c-.059-1.28-.318-2.378-1.235-3.295-.917-.917-2.015-1.176-3.295-1.235C15.668.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
         </svg>
+        <div class="badge" id="ig-follower">+950</div>
       </a>
+    </div>
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.11!2d13.0689!3d38.0891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1312d1c2b9d0d9cd%3A0x123456abcdef!2sVia%20Don%20Luigi%20Sturzo%20188%2C%20Carini!5e0!3m2!1sit!2sit!4v1699999999999" allowfullscreen="" loading="lazy"></iframe>
+      <a class="whatsapp-btn" href="https://www.google.com/maps/dir/?api=1&destination=38.0891,13.0689" target="_blank" aria-label="Apri in Google Maps">🗺 Apri in Maps</a>
     </div>
   </div>
 </section>
 
 <section id="privato" class="page" style="display:none">
   <div class="card">
-    <h2>🔒 Area Privata</h2>
+    <h2>🔒 Area Privata <span id="privato-badge" class="badge" style="display:none;">!</span></h2>
     <input type="password" id="password" placeholder="Inserisci la password">
-    <button id="accedi">Accedi</button>
+    <button id="accedi" aria-label="Accedi area privata">Accedi</button>
     <div id="privato-content"></div>
   </div>
 </section>
@@ -190,12 +201,10 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   caricaDevozionale();
-
   const now = new Date();
   const midnight = new Date();
   midnight.setHours(24,0,0,0);
   const msToMidnight = midnight - now;
-
   setTimeout(()=>{
     caricaDevozionale();
     setInterval(caricaDevozionale, 86400000);
@@ -209,20 +218,27 @@ document.addEventListener("DOMContentLoaded", function() {
     const box = document.getElementById("lista-eventi");
     box.innerHTML="";
     rows.slice(1).forEach(r=>{
-      if(!r[0]) return;
-      box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
+      if(!r[0] || !r[1] || r[1].trim()==="") return; // salta eventi vuoti
+      const msg = encodeURIComponent(`Vieni all'evento ${r[1]}`);
+      const waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank" aria-label="Condividi evento su WhatsApp">📲 Condividi su WhatsApp</a>`;
+      box.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>${waBtn}</div>`;
     });
+    if(box.innerHTML==="") box.innerHTML="<p>Nessun evento disponibile al momento.</p>";
   });
 
   /* PRIVATO */
+  const privatoBadge = document.getElementById("privato-badge");
+  privatoBadge.style.display = "inline";
   document.getElementById("accedi").addEventListener("click", function(){
     const pwd = document.getElementById("password").value.trim().toLowerCase();
     const content = document.getElementById("privato-content");
     content.innerHTML = "";
     if(pwd==="predicazione"){
       content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8BrQDFVM47uKogqmwFsUc7ZTBe4e4LonX_trCfOU3js3dWNLzFfEhHf-cN0S6MvyvUeQNQccGolTd/pubhtml?widget=true&headers=false"></iframe>`;
+      privatoBadge.style.display="none";
     } else if(pwd==="accoglienza"){
       content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
+      privatoBadge.style.display="none";
     } else {
       content.innerHTML = "<p>❌ Password errata</p>";
     }
