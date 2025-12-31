@@ -125,7 +125,74 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
     <input type="password" id="password" placeholder="Inserisci la password">
     <button id="accedi">Accedi</button>
     <div id="privato-content"></div>
-  </div>
+
+<div id="promemoria" style="margin-top:16px; display:none;">
+  <h3>📌 Invia Promemoria Evento</h3>
+  <p>Seleziona l’evento e invia direttamente il promemoria ai partecipanti:</p>
+  <div id="lista-promemoria">Caricamento...</div>
+</div>
+
+<script>
+  // Mostra la sezione promemoria solo dopo accesso corretto
+  const promemoriaDiv = document.getElementById("promemoria");
+
+  function caricaPromemoria() {
+    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
+    .then(r => r.text())
+    .then(csv => {
+      const rows = parseCSV(csv);
+      const box = document.getElementById("lista-promemoria");
+      box.innerHTML = "";
+      rows.slice(1).forEach(r => {
+        if(!r[0] || !r[1] || r[1].trim()==="") return;
+
+        let waBtn = "";
+        const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
+        const msg = encodeURIComponent(msgText);
+
+        if(r[4] && r[4].trim() !== ""){
+          const locandina = encodeURIComponent(r[4]);
+          waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}%0A${locandina}" target="_blank">Invia Promemoria</a>`;
+        } else {
+          waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank">Invia Promemoria</a>`;
+        }
+
+        box.innerHTML += `
+          <div class="event" style="margin-bottom:10px;">
+            <strong>${r[1]}</strong><br>
+            <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span><br>
+            ${waBtn}
+          </div>
+        `;
+      });
+    });
+  }
+
+  // Quando accesso corretto
+  function mostraPromemoria() {
+    promemoriaDiv.style.display = "block";
+    caricaPromemoria();
+  }
+
+  // Modifica l’evento accesso per mostrare promemoria
+  document.getElementById("accedi").addEventListener("click", function(){
+    const pwd = document.getElementById("password").value.trim().toLowerCase();
+    const content = document.getElementById("privato-content");
+    content.innerHTML = "";
+    if(pwd==="predicazione"){
+      content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8BrQDFVM47uKogqmwFsUc7ZTBe4e4LonX_trCfOU3js3dWNLzFfEhHf-cN0S6MvyvUeQNQccGolTd/pubhtml?widget=true&headers=false"></iframe>`;
+      privatoBadge.style.display="none";
+      mostraPromemoria();
+    } else if(pwd==="accoglienza"){
+      content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
+      privatoBadge.style.display="none";
+      mostraPromemoria();
+    } else {
+      content.innerHTML = "<p>❌ Password errata</p>";
+    }
+  });
+</script>
+</div>
 </section>
 
 </main>
@@ -241,23 +308,30 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   /* PRIVATO */
-  const privatoBadge = document.getElementById("privato-badge");
-  privatoBadge.style.display = "inline";
-  document.getElementById("accedi").addEventListener("click", function(){
-    const pwd = document.getElementById("password").value.trim().toLowerCase();
-    const content = document.getElementById("privato-content");
-    content.innerHTML = "";
-    if(pwd==="predicazione"){
-      content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8BrQDFVM47uKogqmwFsUc7ZTBe4e4LonX_trCfOU3js3dWNLzFfEhHf-cN0S6MvyvUeQNQccGolTd/pubhtml?widget=true&headers=false"></iframe>`;
-      privatoBadge.style.display="none";
-    } else if(pwd==="accoglienza"){
-      content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
-      privatoBadge.style.display="none";
-    } else {
-      content.innerHTML = "<p>❌ Password errata</p>";
-    }
-  });
+const privatoBadge = document.getElementById("privato-badge");
+privatoBadge.style.display = "inline";
+const promemoriaDiv = document.getElementById("promemoria");
 
+document.getElementById("accedi").addEventListener("click", function(){
+  const pwd = document.getElementById("password").value.trim().toLowerCase();
+  const content = document.getElementById("privato-content");
+  content.innerHTML = "";
+  promemoriaDiv.style.display = "none";
+
+  if(pwd==="predicazione"){
+    content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8BrQDFVM47uKogqmwFsUc7ZTBe4e4LonX_trCfOU3js3dWNLzFfEhHf-cN0S6MvyvUeQNQccGolTd/pubhtml?widget=true&headers=false"></iframe>`;
+    privatoBadge.style.display="none";
+  } else if(pwd==="accoglienza"){
+    content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
+    privatoBadge.style.display="none";
+  } else if(pwd==="promemoria"){
+    promemoriaDiv.style.display = "block";
+    caricaPromemoria();
+    privatoBadge.style.display="none";
+  } else {
+    content.innerHTML = "<p>❌ Password errata</p>";
+  }
+});
 });
 </script>
 
