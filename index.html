@@ -42,7 +42,7 @@ main { padding:16px; padding-bottom:160px;}
 
 /* SOCIAL & MAPPA */
 .social-container { display:flex; justify-content:center; gap:24px; margin-top:20px; flex-wrap:wrap;}
-.social-btn { display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; color:var(--bianco);}
+.social-btn { display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; color:var(--bianco); cursor:pointer;}
 .social-btn svg { width:36px; height:36px; transition: transform 0.2s;}
 .social-btn svg:hover { transform: scale(1.1);}
 .badge { font-size:12px; background:var(--oro); color:var(--nero); border-radius:12px; padding:2px 6px;}
@@ -109,7 +109,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
     <div class="card">
       <h2>🌐 Seguici sui social</h2>
       <div class="social-container">
-        <a class="social-btn" href="https://www.facebook.com/chiesaapostolica.carini" target="_blank">
+        <a class="social-btn" onclick="openFacebook()">
           <svg viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.987H7.898v-2.892h2.54V9.797c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.772-1.63 1.562v1.875h2.773l-.443 2.892h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
           <div class="badge">+1.2k</div>
         </a>
@@ -119,8 +119,8 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
         </a>
       </div>
       <div class="map-container" style="margin-top:20px;">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.4646702678644!2d13.174152875953503!3d38.12933097189688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d9f379f874288b%3A0x6b772c64b561c28b!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1705000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
-        <a class="whatsapp-btn" style="background:var(--oro);" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188+Carini+PA" target="_blank">Apri Maps</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.281895697368!2d13.1782276!3d38.1221762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d9501539cc2e91%3A0xc49b71946e379a5b!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1716000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
+        <a class="whatsapp-btn" style="background:var(--oro);" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188+Carini" target="_blank">Apri Navigatore Maps</a>
       </div>
     </div>
   </section>
@@ -149,6 +149,21 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU-8dI-gwUdxfrlOl5PK1SnpsSrrlCK7Ky0Ik_31RyoDDieJ4c6_u35LoZA8RcVqJ8sQ/exec";
+
+// Funzione intelligente per Facebook
+function openFacebook() {
+    const fbWebUrl = "https://www.facebook.com/chiesaapostolica.carini";
+    // Protocollo per l'App (funziona sia su iOS che Android)
+    const fbAppUrl = "fb://facewebmodal/f?href=" + encodeURIComponent(fbWebUrl);
+    
+    // Tenta di aprire l'app
+    window.location.href = fbAppUrl;
+    
+    // Se l'app non è installata, apre il browser dopo 600ms
+    setTimeout(function() {
+        window.open(fbWebUrl, '_blank');
+    }, 600);
+}
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -320,7 +335,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   window.eliminaRif = async function(idCommento) {
-      if(!idCommento || !confirm("Vuoi eliminare solo questa riflessione?")) return;
+      if(!idCommento || !confirm("Vuoi eliminare questa riflessione?")) return;
       const btn = event.target;
       btn.innerText = "Eliminazione...";
       btn.disabled = true;
@@ -338,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
       } catch(e) { 
         alert("Errore durante l'eliminazione."); 
         btn.disabled = false;
-        btn.innerText = "ELIMINA QUESTO";
+        btn.innerText = "ELIMINA";
       }
   }
 });
