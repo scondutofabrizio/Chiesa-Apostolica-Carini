@@ -36,7 +36,7 @@ main { padding:16px; padding-bottom:160px;}
 .whatsapp-btn { display:flex; justify-content:center; align-items:center; gap:10px; background:#25D366; color:#000; padding:14px; border-radius:18px; font-size:16px; font-weight:600; text-decoration:none;}
 
 /* PRIVATO */
-#privato input { padding:10px; font-size:16px; border-radius:8px; border:none; margin-bottom:12px; width:100%;}
+#privato input { padding:10px; font-size:16px; border-radius:8px; border:none; margin-bottom:12px; width:100%; background: rgba(255,255,255,0.1); color: white;}
 #privato button { padding:10px; font-size:16px; border-radius:8px; background:var(--oro); color:var(--nero); border:none; cursor:pointer; width:100%; font-weight:600;}
 #privato iframe { width:100%; height:400px; border:none; margin-top:16px;}
 
@@ -49,7 +49,7 @@ main { padding:16px; padding-bottom:160px;}
 
 /* MAP */
 .map-container { margin-top:12px; text-align:center;}
-.map-container iframe { width:100%; height:200px; border-radius:12px; border:0;}
+.map-container iframe { width:100%; height:200px; border-radius:12px; border:0; margin-bottom: 10px;}
 
 /* NAV */
 nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:14px 0; z-index:999;}
@@ -82,7 +82,8 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 
 <section id="eventi" class="page" style="display:none">
   <div class="card">
-    <h2>📅 Eventi</h2>
+    <h2>📅 Prossimi Eventi</h2>
+    <p id="info-date" style="font-size:12px; color:var(--grigio); margin-bottom:15px;"></p>
     <div id="lista-eventi">Caricamento...</div>
   </div>
 </section>
@@ -112,8 +113,8 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
       </a>
     </div>
     <div class="map-container">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.11!2d13.067985!3d38.089090!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1312d1c2b9d0d9cd%3A0x123456abcdef!2sVia%20Don%20Luigi%20Sturzo%20188%2C%20Carini!5e0!3m2!1sit!2sit!4v1699999999999" allowfullscreen="" loading="lazy"></iframe>
-      <a class="whatsapp-btn" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188,+Carini" target="_blank">Apri in Maps</a>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3139.721471015631!2d13.1834221!3d38.1342731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1319e719114704c7%3A0xc3038670f5e1f0e4!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+      <a class="whatsapp-btn" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188+Carini" target="_blank">Apri in Maps</a>
     </div>
   </div>
 </section>
@@ -126,8 +127,8 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
     <div id="privato-content"></div>
 
     <div id="promemoria" style="margin-top:16px; display:none;">
-      <h3>📌 Invia Promemoria Evento</h3>
-      <p>Seleziona l’evento e invia direttamente il promemoria ai partecipanti:</p>
+      <h3>📌 Invia Promemoria</h3>
+      <p style="font-size:12px; color:var(--grigio); margin-bottom:10px;">Vedi tutto il calendario futuro:</p>
       <div id="lista-promemoria">Caricamento...</div>
     </div>
   </div>
@@ -146,7 +147,9 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
-  /* CSV PARSER (Definita globalmente per essere usata ovunque) */
+  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv";
+  const DEV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv";
+
   function parseCSV(text){
     const rows = [];
     const lines = text.split(/\r?\n/);
@@ -166,6 +169,38 @@ document.addEventListener("DOMContentLoaded", function() {
     return rows;
   }
 
+  function getSheetDate(str) {
+    if(!str) return new Date(0);
+    let s = str.toLowerCase().trim();
+    const giorni = ["lunedì","martedì","mercoledì","giovedì","venerdì","sabato","domenica"];
+    giorni.forEach(g => s = s.replace(g, ""));
+    s = s.trim();
+    if(s.includes("/")) {
+        const p = s.split("/");
+        return new Date(p[2], p[1]-1, p[0]);
+    }
+    const mesi = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+    const parti = s.split(" ");
+    if(parti.length >= 2) {
+        const giorno = parseInt(parti[0]);
+        const meseIndex = mesi.indexOf(parti[1]);
+        const anno = parti[2] ? parseInt(parti[2]) : new Date().getFullYear();
+        if(!isNaN(giorno) && meseIndex !== -1) return new Date(anno, meseIndex, giorno);
+    }
+    return new Date(s);
+  }
+
+  const oggi = new Date();
+  oggi.setHours(0,0,0,0);
+  
+  const giornoSettimana = oggi.getDay(); 
+  const diffDom = (giornoSettimana === 0 ? 0 : 7 - giornoSettimana);
+  const domenicaCorrente = new Date(oggi);
+  domenicaCorrente.setDate(oggi.getDate() + diffDom);
+  domenicaCorrente.setHours(23,59,59,999);
+
+  document.getElementById("info-date").innerText = `Eventi fino a domenica ${domenicaCorrente.toLocaleDateString('it-IT')}`;
+
   /* NAV */
   const buttons = document.querySelectorAll('nav button');
   buttons.forEach(btn=>{
@@ -179,112 +214,75 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   /* DEVOZIONALE */
-  function caricaDevozionale(){
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv")
-    .then(r=>r.text())
-    .then(csv=>{
-      const rows = parseCSV(csv);
-      const todayISO = new Date().toISOString().split("T")[0];
-      const row = rows.find(r=>{
-        if(!r[0]) return false;
-        let sheetDate=r[0].trim();
-        if(sheetDate.includes("/")){
-          const p = sheetDate.split("/");
-          sheetDate = `${p[2]}-${p[1].padStart(2,"0")}-${p[0].padStart(2,"0")}`;
-        }
-        return sheetDate===todayISO;
-      });
-      if(row){
-        document.getElementById("dev-rif").innerText=row[1];
-        document.getElementById("dev-testo").innerText=row[2];
-      } else {
-        document.getElementById("dev-testo").innerText="Devozionale in arrivo 🙏";
-      }
-    });
-  }
-  caricaDevozionale();
-
-  /* EVENTI (Pagina Pubblica) */
-  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
-  .then(r=>r.text())
-  .then(csv=>{
+  fetch(DEV_URL).then(r=>r.text()).then(csv=>{
     const rows = parseCSV(csv);
-    const box = document.getElementById("lista-eventi");
-    box.innerHTML="";
-    rows.slice(1).forEach(r=>{
-      if(!r[0] || !r[1] || r[1].trim()==="") return;
-      box.innerHTML += `
-        <div class="event">
-          <strong>${r[1]}</strong><br>
-          <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
-        </div>
-      `;
+    const row = rows.find(r=>{
+      if(!r[0]) return false;
+      const d = getSheetDate(r[0]); d.setHours(0,0,0,0);
+      return d.getTime() === oggi.getTime();
     });
-  });
-
-  /* PROMEMORIA (Sezione Privata) */
-  function caricaPromemoria() {
-    const box = document.getElementById("lista-promemoria");
-    box.innerHTML = "Caricamento...";
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=2127508252&single=true&output=csv")
-    .then(r => r.text())
-    .then(csv => {
-      const rows = parseCSV(csv);
-      box.innerHTML = "";
-      rows.slice(1).forEach(r => {
-        if(!r[0] || !r[1] || r[1].trim()==="") return;
-        const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
-        const msg = encodeURIComponent(msgText);
-        let waBtn = "";
-        if(r[4] && r[4].trim() !== ""){
-          const locandina = encodeURIComponent(r[4]);
-          waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}%0A${locandina}" target="_blank">Invia Promemoria</a>`;
-        } else {
-          waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank">Invia Promemoria</a>`;
-        }
-        box.innerHTML += `
-          <div class="event" style="margin-bottom:10px;">
-            <strong>${r[1]}</strong><br>
-            <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span><br>
-            ${waBtn}
-          </div>
-        `;
-      });
-    });
-  }
-
-  /* LOGIN / AREA PRIVATA */
-  const privatoBadge = document.getElementById("privato-badge");
-  const promemoriaDiv = document.getElementById("promemoria");
-  privatoBadge.style.display = "inline";
-
-  document.getElementById("accedi").addEventListener("click", function(){
-    const pwd = document.getElementById("password").value.trim().toLowerCase();
-    const content = document.getElementById("privato-content");
-    content.innerHTML = "";
-    promemoriaDiv.style.display = "none";
-
-    if(pwd==="predicazione"){
-      content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8BrQDFVM47uKogqmwFsUc7ZTBe4e4LonX_trCfOU3js3dWNLzFfEhHf-cN0S6MvyvUeQNQccGolTd/pubhtml?widget=true&headers=false"></iframe>`;
-      privatoBadge.style.display="none";
-      promemoriaDiv.style.display = "block";
-      caricaPromemoria();
-    } else if(pwd==="accoglienza"){
-      content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
-      privatoBadge.style.display="none";
-      promemoriaDiv.style.display = "block";
-      caricaPromemoria();
-    } else if(pwd==="promemoria"){
-      promemoriaDiv.style.display = "block";
-      caricaPromemoria();
-      privatoBadge.style.display="none";
+    if(row){
+      document.getElementById("dev-rif").innerText=row[1];
+      document.getElementById("dev-testo").innerText=row[2];
     } else {
-      content.innerHTML = "<p>❌ Password errata</p>";
+      document.getElementById("dev-testo").innerText="Pace! Devozionale in arrivo. 🙏";
     }
   });
 
+  /* EVENTI: DINAMICI (OGGI -> DOMENICA) */
+  fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
+    const rows = parseCSV(csv).slice(1);
+    const boxPubblico = document.getElementById("lista-eventi");
+    const boxPrivato = document.getElementById("lista-promemoria");
+    boxPubblico.innerHTML=""; boxPrivato.innerHTML="";
+    
+    let countVisibili = 0;
+
+    rows.forEach(r=>{
+      if(!r[0] || !r[1] || r[1].trim()==="") return;
+      const dataEv = getSheetDate(r[0]);
+      dataEv.setHours(0,0,0,0);
+
+      // PUBBLICO: Da oggi a Domenica
+      if(dataEv >= oggi && dataEv <= domenicaCorrente) {
+          countVisibili++;
+          boxPubblico.innerHTML += `
+            <div class="event">
+              <strong>${r[1]}</strong><br>
+              <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
+            </div>`;
+      }
+
+      // PRIVATO: Tutto il futuro
+      if(dataEv >= oggi) {
+          const msg = encodeURIComponent(`Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]}`);
+          const waLink = `https://wa.me/?text=${msg}${r[4] ? '%0A%0A🖼%20Locandina:%20'+encodeURIComponent(r[4].trim()) : ''}`;
+          boxPrivato.innerHTML += `
+            <div class="event" style="border-left-color: var(--oro); margin-bottom:10px;">
+              <strong style="font-size:14px;">${r[1]}</strong><br>
+              <span style="font-size:12px;">📅 ${r[0]}</span><br>
+              <a class="whatsapp-btn" style="background:var(--oro); padding:6px; font-size:12px; margin-top:5px;" href="${waLink}" target="_blank">Invia Promemoria</a>
+            </div>`;
+      }
+    });
+    if(countVisibili === 0) boxPubblico.innerHTML = "Non ci sono altri eventi per questa settimana.";
+  });
+
+  /* LOGIN */
+  document.getElementById("accedi").addEventListener("click", function(){
+    const pwd = document.getElementById("password").value.trim().toLowerCase();
+    const content = document.getElementById("privato-content");
+    const promemoriaDiv = document.getElementById("promemoria");
+    if(["chiatta", "promemoria", "predicazione", "accoglienza"].includes(pwd)){
+      promemoriaDiv.style.display = "block";
+      document.getElementById("privato-badge").style.display="none";
+      if(pwd==="predicazione") content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8BrQDFVM47uKogqmwFsUc7ZTBe4e4LonX_trCfOU3js3dWNLzFfEhHf-cN0S6MvyvUeQNQccGolTd/pubhtml?widget=true&headers=false"></iframe>`;
+      if(pwd==="accoglienza") content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
+    } else {
+      content.innerHTML = "<p style='color:red;'>❌ Password errata</p>";
+    }
+  });
 });
 </script>
-
 </body>
 </html>
