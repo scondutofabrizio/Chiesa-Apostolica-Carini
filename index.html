@@ -70,7 +70,6 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
   </div>
 </header>
 
-
 <main>
 
 <section id="home" class="page">
@@ -91,7 +90,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 <section id="appuntamento" class="page" style="display:none">
   <div class="card">
     <h2>💬 Appuntamento</h2>
-    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il responsabile" target="_blank">Scrivici su WhatsApp</a>
+    <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il%20responsabile" target="_blank">Scrivici su WhatsApp</a>
   </div>
 </section>
 
@@ -285,23 +284,10 @@ document.addEventListener("DOMContentLoaded", function() {
     rows.slice(1).forEach(r=>{
       if(!r[0] || !r[1] || r[1].trim()==="") return;
 
-      let waBtn = "";
-      if(r[4] && r[4].trim() !== ""){
-        const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
-        const msg = encodeURIComponent(msgText);
-        const locandina = encodeURIComponent(r[4]);
-        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}%0A${locandina}" target="_blank">Condividi su WhatsApp</a>`;
-      } else {
-        const msgText = `Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}`;
-        const msg = encodeURIComponent(msgText);
-        waBtn = `<a class="whatsapp-btn" href="https://wa.me/?text=${msg}" target="_blank">Condividi su WhatsApp</a>`;
-      }
-
       box.innerHTML += `
         <div class="event">
           <strong>${r[1]}</strong><br>
           <span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span>
-          ${waBtn}
         </div>
       `;
     });
