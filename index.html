@@ -111,16 +111,16 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
       <div class="social-container">
         <a class="social-btn" onclick="openFacebook()">
           <svg viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.987H7.898v-2.892h2.54V9.797c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.772-1.63 1.562v1.875h2.773l-.443 2.892h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
-          <div class="badge">+1.2k</div>
+          <div class="badge">Facebook</div>
         </a>
         <a class="social-btn" href="https://www.instagram.com/chiesa_apostolica_carini/" target="_blank">
           <svg viewBox="0 0 24 24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.33 3.608 1.304.974.975 1.242 2.242 1.304 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.33 2.633-1.304 3.608-.975.974-2.242-1.242-3.608 1.304-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.33-3.608-1.304-.974-.975-1.242-2.242-1.304-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.33-2.633 1.304-3.608.975-.974 2.242-1.242 3.608-1.304C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.772.131 4.674.39 3.757 1.307 2.84 2.224 2.581 3.322 2.522 4.602.013 8.332 0 8.741 0 12c0 3.259.013 3.668.072 4.948.059 1.28.318 2.378 1.235 3.295.917.917 2.015 1.176 3.295 1.235C8.332 23.987 8.741 24 12 24s3.668-.013 4.948-.072c1.28-.059 2.378-.318 3.295-1.235.917-.917 1.176-2.015 1.235-3.295.059-1.28.072-1.689.072-4.948s-.013-3.668-.072-4.948c-.059-1.28-.318-2.378-1.235-3.295-.917-.917-2.015-1.176-3.295-1.235C15.668.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          <div class="badge">+950</div>
+          <div class="badge">Instagram</div>
         </a>
       </div>
       <div class="map-container" style="margin-top:20px;">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.281895697368!2d13.1782276!3d38.1221762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d9501539cc2e91%3A0xc49b71946e379a5b!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1716000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
-        <a class="whatsapp-btn" style="background:var(--oro);" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188+Carini" target="_blank">Apri Navigatore Maps</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3139.734689249781!2d13.1812!3d38.1345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x131993414595e63d%3A0xc68297f648588049!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
+        <a class="whatsapp-btn" style="background:var(--oro);" href="https://www.google.com/maps/dir/?api=1&destination=38.1345,13.1812" target="_blank">Apri Maps</a>
       </div>
     </div>
   </section>
@@ -150,23 +150,24 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU-8dI-gwUdxfrlOl5PK1SnpsSrrlCK7Ky0Ik_31RyoDDieJ4c6_u35LoZA8RcVqJ8sQ/exec";
 
-// NUOVA FUNZIONE FACEBOOK ANTI-SLITTAMENTO
+// FUNZIONE FACEBOOK: SOLO APP, NO WEB BROWSER
 function openFacebook() {
-    // Usiamo l'ID numerico della pagina per forzare l'app ufficiale
     const fbPageId = "100064741366113"; 
+    
+    // Schema universale per forzare l'App (funziona su iOS e Android)
     const fbAppUrl = "fb://page/" + fbPageId;
-    const fbWebUrl = "https://www.facebook.com/chiesaapostolica.carini";
+    const fbProtocolUrl = "fb://facewebmodal/f?href=https://www.facebook.com/" + fbPageId;
 
-    // 1. Tenta di aprire l'app direttamente tramite l'ID
-    window.location.href = fbAppUrl;
-
-    // 2. Controllo: Se dopo 800ms il browser è ancora visibile (app non aperta),
-    // allora apre il link web. Se l'app si è aperta, il browser è "nascosto" e non fa nulla.
+    // Tentativo primario di apertura App
+    window.location.replace(fbAppUrl);
+    
+    // Tentativo secondario per versioni App differenti dopo 50ms
     setTimeout(function() {
-        if (!document.hidden) {
-            window.location.href = fbWebUrl;
-        }
-    }, 800);
+        window.location.replace(fbProtocolUrl);
+    }, 50);
+
+    // Nota: Non avendo un indirizzo 'https://', se l'app non è installata
+    // il browser non aprirà nulla, risolvendo il problema del caricamento web.
 }
 
 document.addEventListener("DOMContentLoaded", function() {
