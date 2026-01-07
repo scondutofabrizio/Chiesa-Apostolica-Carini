@@ -150,19 +150,23 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU-8dI-gwUdxfrlOl5PK1SnpsSrrlCK7Ky0Ik_31RyoDDieJ4c6_u35LoZA8RcVqJ8sQ/exec";
 
-// Funzione intelligente per Facebook
+// NUOVA FUNZIONE FACEBOOK ANTI-SLITTAMENTO
 function openFacebook() {
+    // Usiamo l'ID numerico della pagina per forzare l'app ufficiale
+    const fbPageId = "100064741366113"; 
+    const fbAppUrl = "fb://page/" + fbPageId;
     const fbWebUrl = "https://www.facebook.com/chiesaapostolica.carini";
-    // Protocollo per l'App (funziona sia su iOS che Android)
-    const fbAppUrl = "fb://facewebmodal/f?href=" + encodeURIComponent(fbWebUrl);
-    
-    // Tenta di aprire l'app
+
+    // 1. Tenta di aprire l'app direttamente tramite l'ID
     window.location.href = fbAppUrl;
-    
-    // Se l'app non è installata, apre il browser dopo 600ms
+
+    // 2. Controllo: Se dopo 800ms il browser è ancora visibile (app non aperta),
+    // allora apre il link web. Se l'app si è aperta, il browser è "nascosto" e non fa nulla.
     setTimeout(function() {
-        window.open(fbWebUrl, '_blank');
-    }, 600);
+        if (!document.hidden) {
+            window.location.href = fbWebUrl;
+        }
+    }, 800);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
