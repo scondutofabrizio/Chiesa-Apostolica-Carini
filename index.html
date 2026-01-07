@@ -15,7 +15,7 @@
 html, body { min-height:100vh;}
 body { background: linear-gradient(180deg, var(--nero), var(--blu)); color: var(--bianco);}
 
-/* HEADER - Dimensioni originali ripristinate */
+/* HEADER */
 header { display:flex; align-items:center; gap:12px; padding:16px; background:var(--glass); backdrop-filter: blur(14px);}
 header img { width:42px; height:42px; border-radius:14px;}
 header .header-text { display:flex; flex-direction: column;}
@@ -32,27 +32,30 @@ main { padding:16px; padding-bottom:160px;}
 .event { border-left:4px solid var(--verde); padding-left:12px; margin-bottom:14px;}
 .event span { font-size:14px; color:var(--grigio);}
 
-/* WHATSAPP & BOTTONI */
+/* BACHECA RIFLESSIONI */
+#box-commenti { margin-top:20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top:15px;}
+.commento-item { background: rgba(255,255,255,0.05); padding:12px; border-radius:12px; margin-bottom:10px; font-size:14px; border: 1px solid rgba(255,255,255,0.05);}
+.commento-ora { font-size:10px; color: var(--oro); font-weight: bold; margin-bottom:4px; display:block;}
+.input-commento { width:100%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:12px; padding:12px; color:white; margin-bottom:10px; outline:none; resize:none; font-size:15px;}
+.btn-commento { background:var(--oro); color:black; border:none; padding:12px; border-radius:12px; font-weight:bold; cursor:pointer; width:100%; transition: opacity 0.2s;}
+.btn-commento:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* SOCIAL & MAPPA */
+.social-container { display:flex; justify-content:center; gap:24px; margin-top:20px; flex-wrap:wrap;}
+.social-btn { display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; color:var(--bianco);}
+.social-btn svg { width:36px; height:36px; transition: transform 0.2s;}
+.social-btn svg:hover { transform: scale(1.1);}
+.badge { font-size:12px; background:var(--oro); color:var(--nero); border-radius:12px; padding:2px 6px;}
+.map-container iframe { width:100%; height:200px; border-radius:12px; border:0; margin-bottom: 10px;}
 .whatsapp-btn { display:flex; justify-content:center; align-items:center; gap:10px; background:#25D366; color:#000; padding:14px; border-radius:18px; font-size:16px; font-weight:600; text-decoration:none;}
 
 /* PRIVATO */
-#privato input { padding:10px; font-size:16px; border-radius:8px; border:none; margin-bottom:12px; width:100%; background: rgba(255,255,255,0.1); color: white;}
-#privato button { padding:10px; font-size:16px; border-radius:8px; background:var(--oro); color:var(--nero); border:none; cursor:pointer; width:100%; font-weight:600;}
-#privato iframe { width:100%; height:400px; border:none; margin-top:16px;}
-
-/* SOCIAL */
-.social-container { display:flex; justify-content:center; gap:24px; margin-top:20px; flex-wrap:wrap;}
-.social-btn { display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; color:var(--bianco);}
-.social-btn svg { width:36px; height:36px; cursor:pointer; transition: transform 0.2s;}
-.social-btn svg:hover { transform: scale(1.1);}
-.badge { font-size:12px; background:var(--oro); color:var(--nero); border-radius:12px; padding:2px 6px;}
-
-/* MAPPA CORRETTA */
-.map-container { margin-top:12px; text-align:center;}
-.map-container iframe { width:100%; height:200px; border-radius:12px; border:0; margin-bottom: 10px;}
+#privato input { padding:12px; font-size:16px; border-radius:10px; border:none; margin-bottom:12px; width:100%; background: rgba(255,255,255,0.1); color: white;}
+#privato button { padding:12px; font-size:16px; border-radius:10px; background:var(--oro); color:var(--nero); border:none; cursor:pointer; width:100%; font-weight:600;}
+#privato iframe { width:100%; height:450px; border:none; margin-top:16px; border-radius:12px;}
 
 /* NAV */
-nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.6); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:14px 0; z-index:999;}
+nav { position:fixed; bottom:0; left:0; right:0; background:rgba(0,0,0,0.8); backdrop-filter: blur(20px); display:flex; justify-content:space-around; padding:14px 0; z-index:999;}
 nav button { background:none; border:none; color:var(--bianco); font-size:14px; cursor:pointer; padding:6px 8px;}
 nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,255,255,0.1);}
 </style>
@@ -74,8 +77,15 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
   <section id="home" class="page">
     <div class="card">
       <h2>📖 Devozionale di oggi</h2>
-      <strong id="dev-rif"></strong>
+      <strong id="dev-rif" style="display:block; margin-bottom:5px; color:var(--oro);"></strong>
       <p id="dev-testo">Caricamento...</p>
+      
+      <div id="box-commenti">
+        <h3 style="font-size:16px; margin-bottom:10px; color:var(--oro);">Riflessioni della comunità</h3>
+        <div id="lista-commenti">Caricamento pensieri...</div>
+        <textarea id="nuovo-commento" class="input-commento" placeholder="Condividi un pensiero breve e anonimo..." rows="2"></textarea>
+        <button onclick="inviaCommento()" id="btn-commento" class="btn-commento">Invia Riflessione</button>
+      </div>
     </div>
   </section>
 
@@ -90,6 +100,7 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
   <section id="appuntamento" class="page" style="display:none">
     <div class="card">
       <h2>💬 Appuntamento</h2>
+      <p style="margin-bottom:15px;">Se desideri parlare con un responsabile contattaci qui sotto.</p>
       <a class="whatsapp-btn" href="https://wa.me/393512984545?text=Ciao%20vorrei%20prendere%20un%20appuntamento%20con%20il%20responsabile" target="_blank">Scrivici su WhatsApp</a>
     </div>
   </section>
@@ -99,45 +110,46 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
       <h2>🌐 Seguici sui social</h2>
       <div class="social-container">
         <a class="social-btn" href="https://www.facebook.com/chiesaapostolica.carini" target="_blank">
-          <svg viewBox="0 0 24 24" fill="#3b5998" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.987H7.898v-2.892h2.54V9.797c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.772-1.63 1.562v1.875h2.773l-.443 2.892h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.987H7.898v-2.892h2.54V9.797c0-2.507 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.772-1.63 1.562v1.875h2.773l-.443 2.892h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
           <div class="badge">+1.2k</div>
         </a>
         <a class="social-btn" href="https://www.instagram.com/chiesa_apostolica_carini/" target="_blank">
-          <svg viewBox="0 0 24 24" fill="#E1306C" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.33 3.608 1.304.974.975 1.242 2.242 1.304 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.33 2.633-1.304 3.608-.975.974-2.242-1.242-3.608 1.304-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.33-3.608-1.304-.974-.975-1.242-2.242-1.304-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.33-2.633 1.304-3.608.975-.974 2.242-1.242 3.608-1.304C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.772.131 4.674.39 3.757 1.307 2.84 2.224 2.581 3.322 2.522 4.602.013 8.332 0 8.741 0 12c0 3.259.013 3.668.072 4.948.059 1.28.318 2.378 1.235 3.295.917.917 2.015 1.176 3.295 1.235C8.332 23.987 8.741 24 12 24s3.668-.013 4.948-.072c1.28-.059 2.378-.318 3.295-1.235.917-.917 1.176-2.015 1.235-3.295.059-1.28.072-1.689.072-4.948s-.013-3.668-.072-4.948c-.059-1.28-.318-2.378-1.235-3.295-.917-.917-2.015-1.176-3.295-1.235C15.668.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.33 3.608 1.304.974.975 1.242 2.242 1.304 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.33 2.633-1.304 3.608-.975.974-2.242-1.242-3.608 1.304-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.33-3.608-1.304-.974-.975-1.242-2.242-1.304-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.33-2.633 1.304-3.608.975-.974 2.242-1.242 3.608-1.304C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.013 7.052.072 5.772.131 4.674.39 3.757 1.307 2.84 2.224 2.581 3.322 2.522 4.602.013 8.332 0 8.741 0 12c0 3.259.013 3.668.072 4.948.059 1.28.318 2.378 1.235 3.295.917.917 2.015 1.176 3.295 1.235C8.332 23.987 8.741 24 12 24s3.668-.013 4.948-.072c1.28-.059 2.378-.318 3.295-1.235.917-.917 1.176-2.015 1.235-3.295.059-1.28.072-1.689.072-4.948s-.013-3.668-.072-4.948c-.059-1.28-.318-2.378-1.235-3.295-.917-.917-2.015-1.176-3.295-1.235C15.668.013 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
           <div class="badge">+950</div>
         </a>
       </div>
-      <div class="map-container">
-        <iframe src="https://maps.google.com/maps?q=Via%20Don%20Luigi%20Sturzo%20188,%20Carini&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
-        
-        <a class="whatsapp-btn" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188+Carini" target="_blank">Apri in Maps</a>
+      <div class="map-container" style="margin-top:20px;">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.4646702678644!2d13.174152875953503!3d38.12933097189688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d9f379f874288b%3A0x6b772c64b561c28b!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1705000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
+        <a class="whatsapp-btn" style="background:var(--oro);" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188+Carini+PA" target="_blank">Apri Maps</a>
       </div>
     </div>
   </section>
 
   <section id="privato" class="page" style="display:none">
     <div class="card">
-      <h2>🔒 Area Privata <span id="privato-badge" class="badge" style="display:none;">!</span></h2>
+      <h2>🔒 Area Riservata</h2>
       <input type="password" id="password" placeholder="Inserisci la password">
       <button id="accedi">Accedi</button>
       <div id="privato-content"></div>
       <div id="promemoria" style="margin-top:16px; display:none;">
-        <h3>📌 Invia Promemoria</h3>
+        <h3 style="color:var(--oro); margin-bottom:10px;">📌 Invia Promemoria</h3>
         <div id="lista-promemoria">Caricamento...</div>
       </div>
     </div>
   </section>
 </main>
 
-<nav>
+<nav id="mainNav">
   <button class="active">📖 Home</button>
   <button>📅 Eventi</button>
-  <button>💬 Appuntamento</button>
+  <button>💬 Contattaci</button>
   <button>🌐 Social</button>
   <button>🔒 Privato</button>
 </nav>
 
 <script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU-8dI-gwUdxfrlOl5PK1SnpsSrrlCK7Ky0Ik_31RyoDDieJ4c6_u35LoZA8RcVqJ8sQ/exec";
+
 document.addEventListener("DOMContentLoaded", function() {
 
   function caricaDati() {
@@ -146,13 +158,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const DEV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRy6O7uzpvmpc1auWd1WHz1H0kOifnn6qIJBlaSiehp4tSPNu87wNDPpfMpQkbW8U5H-T-7HOXyG3Cj/pub?gid=0&single=true&output=csv&t=" + bust;
 
     const oggi = new Date(); oggi.setHours(0,0,0,0);
-    const giornoSettimana = oggi.getDay(); 
-    const diffDom = (giornoSettimana === 0 ? 0 : 7 - giornoSettimana);
-    const domenicaCorrente = new Date(oggi);
-    domenicaCorrente.setDate(oggi.getDate() + diffDom);
-    domenicaCorrente.setHours(23,59,59,999);
+    const diffDom = (oggi.getDay() === 0 ? 0 : 7 - oggi.getDay());
+    const domCorr = new Date(oggi); domCorr.setDate(oggi.getDate() + diffDom);
+    domCorr.setHours(23,59,59,999);
 
-    document.getElementById("info-date").innerText = `Eventi fino a domenica ${domenicaCorrente.toLocaleDateString('it-IT')}`;
+    document.getElementById("info-date").innerText = `Eventi fino a domenica ${domCorr.toLocaleDateString('it-IT')}`;
 
     fetch(DEV_URL).then(r=>r.text()).then(csv=>{
       const rows = parseCSV(csv);
@@ -172,34 +182,62 @@ document.addEventListener("DOMContentLoaded", function() {
 
     fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
       const rows = parseCSV(csv).slice(1);
-      const boxPubblico = document.getElementById("lista-eventi");
-      const boxPrivato = document.getElementById("lista-promemoria");
-      boxPubblico.innerHTML=""; boxPrivato.innerHTML="";
-      let countVisibili = 0;
+      const boxPub = document.getElementById("lista-eventi");
+      const boxPriv = document.getElementById("lista-promemoria");
+      boxPub.innerHTML=""; boxPriv.innerHTML="";
+      let visibili = 0;
 
       rows.forEach(r=>{
-        if(!r[0] || !r[1] || r[1].trim()==="") return;
+        if(!r[0] || !r[1] || r[1].trim()==="" || r[1].toLowerCase() === "nulla") return;
         const dataEv = getSheetDate(r[0]); dataEv.setHours(0,0,0,0);
 
-        if(dataEv >= oggi && dataEv <= domenicaCorrente) {
-            countVisibili++;
-            boxPubblico.innerHTML += `<div class="event"><strong>${r[1]}</strong><br><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
+        if(dataEv >= oggi && dataEv <= domCorr) {
+            visibili++;
+            boxPub.innerHTML += `<div class="event"><strong>${r[1]}</strong><span>📅 ${r[0]} ⏰ ${r[2]} 📍 ${r[3]}</span></div>`;
         }
         if(dataEv >= oggi) {
             const msg = encodeURIComponent(`Ti aspetto! Evento: ${r[1]} 📅 ${r[0]} ⏰ ${r[2]}`);
-            const waLink = `https://wa.me/?text=${msg}${r[4] ? '%0A%0A🖼%20Locandina:%20'+encodeURIComponent(r[4].trim()) : ''}`;
-            boxPrivato.innerHTML += `<div class="event" style="border-left-color: var(--oro); margin-bottom:10px;"><strong style="font-size:14px;">${r[1]}</strong><br><a class="whatsapp-btn" style="background:var(--oro); padding:6px; font-size:12px; margin-top:5px;" href="${waLink}" target="_blank">Invia Promemoria</a></div>`;
+            const link = `https://wa.me/?text=${msg}${r[4] ? '%0A%0A🖼%20Locandina:%20'+encodeURIComponent(r[4].trim()) : ''}`;
+            boxPriv.innerHTML += `<div class="event" style="border-left-color:var(--oro);"><strong style="font-size:14px;">${r[1]}</strong><br><a class="whatsapp-btn" style="background:var(--oro); padding:6px; font-size:12px; margin-top:5px; width:fit-content; height:auto;" href="${link}" target="_blank">Invia Promemoria</a></div>`;
         }
       });
-      if(countVisibili === 0) boxPubblico.innerHTML = "Non ci sono altri eventi per questa settimana.";
+      if(visibili === 0) boxPub.innerHTML = "Nessun evento previsto per questa settimana.";
     });
+
+    caricaCommenti();
+  }
+
+  window.caricaCommenti = async function() {
+    try {
+      const response = await fetch(WEB_APP_URL + "?action=list");
+      const data = await response.json();
+      const listDiv = document.getElementById("lista-commenti");
+      listDiv.innerHTML = data.length === 0 ? "<p style='font-size:12px; color:var(--grigio);'>Sii il primo a condividere un pensiero!</p>" : "";
+      data.forEach(c => {
+        listDiv.innerHTML += `<div class="commento-item"><span class="commento-ora">${c.data || ''}</span>${c.text}</div>`;
+      });
+    } catch(e) { console.log("Errore caricamento"); }
+  }
+
+  window.inviaCommento = async function() {
+    const input = document.getElementById("nuovo-commento");
+    const text = input.value.trim();
+    if(!text) return;
+    const btn = document.getElementById("btn-commento");
+    btn.disabled = true; btn.innerText = "Invio...";
+    try {
+      await fetch(WEB_APP_URL, { method: "POST", mode: "no-cors", body: JSON.stringify({action: "add", text: text}) });
+      input.value = "";
+      setTimeout(caricaCommenti, 1500);
+    } catch(e) { alert("Errore invio."); }
+    finally { btn.disabled = false; btn.innerText = "Invia Riflessione"; }
   }
 
   function parseCSV(text){
     const rows = [];
     const lines = text.split(/\r?\n/);
     for(const line of lines){
-      if(line.trim()==="") continue;
+      if(!line.trim()) continue;
       const values = []; let current="", inQuotes=false;
       for(let i=0;i<line.length;i++){
         const c=line[i];
@@ -225,39 +263,84 @@ document.addEventListener("DOMContentLoaded", function() {
     const mesi = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
     const parti = s.split(" ");
     if(parti.length >= 2) {
-      const giorno = parseInt(parti[0]);
-      const meseIndex = mesi.indexOf(parti[1]);
-      const anno = parti[2] ? parseInt(parti[2]) : new Date().getFullYear();
-      if(!isNaN(giorno) && meseIndex !== -1) return new Date(anno, meseIndex, giorno);
+        const g = parseInt(parti[0]);
+        const m = mesi.indexOf(parti[1]);
+        const a = parti[2] ? parseInt(parti[2]) : new Date().getFullYear();
+        if(m !== -1) return new Date(a, m, g);
     }
-    return new Date(s);
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? new Date(0) : d;
   }
 
   caricaDati();
-  setInterval(caricaDati, 30 * 60 * 1000);
+  setInterval(caricaCommenti, 60000);
 
-  const buttons = document.querySelectorAll('nav button');
-  buttons.forEach((btn, index)=>{
+  const navButtons = document.querySelectorAll('nav button');
+  const pages = document.querySelectorAll('.page');
+  navButtons.forEach((btn, index)=>{
     btn.addEventListener('click', function(){
-      document.querySelectorAll('.page').forEach(p=>p.style.display="none");
-      document.querySelectorAll('.page')[index].style.display="block";
-      buttons.forEach(b=>b.classList.remove("active"));
+      pages.forEach(p=>p.style.display="none");
+      pages[index].style.display="block";
+      navButtons.forEach(b=>b.classList.remove("active"));
       this.classList.add("active");
     });
   });
 
-  document.getElementById("accedi").addEventListener("click", function(){
+  document.getElementById("accedi").addEventListener("click", async function(){
     const pwd = document.getElementById("password").value.trim().toLowerCase();
     const content = document.getElementById("privato-content");
-    const promemoriaDiv = document.getElementById("promemoria");
+    const promBox = document.getElementById("promemoria");
+    
+    if(pwd === "commento") {
+        content.innerHTML = "<h3>Modera Riflessioni</h3><div id='mod-list'></div>";
+        try {
+            const r = await fetch(WEB_APP_URL + "?action=list");
+            const list = await r.json();
+            const modDiv = document.getElementById("mod-list");
+            modDiv.innerHTML = list.length === 0 ? "Nessun pensiero." : "";
+            list.forEach(c => {
+                modDiv.innerHTML += `
+                    <div class="commento-item" style="border: 1px solid #ef4444;">
+                        <small>${c.data || ''}</small><br>${c.text}<br>
+                        <button onclick="eliminaRif('${c.id}')" style="background:#ef4444; color:white; border:none; border-radius:5px; padding:8px; margin-top:10px; cursor:pointer; width:100%;">ELIMINA</button>
+                    </div>`;
+            });
+        } catch(e) { content.innerHTML = "Errore."; }
+        return;
+    }
+
     if(["chiatta", "promemoria", "predicazione", "accoglienza"].includes(pwd)){
-      promemoriaDiv.style.display = "block";
+      promBox.style.display = "block";
       if(pwd==="predicazione") content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vT8BrQDFVM47uKogqmwFsUc7ZTBe4e4LonX_trCfOU3js3dWNLzFfEhHf-cN0S6MvyvUeQNQccGolTd/pubhtml?widget=true&headers=false"></iframe>`;
-      if(pwd==="accoglienza") content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
+      else if(pwd==="accoglienza") content.innerHTML = `<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSb0wDucKoWuSLwCfOrcEfpZwsNn8TavwipRImiq_B0bCz61_sO8CUK1Rheb6MlEnb0xAuGEmgge7Ha/pubhtml?widget=true&headers=false"></iframe>`;
+      else content.innerHTML = "<p>Pannello promemoria attivo.</p>";
     } else {
       content.innerHTML = "<p style='color:red;'>❌ Password errata</p>";
     }
   });
+
+  window.eliminaRif = async function(idCommento) {
+      if(!idCommento || !confirm("Vuoi eliminare solo questa riflessione?")) return;
+      const btn = event.target;
+      btn.innerText = "Eliminazione...";
+      btn.disabled = true;
+
+      try {
+        await fetch(WEB_APP_URL, { 
+          method: "POST", 
+          mode: "no-cors", 
+          body: JSON.stringify({action: "delete", id: idCommento, password: "commento"}) 
+        });
+        setTimeout(() => {
+            caricaCommenti();
+            document.getElementById("accedi").click();
+        }, 1500);
+      } catch(e) { 
+        alert("Errore durante l'eliminazione."); 
+        btn.disabled = false;
+        btn.innerText = "ELIMINA QUESTO";
+      }
+  }
 });
 </script>
 </body>
