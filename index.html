@@ -119,8 +119,8 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
         </a>
       </div>
       <div class="map-container" style="margin-top:20px;">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3139.734689249781!2d13.1812!3d38.1345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x131993414595e63d%3A0xc68297f648588049!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1700000000000" allowfullscreen="" loading="lazy"></iframe>
-        <a class="whatsapp-btn" style="background:var(--oro);" href="https://www.google.com/maps/dir/?api=1&destination=38.1345,13.1812" target="_blank">Apri Maps</a>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.59!2d13.18!3d38.13!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12d992176466989f%3A0xc076865d1d64380!2sVia%20Don%20Luigi%20Sturzo%2C%20188%2C%2090044%20Carini%20PA!5e0!3m2!1sit!2sit!4v1700000000000!5m2!1sit!2sit" allowfullscreen="" loading="lazy"></iframe>
+        <a class="whatsapp-btn" style="background:var(--oro);" href="https://www.google.com/maps/dir/?api=1&destination=Via+Don+Luigi+Sturzo+188+Carini" target="_blank">Apri Navigatore</a>
       </div>
     </div>
   </section>
@@ -150,24 +150,12 @@ nav button.active { color:var(--oro); border-radius:10px; background:rgba(255,25
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU-8dI-gwUdxfrlOl5PK1SnpsSrrlCK7Ky0Ik_31RyoDDieJ4c6_u35LoZA8RcVqJ8sQ/exec";
 
-// FUNZIONE FACEBOOK: SOLO APP, NO WEB BROWSER
 function openFacebook() {
     const fbPageId = "100064741366113"; 
-    
-    // Schema universale per forzare l'App (funziona su iOS e Android)
     const fbAppUrl = "fb://page/" + fbPageId;
     const fbProtocolUrl = "fb://facewebmodal/f?href=https://www.facebook.com/" + fbPageId;
-
-    // Tentativo primario di apertura App
     window.location.replace(fbAppUrl);
-    
-    // Tentativo secondario per versioni App differenti dopo 50ms
-    setTimeout(function() {
-        window.location.replace(fbProtocolUrl);
-    }, 50);
-
-    // Nota: Non avendo un indirizzo 'https://', se l'app non è installata
-    // il browser non aprirà nulla, risolvendo il problema del caricamento web.
+    setTimeout(() => { window.location.replace(fbProtocolUrl); }, 50);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -311,6 +299,24 @@ document.addEventListener("DOMContentLoaded", function() {
     const content = document.getElementById("privato-content");
     const promBox = document.getElementById("promemoria");
     
+    // NUOVA FUNZIONALITÀ DROPBOX
+    if(pwd === "registrazioni") {
+        content.innerHTML = `
+            <div style="text-align:center; padding:10px;">
+                <h3 style="color:var(--oro); margin-bottom:15px;">🎙 Archivio Registrazioni</h3>
+                <p style="font-size:14px; margin-bottom:20px; color:#e5e7eb;">Accedi alla cartella condivisa per ascoltare i messaggi e gli studi biblici.</p>
+                <a href="https://www.dropbox.com/scl/fo/q4zc29lczrtoryn1k636n/AP8r9oiu3MUwiSclH8o3AFo?rlkey=huou0k1rxgudok9htll32x9cj&st=lb1syxfi&dl=0" 
+                   target="_blank" 
+                   class="whatsapp-btn" 
+                   style="background:#0061ff; color:white; border-radius:12px;">
+                   📂 Apri Archivio Dropbox
+                </a>
+                <p style="font-size:11px; margin-top:20px; color:var(--grigio);">I nuovi file caricati appariranno automaticamente nell'elenco.</p>
+            </div>`;
+        promBox.style.display = "none";
+        return;
+    }
+
     if(pwd === "commento") {
         content.innerHTML = "<h3>Modera Riflessioni</h3><div id='mod-list'></div>";
         try {
@@ -322,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 modDiv.innerHTML += `
                     <div class="commento-item" style="border: 1px solid #ef4444;">
                         <small>${c.data || ''}</small><br>${c.text}<br>
-                        <button onclick="eliminaRif('${c.id}')" style="background:#ef4444; color:white; border:none; border-radius:5px; padding:8px; margin-top:10px; cursor:pointer; width:100%;">ELIMINA</button>
+                        <button onclick="eliminaRif(event, '${c.id}')" style="background:#ef4444; color:white; border:none; border-radius:5px; padding:8px; margin-top:10px; cursor:pointer; width:100%;">ELIMINA</button>
                     </div>`;
             });
         } catch(e) { content.innerHTML = "Errore."; }
@@ -336,12 +342,13 @@ document.addEventListener("DOMContentLoaded", function() {
       else content.innerHTML = "<p>Pannello promemoria attivo.</p>";
     } else {
       content.innerHTML = "<p style='color:red;'>❌ Password errata</p>";
+      promBox.style.display = "none";
     }
   });
 
-  window.eliminaRif = async function(idCommento) {
+  window.eliminaRif = async function(e, idCommento) {
       if(!idCommento || !confirm("Vuoi eliminare questa riflessione?")) return;
-      const btn = event.target;
+      const btn = e.target;
       btn.innerText = "Eliminazione...";
       btn.disabled = true;
 
